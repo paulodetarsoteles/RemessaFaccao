@@ -18,7 +18,7 @@ namespace RemessaFaccao.Web.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult Contatos()
         {
             return View();
         }

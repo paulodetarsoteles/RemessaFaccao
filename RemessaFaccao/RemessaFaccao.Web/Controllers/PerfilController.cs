@@ -1,20 +1,29 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using RemessaFaccao.DAL.Repositories.Interfaces;
 
 namespace RemessaFaccao.Web.Controllers
 {
     public class PerfilController : Controller
     {
+        private readonly IPerfilRepository _perfilRepository;
+
+        public PerfilController(IPerfilRepository perfilRepository)
+        {
+            _perfilRepository = perfilRepository;
+        }
+
         // GET: PerfilController
         public ActionResult Index()
         {
-            return View();
+            var todosOsPerfis = _perfilRepository.GetAll(); 
+            return View(todosOsPerfis);
         }
 
         // GET: PerfilController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var perfil = _perfilRepository.GetById(id);
+            return View(perfil);
         }
 
         // GET: PerfilController/Create

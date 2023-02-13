@@ -13,7 +13,7 @@ namespace RemessaFaccao.DAL.Models
         [Display(Name = "Endereço")]
         public string Endereco { get; set; }
 
-        [EmailAddress(ErrorMessage = "Email Inválido")]
+        [RegularExpression(".+\\@.+\\..+", ErrorMessage = "Informe um email válido")]
         public string Email { get; set; }
 
         public string Telefone1 { get; set; }

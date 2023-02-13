@@ -4,11 +4,11 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
 {
     public interface IFaccaoRepository
     {
-        Task<List<Faccao>> GetAll(); 
-        Task<Faccao> GetById(int id); 
-        Task<int> Count();
-        Task<int> Insert(Faccao faccao); 
-        Task<int> Update(Faccao faccao); 
-        Task<int> Delete(int id);
+        List<Faccao> GetAll(); 
+        Faccao GetById(int id); 
+        int Count();
+        int Insert(Faccao faccao); 
+        int Update(Faccao faccao); 
+        int Delete(int id);
     }
 }

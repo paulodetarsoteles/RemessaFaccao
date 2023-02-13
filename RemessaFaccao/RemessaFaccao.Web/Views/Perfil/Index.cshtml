@@ -1,0 +1,41 @@
+﻿@model IEnumerable<RemessaFaccao.DAL.Models.Perfil>
+
+@{
+    ViewData["Title"] = "Lista de Perfis";
+}
+
+<h1>Lista de Perfis</h1>
+
+<p>
+    <a asp-action="Create">Adicionar Novo</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PerfilId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PerfilId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nome)
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id=item.PerfilId }) |
+                    @Html.ActionLink("Detalhes", "Details", new { id=item.PerfilId }) |
+                    @Html.ActionLink("Deletar", "Delete", new { id=item.PerfilId })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
