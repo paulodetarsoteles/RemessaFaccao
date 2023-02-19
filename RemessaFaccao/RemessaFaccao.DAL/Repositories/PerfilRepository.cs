@@ -97,11 +97,10 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 try
                 {
                     connection.Open();
-                    SqlCommand command = new("SELECT COUNT(*) result FROM Perfil;");
+                    SqlCommand command = new("SELECT COUNT(PerfilId) result FROM Perfil;");
                     command.Connection = connection;
                     command.CommandType = CommandType.Text;
                     SqlDataReader reader = command.ExecuteReader();
-
                     result = Convert.ToInt32(reader["result"]);
                 }
                 catch (Exception e)

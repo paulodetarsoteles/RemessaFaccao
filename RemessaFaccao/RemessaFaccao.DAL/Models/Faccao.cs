@@ -23,7 +23,9 @@ namespace RemessaFaccao.DAL.Models
         [Display(Name = "Forma de Pagamento")]
         public string FormaDePagamento { get; set; }
 
+        [Display(Name = "Qualificação")]
         [Required(ErrorMessage = "Campo obrigatório")]
+        [Range(0, 10, ErrorMessage = "Digite uma nota entre 0 a 10 (sem vírgulas)")]
         public int Qualificacao { get; set; }
 
         public bool Ativo { get; set; } = true; 

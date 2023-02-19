@@ -1,20 +1,28 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using RemessaFaccao.DAL.Models;
+using RemessaFaccao.DAL.Repositories.Interfaces;
 
 namespace RemessaFaccao.Web.Controllers
 {
     public class FaccaoController : Controller
     {
+        private readonly IFaccaoRepository _facaoRepository;
+
+        public FaccaoController(IFaccaoRepository facaoRepository)
+        {
+            _facaoRepository = facaoRepository;
+        }
+
         // GET: FaccaoController
         public ActionResult Index()
         {
-            return View();
+            return View(_facaoRepository.GetAll());
         }
 
         // GET: FaccaoController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            return View(_facaoRepository.GetById(id)); 
         }
 
         // GET: FaccaoController/Create
@@ -26,15 +34,20 @@ namespace RemessaFaccao.Web.Controllers
         // POST: FaccaoController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Faccao faccao)
         {
-            try
+            bool result = _facaoRepository.Insert(faccao); 
+            DateTime dateTime = DateTime.Now; 
+
+            if (result)
             {
+                Console.WriteLine("Faccao {0} adicionada com sucasso. {1}", faccao.FaccaoId, dateTime);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            else
             {
-                return View();
+                Console.WriteLine("Erro ao adicionar faccao {0}. {1}", faccao.FaccaoId, dateTime);
+                return View(faccao);
             }
         }
 

@@ -1,0 +1,47 @@
+﻿@model IEnumerable<RemessaFaccao.DAL.Models.Faccao>
+
+@{
+    ViewData["Title"] = "Lista de Facções";
+}
+
+<h1>Lista de Facções</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Adicionar</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FaccaoId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ativo)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FaccaoId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nome)
+            </td>
+            <td>
+                @Html.CheckBoxFor(modelItem => item.Ativo)
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id=item.FaccaoId }, new { @class="btn btn-warning"}) 
+                @Html.ActionLink("Detalhes", "Details", new { id=item.FaccaoId }, new { @class="btn btn-secondary"}) 
+                @Html.ActionLink("Excluir", "Delete", new { id=item.FaccaoId }, new { @class="btn btn-danger"})
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
