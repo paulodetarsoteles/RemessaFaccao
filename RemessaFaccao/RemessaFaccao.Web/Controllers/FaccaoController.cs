@@ -41,12 +41,12 @@ namespace RemessaFaccao.Web.Controllers
 
             if (result)
             {
-                Console.WriteLine("Faccao {0} adicionada com sucasso. {1}", faccao.FaccaoId, dateTime);
+                Console.WriteLine("Faccao {0} adicionada com sucasso. {0}",faccao.Nome, dateTime);
                 return RedirectToAction(nameof(Index));
             }
             else
             {
-                Console.WriteLine("Erro ao adicionar faccao {0}. {1}", faccao.FaccaoId, dateTime);
+                Console.WriteLine("Erro ao adicionar faccao {0}. {1}", faccao.Nome, dateTime);
                 return View(faccao);
             }
         }

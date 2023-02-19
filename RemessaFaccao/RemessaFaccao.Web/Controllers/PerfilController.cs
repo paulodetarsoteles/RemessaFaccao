@@ -41,12 +41,12 @@ namespace RemessaFaccao.Web.Controllers
 
             if (result)
             {
-                Console.WriteLine("Perfil {0} adicionado com sucesso. {1}", perfil.PerfilId, dateTime.ToString());
+                Console.WriteLine("Perfil {0} adicionado com sucesso. {1}", perfil.Nome, dateTime.ToString());
                 return RedirectToAction(nameof(Index));
             }
             else
             {
-                Console.WriteLine("Erro ao adicionar perfil {0}. {1}", perfil.PerfilId, dateTime.ToString());
+                Console.WriteLine("Erro ao adicionar perfil {0}. {1}", perfil.Nome, dateTime.ToString());
                 return View(perfil);
             }
         }
