@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RemessaFaccao.DAL.Models;
 using RemessaFaccao.DAL.Repositories.Interfaces;
 
 namespace RemessaFaccao.Web.Controllers
@@ -15,15 +16,13 @@ namespace RemessaFaccao.Web.Controllers
         // GET: PerfilController
         public ActionResult Index()
         {
-            var todosOsPerfis = _perfilRepository.GetAll(); 
-            return View(todosOsPerfis);
+            return View(_perfilRepository.GetAll());
         }
 
         // GET: PerfilController/Details/5
         public ActionResult Details(int id)
         {
-            var perfil = _perfilRepository.GetById(id);
-            return View(perfil);
+            return View(_perfilRepository.GetById(id));
         }
 
         // GET: PerfilController/Create
@@ -35,57 +34,74 @@ namespace RemessaFaccao.Web.Controllers
         // POST: PerfilController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Perfil perfil)
         {
-            try
+            bool result = _perfilRepository.Insert(perfil);
+            DateTime dateTime = DateTime.Now;
+
+            if (result)
             {
+                Console.WriteLine("Perfil {0} adicionado com sucesso. {1}", perfil.PerfilId, dateTime.ToString());
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            else
             {
-                return View();
+                Console.WriteLine("Erro ao adicionar perfil {0}. {1}", perfil.PerfilId, dateTime.ToString());
+                return View(perfil);
             }
         }
 
         // GET: PerfilController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            Perfil perfil = _perfilRepository.GetById(id);
+            return View(perfil);
         }
 
         // POST: PerfilController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, Perfil perfil)
         {
-            try
+            bool result = _perfilRepository.Update(id, perfil); ; 
+            DateTime dateTime = DateTime.Now;
+
+            if (result)
             {
+                Console.WriteLine("Perfil {0} editado com sucesso. {1}", id, dateTime.ToString());
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            else
             {
-                return View();
+                Console.WriteLine("Erro ao editar perfil {0}. {1}", id, dateTime.ToString());
+                return View(perfil);
             }
         }
 
         // GET: PerfilController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            Perfil perfil = _perfilRepository.GetById(id); 
+            return View(perfil);
         }
 
         // POST: PerfilController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, Perfil perfil)
         {
-            try
+            bool result = _perfilRepository.Delete(id); 
+            DateTime dateTime = DateTime.Now; 
+
+            if(result)
             {
+                Console.WriteLine("Perfil {0} excluído com sucesso. {1}", id, dateTime);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            else
             {
-                return View();
+                Console.WriteLine("Erro ao excluír perfil {0}. {1}", id, dateTime); 
+                return View(perfil); 
             }
         }
     }

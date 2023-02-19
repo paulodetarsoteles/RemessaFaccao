@@ -7,8 +7,8 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
         List<Perfil> GetAll(); 
         Perfil GetById(int id);
         int Count(); 
-        int Insert(Perfil perfil); 
-        int Update(Perfil perfil);
-        int Delete(int id);
+        bool Insert(Perfil perfil); 
+        bool Update(int id, Perfil perfil);
+        bool Delete(int id);
     }
 }

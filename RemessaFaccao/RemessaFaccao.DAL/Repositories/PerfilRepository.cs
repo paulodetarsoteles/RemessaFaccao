@@ -41,7 +41,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 }
                 catch (Exception e)
                 {
-                    throw new Exception("Erro ao conectar no banco. " + e.Message);
+                    throw new Exception("Erro ao acessar as informações do banco de dados. " + e.Message);
                 }
                 finally
                 {
@@ -55,56 +55,172 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
         public Perfil GetById(int id)
         {
             Perfil perfil = new();
-            SqlConnection connection = new(_connection.SQLString); 
+            SqlConnection connection = new(_connection.SQLString);
 
-            using(connection)
+            using (connection)
             {
                 try
                 {
                     connection.Open();
-                    SqlCommand command = new("dbo.PerfilGetById"); 
-                    command.Connection = connection; 
+                    SqlCommand command = new("dbo.PerfilGetById");
+                    command.Connection = connection;
                     command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("PerfilId", id); 
+                    command.Parameters.Add("PerfilId", SqlDbType.Int).Value = id;
                     SqlDataReader reader = command.ExecuteReader();
-                    
-                    if(reader.Read())
+
+                    if (reader.Read())
                     {
                         perfil.PerfilId = Convert.ToInt32(reader["PerfilId"]);
-                        perfil.Nome = reader["Nome"].ToString(); 
+                        perfil.Nome = reader["Nome"].ToString();
                     }
 
                 }
                 catch (Exception e)
                 {
-                    throw new Exception("Erro ao conectar com o banco. " + e.Message);
+                    throw new Exception("Erro ao acessar as informações do banco de dados. " + e.Message);
                 }
                 finally
                 {
-                    if(connection.State == ConnectionState.Open) connection.Close();
+                    if (connection.State == ConnectionState.Open) connection.Close();
                 }
                 return perfil;
             }
         }
 
-        public Task<int> Count()
+        public int Count()
         {
-            throw new NotImplementedException();
+            int result = 0;
+            SqlConnection connection = new(_connection.SQLString);
+
+            using (connection)
+            {
+                try
+                {
+                    connection.Open();
+                    SqlCommand command = new("SELECT COUNT(*) result FROM Perfil;");
+                    command.Connection = connection;
+                    command.CommandType = CommandType.Text;
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    result = Convert.ToInt32(reader["result"]);
+                }
+                catch (Exception e)
+                {
+                    throw new Exception("Erro ao acessar as informações do banco de dados. " + e.Message);
+                }
+                finally
+                {
+                    if (connection.State == ConnectionState.Open)
+                        connection.Close();
+                }
+                return result;
+            }
         }
 
-        public Task<int> Insert(Perfil perfil)
+        public bool Insert(Perfil perfil)
         {
-            throw new NotImplementedException();
+            bool result = false;
+            SqlConnection connection = new(_connection.SQLString);
+
+            using (connection)
+            {
+                try
+                {
+                    connection.Open();
+                    SqlCommand command = new("dbo.PerfilInsert");
+                    command.Connection = connection;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add("@Nome", SqlDbType.VarChar).Value = perfil.Nome;
+
+                    if (Convert.ToInt32(command.ExecuteNonQuery()) != 0)
+                        result = true;
+                }
+                catch (Exception e)
+                {
+                    throw new Exception("Erro ao acessar as informações do banco de dados. " + e.Message);
+                }
+                finally
+                {
+                    if (connection.State == ConnectionState.Open)
+                        connection.Close();
+                }
+                return result;
+            }
         }
 
-        public Task<int> Update(Perfil perfil)
+        public bool Update(int id, Perfil perfil)
         {
-            throw new NotImplementedException();
+            bool result = false;
+
+            if (GetById(id) is null)
+                return result;
+            else
+            {
+                SqlConnection connection = new SqlConnection(_connection.SQLString);
+
+                using (connection)
+                {
+                    try
+                    {
+                        connection.Open();
+                        SqlCommand command = new("dbo.PerfilUpdate");
+                        command.Connection = connection;
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.Add("@PerfilId", SqlDbType.Int).Value = id;
+                        command.Parameters.Add("@Nome", SqlDbType.VarChar).Value = perfil.Nome;
+
+                        if (Convert.ToInt32(command.ExecuteNonQuery()) != 0)
+                            result = true;
+                    }
+                    catch (Exception e)
+                    {
+                        throw new Exception("Erro ao acessar as informações do banco de dados. " + e.Message);
+                    }
+                    finally
+                    {
+                        if (connection.State == ConnectionState.Open)
+                            connection.Close();
+                    }
+                    return result;
+                }
+            }
         }
 
-        public Task<int> Delete(int id)
+        public bool Delete(int id)
         {
-            throw new NotImplementedException();
+            bool result = false;
+
+            if (GetById(id) is null)
+                return result;
+            else
+            {
+                SqlConnection connection = new SqlConnection(_connection.SQLString);
+
+                using (connection)
+                {
+                    try
+                    {
+                        connection.Open();
+                        SqlCommand command = new("dbo.PerfilDelete");
+                        command.Connection = connection;
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.Add("@PerfilId", SqlDbType.Int).Value = id;
+
+                        if (Convert.ToInt32(command.ExecuteNonQuery()) != 0)
+                            result = true;
+                    }
+                    catch (Exception e)
+                    {
+                        throw new Exception("Erro ao acessar o banco de dados. " + e.Message);
+                    }
+                    finally
+                    {
+                        if (connection.State == ConnectionState.Open)
+                            connection.Close();
+                    }
+                    return result;
+                }
+            }
         }
     }
 }

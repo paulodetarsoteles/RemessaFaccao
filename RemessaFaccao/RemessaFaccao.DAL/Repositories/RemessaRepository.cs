@@ -4,52 +4,52 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
 {
     public class RemessaRepository : IRemessaRepository
     {
-        public Task<List<Remessa>> GetAll()
+        public int Count()
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<Remessa>> GetAtrasadas()
+        public int CountAtrasadas()
         {
             throw new NotImplementedException();
         }
 
-        public Task<Remessa> GetById(int id)
+        public int CountReceberHoje()
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<Remessa>> GetReceberHoje()
+        public int DeleteById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<int> Count()
+        public List<Remessa> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public Task<int> CountAtrasadas()
+        public List<Remessa> GetAtrasadas()
         {
             throw new NotImplementedException();
         }
 
-        public Task<int> CountReceberHoje()
+        public Remessa GetById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<int> Insert(Remessa remessa)
+        public List<Remessa> GetReceberHoje()
         {
             throw new NotImplementedException();
         }
 
-        public Task<int> Update(Remessa remessa)
+        public int Insert(Remessa remessa)
         {
             throw new NotImplementedException();
         }
 
-        public Task<int> DeleteById(int id)
+        public int Update(Remessa remessa)
         {
             throw new NotImplementedException();
         }
