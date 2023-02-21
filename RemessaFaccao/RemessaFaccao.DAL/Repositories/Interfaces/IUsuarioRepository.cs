@@ -4,11 +4,11 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
 {
     public interface IUsuarioRepository
     {
-        List<UsuarioRepository> GetAll(); 
-        UsuarioRepository GetById(int id);
+        List<Usuario> GetAll(); 
+        Usuario GetById(int id);
         int Count();
-        int Insert(Usuario usuario); 
-        int Update(Usuario usuario);
-        int DeleteById(int id);
+        bool Insert(Usuario usuario); 
+        bool Update(int id, Usuario usuario);
+        bool Delete(int id);
     }
 }

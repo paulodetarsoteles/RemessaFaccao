@@ -1,6 +1,6 @@
 ﻿namespace RemessaFaccao.DAL.Models
 {
-    public class Enum
+    public class Enums
     {
         public enum StatusRemessa
         {

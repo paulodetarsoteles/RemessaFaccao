@@ -1,0 +1,65 @@
+﻿@model IEnumerable<RemessaFaccao.DAL.Models.Usuario>
+
+@{
+    ViewData["Title"] = "Lista de Usuários";
+}
+
+<h1>Lista de Usuários</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">
+        <i class="bi-plus"></i>
+        Adicionar
+    </a>
+</p>
+<div class="col-md-8">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    &nbsp;&nbsp;&nbsp;&nbsp; @Html.DisplayNameFor(model => model.UsuarioId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Nome)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LoginUsuario)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        &nbsp;&nbsp;&nbsp;&nbsp; @Html.DisplayFor(modelItem => item.UsuarioId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nome)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LoginUsuario)
+                    </td>
+                    <td>
+                        <span>
+                            <a href="@Url.Action("Details", new { id=item.UsuarioId })" class="btn btn-secondary">
+                                <i class="bi-clipboard"></i>
+                            </a>
+                        </span>
+                        <span>
+                            <a href="@Url.Action("Edit", new { id=item.UsuarioId })" class="btn btn-warning">
+                                <i class="bi-pencil"></i>
+                            </a>
+                        </span>
+                        <span>
+                            <a href="@Url.Action("Delete", new { id=item.UsuarioId })" class="btn btn-danger">
+                                <i class="bi-trash"></i>
+                            </a>
+                        </span>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

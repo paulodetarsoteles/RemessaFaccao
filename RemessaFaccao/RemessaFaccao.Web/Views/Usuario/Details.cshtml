@@ -1,0 +1,55 @@
+﻿@model RemessaFaccao.DAL.Models.Usuario
+
+@{
+    ViewData["Title"] = "Detalhes";
+}
+
+<h1>Detalhes</h1>
+
+<div class="internal">
+    <h4>Usuário</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.UsuarioId)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.UsuarioId)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.PerfilId)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.PerfilId)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.Nome)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Nome)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.LoginUsuario)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.LoginUsuario)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.Senha)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Senha)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.Observacoes)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Observacoes)
+        </dd>
+    </dl>
+</div>
+<br />
+<div>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.UsuarioId }, new { @class="btn btn-warning"}) 
+    <a asp-action="Index" class="btn btn-secondary">Voltar</a>
+</div>

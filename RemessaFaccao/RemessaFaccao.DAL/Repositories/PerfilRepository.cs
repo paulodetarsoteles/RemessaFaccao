@@ -57,7 +57,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
 
         public Perfil GetById(int id)
         {
-            Perfil perfil = new();
+            Perfil result = new();
             SqlConnection connection = new(_connection.SQLString);
 
             using (connection)
@@ -71,14 +71,14 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                     command.Connection = connection;
                     command.CommandType = CommandType.StoredProcedure;
 
-                    command.Parameters.Add("PerfilId", SqlDbType.Int).Value = id;
+                    command.Parameters.Add("PerfilId", SqlDbType.TinyInt).Value = id;
 
                     SqlDataReader reader = command.ExecuteReader();
 
                     if (reader.Read())
                     {
-                        perfil.PerfilId = Convert.ToInt32(reader["PerfilId"]);
-                        perfil.Nome = reader["Nome"].ToString();
+                        result.PerfilId = Convert.ToInt32(reader["PerfilId"]);
+                        result.Nome = reader["Nome"].ToString();
                     }
 
                 }
@@ -90,7 +90,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 {
                     if (connection.State == ConnectionState.Open) connection.Close();
                 }
-                return perfil;
+                return result;
             }
         }
 
@@ -184,7 +184,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                         command.Connection = connection;
                         command.CommandType = CommandType.StoredProcedure;
 
-                        command.Parameters.Add("@PerfilId", SqlDbType.Int).Value = id;
+                        command.Parameters.Add("@PerfilId", SqlDbType.TinyInt).Value = id;
                         command.Parameters.Add("@Nome", SqlDbType.VarChar).Value = perfil.Nome;
 
                         if (Convert.ToInt32(command.ExecuteNonQuery()) != 0)
@@ -227,7 +227,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                         command.Connection = connection;
                         command.CommandType = CommandType.StoredProcedure;
 
-                        command.Parameters.Add("@PerfilId", SqlDbType.Int).Value = id;
+                        command.Parameters.Add("@PerfilId", SqlDbType.TinyInt).Value = id;
 
                         if (Convert.ToInt32(command.ExecuteNonQuery()) != 0)
                             result = true;

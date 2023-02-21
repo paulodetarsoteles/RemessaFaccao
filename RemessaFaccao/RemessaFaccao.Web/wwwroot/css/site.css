@@ -27,12 +27,16 @@ table {
     box-shadow: 1px 1px 4px 1px #b9b9b9;
 }
 
+dt, dd {
+    padding: 5px;
+}
+
 row {
     padding: 10px; 
 }
 
 .headInternal {
-    background-color: #460020; 
+    background-color: #a52f62; 
     color: cornsilk; 
 }
 

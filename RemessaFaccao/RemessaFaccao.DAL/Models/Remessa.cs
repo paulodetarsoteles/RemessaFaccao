@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using static RemessaFaccao.DAL.Models.Enum;
+using static RemessaFaccao.DAL.Models.Enums;
 
 namespace RemessaFaccao.DAL.Models
 {
