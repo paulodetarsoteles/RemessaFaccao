@@ -63,7 +63,7 @@ namespace RemessaFaccao.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, Perfil perfil)
         {
-            bool result = _perfilRepository.Update(id, perfil); ; 
+            bool result = _perfilRepository.Update(id, perfil); ;
             DateTime dateTime = DateTime.Now;
 
             if (result)
@@ -81,7 +81,7 @@ namespace RemessaFaccao.Web.Controllers
         // GET: PerfilController/Delete/5
         public ActionResult Delete(int id)
         {
-            Perfil perfil = _perfilRepository.GetById(id); 
+            Perfil perfil = _perfilRepository.GetById(id);
             return View(perfil);
         }
 
@@ -90,18 +90,18 @@ namespace RemessaFaccao.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, Perfil perfil)
         {
-            bool result = _perfilRepository.Delete(id); 
-            DateTime dateTime = DateTime.Now; 
+            bool result = _perfilRepository.Delete(id);
+            DateTime dateTime = DateTime.Now;
 
-            if(result)
+            if (result)
             {
                 Console.WriteLine("Perfil {0} excluído com sucesso. {1}", id, dateTime);
                 return RedirectToAction(nameof(Index));
             }
             else
             {
-                Console.WriteLine("Erro ao excluír perfil {0}. {1}", id, dateTime); 
-                return View(perfil); 
+                Console.WriteLine("Erro ao excluír perfil {0}. {1}", id, dateTime);
+                return View(perfil);
             }
         }
     }

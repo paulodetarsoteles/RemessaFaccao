@@ -8,7 +8,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
         Faccao GetById(int id); 
         int Count();
         bool Insert(Faccao faccao); 
-        bool Update(Faccao faccao); 
+        bool Update(int id, Faccao faccao); 
         bool Delete(int id);
     }
 }

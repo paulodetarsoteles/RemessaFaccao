@@ -1,0 +1,52 @@
+﻿@model RemessaFaccao.DAL.Models.Faccao
+
+@{
+    ViewData["Title"] = "Excluir";
+}
+
+<h1>Excluir</h1>
+
+<h3>ATENÇÃO!!!</h3>
+<div>
+    <div class="internal">
+        <h4>Facção</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.FaccaoId)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.FaccaoId)
+            </dd>
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.Nome)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Nome)
+            </dd>
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.Qualificacao)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Qualificacao)
+            </dd>
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.Ativo)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Ativo)
+            </dd>
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.Observacoes)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Observacoes)
+            </dd>
+        </dl>
+    </div>
+    <br />
+    <form asp-action="Delete">
+        <input type="submit" value="Excluir" class="btn btn-danger" />
+        <a asp-action="Index" class="btn btn-secondary">Voltar</a>
+    </form>
+</div>

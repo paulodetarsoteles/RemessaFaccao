@@ -25,9 +25,12 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 try
                 {
                     connection.Open();
+
                     SqlCommand command = new("SELECT * FROM Perfil;");
+
                     command.Connection = connection;
                     command.CommandType = CommandType.Text;
+
                     SqlDataReader reader = command.ExecuteReader();
 
                     while (reader.Read())
@@ -62,10 +65,14 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 try
                 {
                     connection.Open();
+
                     SqlCommand command = new("dbo.PerfilGetById");
+
                     command.Connection = connection;
                     command.CommandType = CommandType.StoredProcedure;
+
                     command.Parameters.Add("PerfilId", SqlDbType.Int).Value = id;
+
                     SqlDataReader reader = command.ExecuteReader();
 
                     if (reader.Read())
@@ -97,10 +104,14 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 try
                 {
                     connection.Open();
+
                     SqlCommand command = new("SELECT COUNT(PerfilId) result FROM Perfil;");
+
                     command.Connection = connection;
                     command.CommandType = CommandType.Text;
+
                     SqlDataReader reader = command.ExecuteReader();
+
                     result = Convert.ToInt32(reader["result"]);
                 }
                 catch (Exception e)
@@ -126,9 +137,12 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 try
                 {
                     connection.Open();
+
                     SqlCommand command = new("dbo.PerfilInsert");
+
                     command.Connection = connection;
                     command.CommandType = CommandType.StoredProcedure;
+
                     command.Parameters.Add("@Nome", SqlDbType.VarChar).Value = perfil.Nome;
 
                     if (Convert.ToInt32(command.ExecuteNonQuery()) != 0)
@@ -152,19 +166,24 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             bool result = false;
 
             if (GetById(id) is null)
+            {
                 return result;
+            }
             else
             {
-                SqlConnection connection = new SqlConnection(_connection.SQLString);
+                SqlConnection connection = new(_connection.SQLString);
 
                 using (connection)
                 {
                     try
                     {
                         connection.Open();
+
                         SqlCommand command = new("dbo.PerfilUpdate");
+
                         command.Connection = connection;
                         command.CommandType = CommandType.StoredProcedure;
+
                         command.Parameters.Add("@PerfilId", SqlDbType.Int).Value = id;
                         command.Parameters.Add("@Nome", SqlDbType.VarChar).Value = perfil.Nome;
 
@@ -190,19 +209,24 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             bool result = false;
 
             if (GetById(id) is null)
+            {
                 return result;
+            }
             else
             {
-                SqlConnection connection = new SqlConnection(_connection.SQLString);
+                SqlConnection connection = new(_connection.SQLString);
 
                 using (connection)
                 {
                     try
                     {
                         connection.Open();
+
                         SqlCommand command = new("dbo.PerfilDelete");
+
                         command.Connection = connection;
                         command.CommandType = CommandType.StoredProcedure;
+
                         command.Parameters.Add("@PerfilId", SqlDbType.Int).Value = id;
 
                         if (Convert.ToInt32(command.ExecuteNonQuery()) != 0)

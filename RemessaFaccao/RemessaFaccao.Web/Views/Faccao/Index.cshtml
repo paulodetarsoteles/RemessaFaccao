@@ -7,47 +7,64 @@
 <h1>Lista de Facções</h1>
 
 <p>
-    <a asp-action="Create" class="btn btn-primary">Adicionar</a>
+    <a asp-action="Create" class="btn btn-primary">
+        <i class="bi-plus"></i>
+        Adicionar
+    </a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FaccaoId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Nome)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ativo)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FaccaoId)
-            </td>
-            <td >
-                @Html.DisplayFor(modelItem => item.Nome)
-            </td>
-            <td>
-                @Html.CheckBoxFor(modelItem => item.Ativo)
-            </td>
-            <td>
-                @Html.ActionLink("Editar", "Edit", new { id=item.FaccaoId }, new { @class="btn btn-warning"}) 
-                @Html.ActionLink("Detalhes", "Details", new { id=item.FaccaoId }, new { @class="btn btn-secondary"}) 
-                @Html.ActionLink("Excluir", "Delete", new { id=item.FaccaoId }, new { @class="btn btn-danger"})
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
-
+<div class="col-md-8">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    &nbsp;&nbsp;&nbsp;&nbsp; @Html.DisplayNameFor(model => model.FaccaoId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Nome)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Ativo)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        &nbsp;&nbsp;&nbsp;&nbsp; @Html.DisplayFor(modelItem => item.FaccaoId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nome)
+                    </td>
+                    <td>
+                        @Html.CheckBoxFor(modelItem => item.Ativo, new { @disabled = "disable" })
+                    </td>
+                    <td>
+                        <span>
+                            <a href="@Url.Action("Details", new { id=item.FaccaoId })" class="btn btn-secondary">
+                                <i class="bi-clipboard"></i>
+                            </a>
+                        </span>
+                        <span>
+                            <a href="@Url.Action("Edit", new { id=item.FaccaoId })" class="btn btn-warning">
+                                <i class="bi-pencil"></i>
+                            </a>
+                        </span>
+                        <span>
+                            <a href="@Url.Action("Delete", new { id=item.FaccaoId })" class="btn btn-danger">
+                                <i class="bi-trash"></i>
+                            </a>
+                        </span>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 <script>
     function myFunction() {
-      document.getElementById("check").disabled = true;
+        document.getElementById("check").disabled = true;
     }
 </script>

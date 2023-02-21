@@ -22,7 +22,7 @@ namespace RemessaFaccao.Web.Controllers
         // GET: FaccaoController/Details/5
         public ActionResult Details(int id)
         {
-            return View(_facaoRepository.GetById(id)); 
+            return View(_facaoRepository.GetById(id));
         }
 
         // GET: FaccaoController/Create
@@ -36,12 +36,12 @@ namespace RemessaFaccao.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Faccao faccao)
         {
-            bool result = _facaoRepository.Insert(faccao); 
-            DateTime dateTime = DateTime.Now; 
+            bool result = _facaoRepository.Insert(faccao);
+            DateTime dateTime = DateTime.Now;
 
             if (result)
             {
-                Console.WriteLine("Faccao {0} adicionada com sucasso. {0}",faccao.Nome, dateTime);
+                Console.WriteLine("Faccao {0} adicionada com sucasso. {0}", faccao.Nome, dateTime);
                 return RedirectToAction(nameof(Index));
             }
             else
@@ -54,42 +54,52 @@ namespace RemessaFaccao.Web.Controllers
         // GET: FaccaoController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            return View(_facaoRepository.GetById(id));
         }
 
         // POST: FaccaoController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, Faccao faccao)
         {
-            try
+            bool result = _facaoRepository.Update(id, faccao);
+            DateTime dateTime = DateTime.Now;
+
+            if (result)
             {
+                Console.WriteLine("Facção {0} adicionada com sucasso. {1}", id, dateTime);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            else
             {
-                return View();
+                Console.WriteLine("Erro ao adicionar a facção {0}. {1}", id, dateTime);
+                return View(faccao);
             }
         }
 
         // GET: FaccaoController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            return View(_facaoRepository.GetById(id));
         }
 
         // POST: FaccaoController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, Faccao faccao)
         {
-            try
+            bool result = _facaoRepository.Delete(id);
+            DateTime dateTime = DateTime.Now;
+
+            if (result)
             {
+                Console.WriteLine("Facção {0} excluída com sucesso. {1}", id, dateTime);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            else
             {
-                return View();
+                Console.WriteLine("Erro ao excluir a facção {0}. {1}", id, dateTime);
+                return View(faccao);
             }
         }
     }
