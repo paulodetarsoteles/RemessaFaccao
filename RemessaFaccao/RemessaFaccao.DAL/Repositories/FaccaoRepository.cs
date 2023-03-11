@@ -26,7 +26,8 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 {
                     connection.Open();
 
-                    SqlCommand command = new("SELECT FaccaoId, Nome, Ativo FROM dbo.Faccao; ");
+                    SqlCommand command = new("SELECT FaccaoId, Nome, Ativo " +
+                                             "FROM dbo.Faccao (NOLOCK); ");
 
                     command.Connection = connection;
                     command.CommandType = CommandType.Text;

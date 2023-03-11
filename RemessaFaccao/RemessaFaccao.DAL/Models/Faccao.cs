@@ -1,9 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RemessaFaccao.DAL.Models
 {
     public class Faccao
     {
+        [Key]
         [Display(Name = "Código")]
         public int FaccaoId { get; set; }
 
@@ -32,5 +34,8 @@ namespace RemessaFaccao.DAL.Models
 
         [Display(Name = "Observações")]
         public string Observacoes { get; set; }
+
+        [NotMapped]
+        public virtual List<Remessa> Remessas { get; set; }
     }
 }

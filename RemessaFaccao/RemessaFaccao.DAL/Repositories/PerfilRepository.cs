@@ -26,7 +26,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 {
                     connection.Open();
 
-                    SqlCommand command = new("SELECT * FROM Perfil;");
+                    SqlCommand command = new("SELECT * FROM dbo.Perfil (NOLOCK);");
 
                     command.Connection = connection;
                     command.CommandType = CommandType.Text;

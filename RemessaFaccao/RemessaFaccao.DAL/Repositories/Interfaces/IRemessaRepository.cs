@@ -1,18 +1,22 @@
 ﻿using RemessaFaccao.DAL.Models;
+using RemessaFaccao.DAL.Models.ViewModels;
 
 namespace RemessaFaccao.DAL.Repositories.Interfaces
 {
     public interface IRemessaRepository
     {
         List<Remessa> GetAll();
-        List<Remessa> GetAtrasadas(); 
-        List<Remessa> GetReceberHoje();
+        List<Remessa> GetNaoEnviadaParaProducao();
+        List<RemessaFaccaoViewModel> GetAtrasadas();
+        List<RemessaFaccaoViewModel> GetEmProducao(); 
+        List<RemessaFaccaoViewModel> GetReceberHoje();
         Remessa GetById(int id);
         int Count();
         int CountAtrasadas(); 
         int CountReceberHoje();
-        int Insert(Remessa remessa);
-        int Update(Remessa remessa);
-        int DeleteById(int id);
+        bool Insert(Remessa remessa);
+        bool Update(Remessa remessa);
+        void UpdateStatus(); 
+        bool DeleteById(int id);
     }
 }

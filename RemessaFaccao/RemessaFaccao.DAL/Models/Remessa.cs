@@ -5,6 +5,7 @@ namespace RemessaFaccao.DAL.Models
 {
     public class Remessa
     {
+        [Key]
         [Display(Name = "Código")]
         public int RemessaId { get; set; }
 
