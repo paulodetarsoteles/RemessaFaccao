@@ -1,0 +1,77 @@
+﻿@model IEnumerable<RemessaFaccao.DAL.Models.Remessa>
+
+@{
+    ViewData["Title"] = "Lista de Remessas";
+}
+
+<h1>Lista de Remessas</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">
+        <i class="bi-plus"></i>
+        Adicionar
+    </a>
+</p>
+<div class="col-md-8">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    &nbsp;&nbsp;&nbsp;&nbsp; @Html.DisplayNameFor(model => model.RemessaId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Referencia)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StatusRemessa)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Quantidade)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ValorTotal)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        &nbsp;&nbsp;&nbsp;&nbsp; @Html.DisplayFor(modelItem => item.RemessaId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Referencia)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StatusRemessa)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Quantidade)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ValorTotal)
+                    </td>
+                    <td>
+                        <span>
+                            <a href="@Url.Action("Details", new { id=item.RemessaId })" class="btn btn-secondary">
+                                <i class="bi-clipboard"></i>
+                            </a>
+                        </span>
+                        <span>
+                            <a href="@Url.Action("Edit", new { id=item.RemessaId })" class="btn btn-warning">
+                                <i class="bi-pencil"></i>
+                            </a>
+                        </span>
+                        <span>
+                            <a href="@Url.Action("Delete", new { id=item.RemessaId })" class="btn btn-danger">
+                                <i class="bi-trash"></i>
+                            </a>
+                        </span>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

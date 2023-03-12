@@ -15,8 +15,8 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
         int CountAtrasadas(); 
         int CountReceberHoje();
         bool Insert(Remessa remessa);
-        bool Update(Remessa remessa);
+        bool Update(int id, Remessa remessa);
         void UpdateStatus(); 
-        bool DeleteById(int id);
+        bool Delete(int id);
     }
 }

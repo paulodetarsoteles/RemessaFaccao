@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using static RemessaFaccao.DAL.Models.Enums;
+﻿using RemessaFaccao.DAL.Models.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace RemessaFaccao.DAL.Models
 {
@@ -12,6 +12,7 @@ namespace RemessaFaccao.DAL.Models
         [Display(Name = "Código da Facção")]
         public int FaccaoId { get; set; }
 
+        [Display(Name = "Referência")]
         [Required(ErrorMessage = "Campo obrigatório")]
         public string Referencia { get; set; }
 
@@ -25,17 +26,20 @@ namespace RemessaFaccao.DAL.Models
         [Display(Name = "Valor Total")]
         public decimal ValorTotal { get; set; }
 
-        [Display(Name = "Data de Entrega")]
-        public DateTime? DataDeEntrega { get; set; }
+        [Display(Name = "Envio p/ Facção")]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}")]
+        public DateTime? DataDeEntrega { get; set; } = new(2001, 01, 01);
 
         [Display(Name = "Dia do Prazo")]
-        public DateTime? DataPrazo { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}")]
+        public DateTime? DataPrazo { get; set; } = DateTime.MaxValue;
 
         [Display(Name = "Recebimento")]
-        public DateTime? DataRecebimento { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}")]
+        public DateTime? DataRecebimento { get; set; } = DateTime.MaxValue; 
 
         [Display(Name = "Status da Remessa")]
-        public StatusRemessa StatusRemessa;  
+        public StatusRemessa StatusRemessa = StatusRemessa.Preparada;  
 
         [Display(Name = "Observações")]
         public string Observacoes { get; set; }
