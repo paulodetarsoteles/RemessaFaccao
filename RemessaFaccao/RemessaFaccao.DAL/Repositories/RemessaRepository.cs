@@ -245,14 +245,17 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 if (reader.Read())
                 {
                     result.RemessaId = Convert.ToInt32(reader["RemessaId"]);
-                    result.FaccaoId = Convert.ToInt32(reader["FaccaoId"]);
+                    if (reader["FaccaoId"] != DBNull.Value)
+                        result.FaccaoId = Convert.ToInt32(reader["FaccaoId"]);
+                    else 
+                        result.FaccaoId = null; 
                     result.Referencia = reader["Referencia"].ToString();
                     result.Quantidade = Convert.ToInt32(reader["Quantidade"]);
                     result.ValorUnitario = Convert.ToDecimal(reader["ValorUnitario"]);
                     result.ValorTotal = Convert.ToDecimal(reader["ValorTotal"]);
-                    result.DataDeEntrega = GetValue<DateTime>(reader["DataDeEntrega"]); 
-                    result.DataPrazo = GetValue<DateTime>(reader["DataPrazo"]); 
-                    result.DataRecebimento = GetValue<DateTime>(reader["DataRecebimento"]);
+                    result.DataDeEntrega =Convert.ToDateTime(reader["DataDeEntrega"]); 
+                    result.DataPrazo = Convert.ToDateTime(reader["DataPrazo"]); 
+                    result.DataRecebimento = Convert.ToDateTime(reader["DataRecebimento"]);
                     result.StatusRemessa = (StatusRemessa)Convert.ToInt16(reader["StatusRemessa"]); 
                     result.Observacoes = reader["Observacoes"].ToString(); 
                 }
@@ -446,9 +449,9 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                     command.Parameters.Add("@Quantidade", SqlDbType.Int).Value = remessa.Quantidade;
                     command.Parameters.Add("@ValorUnitario", SqlDbType.Decimal).Value = remessa.ValorUnitario;
                     command.Parameters.Add("@ValorTotal", SqlDbType.Decimal).Value = remessa.ValorTotal;
-                    command.Parameters.Add("@DataDeEntrega", SqlDbType.DateTime).Value = GetValue<DateTime>(remessa.DataDeEntrega, datedefault);
-                    command.Parameters.Add("@DataPrazo", SqlDbType.DateTime).Value = GetValue<DateTime>(remessa.DataPrazo, datedefault);
-                    command.Parameters.Add("@DataRecebimento", SqlDbType.DateTime).Value = GetValue<DateTime>(remessa.DataRecebimento, datedefault);
+                    command.Parameters.Add("@DataDeEntrega", SqlDbType.DateTime).Value = remessa.DataDeEntrega;
+                    command.Parameters.Add("@DataPrazo", SqlDbType.DateTime).Value = remessa.DataPrazo;
+                    command.Parameters.Add("@DataRecebimento", SqlDbType.DateTime).Value = remessa.DataRecebimento;
                     command.Parameters.Add("@StatusRemessa", SqlDbType.TinyInt).Value = remessa.StatusRemessa;
                     command.Parameters.Add("@Observacoes", SqlDbType.NVarChar).Value = remessa.Observacoes;
 
@@ -537,18 +540,46 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             }
         }
 
-        protected static T GetValue<T>(object obj)
+        public List<Faccao> GetFaccoes()
         {
-            if (typeof(DBNull) != obj.GetType())
-                return (T)Convert.ChangeType(obj, typeof(T));
-            return default;
-        }
+            List<Faccao> result = new();
+            SqlConnection connection = new(_connection.SQLString);
 
-        protected static T GetValue<T>(object obj, object defaultValue)
-        {
-            if (typeof(DBNull) != obj.GetType())
-                return (T)Convert.ChangeType(obj, typeof(T));
-            return (T)defaultValue;
+            using (connection)
+            {
+                try
+                {
+                    connection.Open();
+
+                    SqlCommand command = new("SELECT FaccaoId, Nome, Ativo " +
+                                             "FROM dbo.Faccao (NOLOCK); ");
+
+                    command.Connection = connection;
+                    command.CommandType = CommandType.Text;
+
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        result.Add(new Faccao
+                        {
+                            FaccaoId = Convert.ToInt32(reader["FaccaoId"]),
+                            Nome = reader["Nome"].ToString(),
+                            Ativo = Convert.ToBoolean(reader["Ativo"])
+                        });
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw new Exception("Erro ao acessar informações do banco de dados. " + e.Message);
+                }
+                finally
+                {
+                    if (connection.State == ConnectionState.Open)
+                        connection.Close();
+                }
+                return result;
+            }
         }
     }
 }

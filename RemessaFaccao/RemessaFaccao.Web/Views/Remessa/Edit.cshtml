@@ -15,8 +15,11 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="FaccaoId" class="control-label"></label>
-                    <input asp-for="FaccaoId" class="form-control" />
-                    <span asp-validation-for="FaccaoId" class="text-danger"></span>
+                    @Html.DropDownList("FaccaoId", (SelectList)ViewBag.Faccoes, "Selecione uma facção", new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <label asp-for="StatusRemessa" class="control-label"></label>
+                    <select asp-for="StatusRemessa" asp-items="@Html.GetEnumSelectList<RemessaFaccao.DAL.Models.Enums.StatusRemessa>()"  class = "form-control"></select>
                 </div>
                 <div class="form-group">
                     <label asp-for="Referencia" class="control-label"></label>

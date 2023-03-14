@@ -1,5 +1,7 @@
 ﻿using RemessaFaccao.DAL.Models.Enums;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 
 namespace RemessaFaccao.DAL.Models
 {
@@ -10,7 +12,8 @@ namespace RemessaFaccao.DAL.Models
         public int RemessaId { get; set; }
 
         [Display(Name = "Código da Facção")]
-        public int FaccaoId { get; set; }
+        [AllowNull]
+        public int? FaccaoId { get; set; }
 
         [Display(Name = "Referência")]
         [Required(ErrorMessage = "Campo obrigatório")]
@@ -28,20 +31,24 @@ namespace RemessaFaccao.DAL.Models
 
         [Display(Name = "Envio p/ Facção")]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}")]
-        public DateTime? DataDeEntrega { get; set; } = new(2001, 01, 01);
+        public DateTime? DataDeEntrega { get; set; } = new(2023, 01, 01);
 
         [Display(Name = "Dia do Prazo")]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}")]
-        public DateTime? DataPrazo { get; set; } = DateTime.MaxValue;
+        public DateTime? DataPrazo { get; set; } = new(2023, 01, 01);
 
         [Display(Name = "Recebimento")]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}")]
-        public DateTime? DataRecebimento { get; set; } = DateTime.MaxValue; 
+        public DateTime? DataRecebimento { get; set; } = new(2023, 01, 01);
 
         [Display(Name = "Status da Remessa")]
-        public StatusRemessa StatusRemessa = StatusRemessa.Preparada;  
+        public StatusRemessa StatusRemessa { get; set; } = StatusRemessa.Preparada; 
 
         [Display(Name = "Observações")]
         public string Observacoes { get; set; }
+
+        [NotMapped]
+        [Display(Name = "Facção")]
+        public virtual Faccao Faccao { get; set; }
     }
 }

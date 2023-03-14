@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using RemessaFaccao.DAL.Models;
 using RemessaFaccao.DAL.Models.Enums;
 using RemessaFaccao.DAL.Repositories.Interfaces;
@@ -7,17 +8,17 @@ namespace RemessaFaccao.Web.Controllers
 {
     public class RemessaController : Controller
     {
-        private readonly IRemessaRepository _remessaRepository; 
+        private readonly IRemessaRepository _remessaRepository;
 
         public RemessaController(IRemessaRepository remessaRepository)
         {
-            _remessaRepository = remessaRepository; 
+            _remessaRepository = remessaRepository;
         }
 
         // GET: RemessaController
         public ActionResult Index()
         {
-            return View(_remessaRepository.GetAll()); 
+            return View(_remessaRepository.GetAll());
         }
 
         // GET: RemessaController/Details/5
@@ -29,6 +30,9 @@ namespace RemessaFaccao.Web.Controllers
         // GET: RemessaController/Create
         public ActionResult Create()
         {
+            List<Faccao> faccoes = _remessaRepository.GetFaccoes();
+            ViewBag.Faccoes = new SelectList(faccoes, "FaccaoId", "Nome");
+
             return View();
         }
 
@@ -38,10 +42,13 @@ namespace RemessaFaccao.Web.Controllers
         public ActionResult Create(Remessa remessa)
         {
             remessa.ValorTotal = remessa.ValorUnitario * remessa.Quantidade;
-            remessa.StatusRemessa = StatusRemessa.Preparada; 
+            remessa.StatusRemessa = StatusRemessa.Preparada;
+
+            List<Faccao> faccoes = _remessaRepository.GetFaccoes();
+            ViewBag.Faccoes = new SelectList(faccoes, "FaccaoId", "Nome");
 
             bool result = _remessaRepository.Insert(remessa);
-            DateTime dateTime = DateTime.Now; 
+            DateTime dateTime = DateTime.Now;
 
             if (result)
             {
@@ -58,7 +65,10 @@ namespace RemessaFaccao.Web.Controllers
         // GET: RemessaController/Edit/5
         public ActionResult Edit(int id)
         {
-            Remessa remessa = _remessaRepository.GetById(id); 
+            List<Faccao> faccoes = _remessaRepository.GetFaccoes();
+            ViewBag.Faccoes = new SelectList(faccoes, "FaccaoId", "Nome");
+
+            Remessa remessa = _remessaRepository.GetById(id);
             return View(remessa);
         }
 
@@ -67,9 +77,14 @@ namespace RemessaFaccao.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, Remessa remessa)
         {
+            remessa.RemessaId = id; 
             remessa.ValorTotal = remessa.ValorUnitario * remessa.Quantidade; 
-            bool result = _remessaRepository.Update(id, remessa); 
-            DateTime dateTime = DateTime.Now; 
+
+            List<Faccao> faccoes = _remessaRepository.GetFaccoes();
+            ViewBag.Faccoes = new SelectList(faccoes, "FaccaoId", "Nome", remessa.FaccaoId);
+
+            bool result = _remessaRepository.Update(id, remessa);
+            DateTime dateTime = DateTime.Now;
 
             if (result)
             {
@@ -86,7 +101,7 @@ namespace RemessaFaccao.Web.Controllers
         // GET: RemessaController/Delete/5
         public ActionResult Delete(int id)
         {
-            Remessa remessa = _remessaRepository.GetById(id); 
+            Remessa remessa = _remessaRepository.GetById(id);
             return View(remessa);
         }
 
