@@ -1,32 +1,35 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RemessaFaccao.DAL.Models;
-using System.Diagnostics;
+using RemessaFaccao.DAL.Repositories.Interfaces;
 
 namespace RemessaFaccao.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IRemessaRepository _remessaRepository;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IRemessaRepository remessaRepository)
         {
-            _logger = logger;
+            _remessaRepository = remessaRepository;
         }
 
         public IActionResult Index()
         {
+            int enviarParaProducao = _remessaRepository.CountEnviarParaProducao();
+            int emProducao = _remessaRepository.CountEmProducao();
+            int atrasadas = _remessaRepository.CountAtrasadas();
+            int receberHoje = _remessaRepository.CountReceberHoje();
+
+            ViewData["EnviarParaProducao"] = enviarParaProducao;
+            ViewData["EmProducao"] = emProducao;
+            ViewData["Atrasadas"] = atrasadas;
+            ViewData["ReceberHoje"] = receberHoje;
+
             return View();
         }
 
         public IActionResult Contatos()
         {
             return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

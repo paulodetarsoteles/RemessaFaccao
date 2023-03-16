@@ -45,7 +45,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                         {
                             RemessaId = Convert.ToInt32(reader["RemessaId"]),
                             Referencia = reader["Referencia"].ToString(),
-                            StatusRemessa = (StatusRemessa)Convert.ToInt16(reader["StatusRemessa"]),  
+                            StatusRemessa = (StatusRemessa)Convert.ToInt16(reader["StatusRemessa"]),
                             Quantidade = Convert.ToInt32(reader["Quantidade"]),
                             ValorTotal = Convert.ToDecimal(reader["ValorTotal"])
                         });
@@ -233,42 +233,42 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             SqlConnection connection = new(_connection.SQLString);
             SqlCommand command = new("dbo.RemessaGetById");
 
+            command.Connection = connection;
+            command.Connection.Open();
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.Add("@RemessaID", SqlDbType.Int).Value = id;
+
             try
             {
-                command.Connection = connection;
-                command.Connection.Open();
-                command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add("@RemessaID", SqlDbType.Int).Value = id; 
-
-                SqlDataReader reader = command.ExecuteReader(); 
+                SqlDataReader reader = command.ExecuteReader();
 
                 if (reader.Read())
                 {
                     result.RemessaId = Convert.ToInt32(reader["RemessaId"]);
-                    if (reader["FaccaoId"] != DBNull.Value)
-                        result.FaccaoId = Convert.ToInt32(reader["FaccaoId"]);
-                    else 
-                        result.FaccaoId = null; 
                     result.Referencia = reader["Referencia"].ToString();
                     result.Quantidade = Convert.ToInt32(reader["Quantidade"]);
                     result.ValorUnitario = Convert.ToDecimal(reader["ValorUnitario"]);
                     result.ValorTotal = Convert.ToDecimal(reader["ValorTotal"]);
-                    result.DataDeEntrega =Convert.ToDateTime(reader["DataDeEntrega"]); 
-                    result.DataPrazo = Convert.ToDateTime(reader["DataPrazo"]); 
+                    result.DataDeEntrega = Convert.ToDateTime(reader["DataDeEntrega"]);
+                    result.DataPrazo = Convert.ToDateTime(reader["DataPrazo"]);
                     result.DataRecebimento = Convert.ToDateTime(reader["DataRecebimento"]);
-                    result.StatusRemessa = (StatusRemessa)Convert.ToInt16(reader["StatusRemessa"]); 
-                    result.Observacoes = reader["Observacoes"].ToString(); 
+                    result.StatusRemessa = (StatusRemessa)Convert.ToInt16(reader["StatusRemessa"]);
+                    result.Observacoes = reader["Observacoes"].ToString();
+
+                    if (reader["FaccaoId"] != DBNull.Value)
+                        result.FaccaoId = Convert.ToInt32(reader["FaccaoId"]);
+                    else
+                        result.FaccaoId = null;
                 }
             }
             catch (Exception e)
             {
                 throw new Exception("Erro ao acessar informações do banco de dados. " + e.Message);
             }
-            finally
-            {
-                if (connection.State == ConnectionState.Open)
-                    connection.Close();
-            }
+
+            if (command.Connection.State == ConnectionState.Open)
+                command.Connection.Close();
+
             return result;
         }
 
@@ -288,10 +288,73 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                     command.Connection = connection;
                     command.CommandType = CommandType.Text;
 
-                    SqlDataReader reader = command.ExecuteReader();
+                    result = (int)command.ExecuteScalar();
+                }
+                catch (Exception e)
+                {
+                    throw new Exception("Erro ao acessar informações do banco de dados. " + e.Message);
+                }
+                finally
+                {
+                    if (connection.State == ConnectionState.Open)
+                        connection.Close();
+                }
+                return result;
+            }
+        }
 
-                    result = Convert.ToInt32(reader["result"]);
+        public int CountEnviarParaProducao()
+        {
+            int result = 0;
+            SqlConnection connection = new(_connection.SQLString);
 
+            using (connection)
+            {
+                try
+                {
+                    connection.Open();
+
+                    SqlCommand command = new("SELECT COUNT(RemessaID) " +
+                                             "FROM Remessa " +
+                                             "WHERE StatusRemessa = 1; ");
+
+                    command.Connection = connection;
+                    command.CommandType = CommandType.Text;
+
+                    result = (int)command.ExecuteScalar();
+                }
+                catch (Exception e)
+                {
+                    throw new Exception("Erro ao acessar informações do banco de dados. " + e.Message);
+                }
+                finally
+                {
+                    if (connection.State == ConnectionState.Open)
+                        connection.Close();
+                }
+                return result;
+            }
+        }
+
+        public int CountEmProducao()
+        {
+            int result = 0;
+            SqlConnection connection = new(_connection.SQLString);
+
+            using (connection)
+            {
+                try
+                {
+                    connection.Open();
+
+                    SqlCommand command = new("SELECT COUNT(RemessaID) " +
+                                             "FROM Remessa " +
+                                             "WHERE StatusRemessa = 2; ");
+
+                    command.Connection = connection;
+                    command.CommandType = CommandType.Text;
+
+                    result = (int)command.ExecuteScalar();
                 }
                 catch (Exception e)
                 {
@@ -318,16 +381,13 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                     connection.Open();
 
                     SqlCommand command = new("SELECT COUNT(RemessaID) result " +
-                                             "FROM Faccao " +
-                                             "WHERE r.DataDeEntrega < GETDATE(); ");
+                                             "FROM Remessa " +
+                                             "WHERE StatusRemessa = 3; ");
 
                     command.Connection = connection;
-                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandType = CommandType.Text;
 
-                    SqlDataReader reader = command.ExecuteReader();
-
-                    result = Convert.ToInt32(reader["result"]);
-
+                    result = (int)command.ExecuteScalar();
                 }
                 catch (Exception e)
                 {
@@ -354,16 +414,14 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                     connection.Open();
 
                     SqlCommand command = new("SELECT COUNT(RemessaID) result " +
-                                             "FROM Faccao " +
-                                             "WHERE r.DataDeEntrega = GETDATE(); ");
+                                             "FROM Remessa " +
+                                             "WHERE StatusRemessa = 2 " +
+                                             "AND DataDeEntrega = GETDATE(); ");
 
                     command.Connection = connection;
-                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandType = CommandType.Text;
 
-                    SqlDataReader reader = command.ExecuteReader();
-
-                    result = Convert.ToInt32(reader["result"]);
-
+                    result = (int)command.ExecuteScalar();
                 }
                 catch (Exception e)
                 {
@@ -426,7 +484,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             bool result = false;
 
             if (GetById(id) is null)
-                return result; 
+                return result;
 
             SqlConnection connection = new(_connection.SQLString);
 
@@ -436,14 +494,14 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 {
                     connection.Open();
 
-                    DateTime datedefault = new(2001, 01, 01); 
+                    DateTime datedefault = new(2001, 01, 01);
 
                     SqlCommand command = new("dbo.RemessaUpdate");
 
                     command.Connection = connection;
                     command.CommandType = CommandType.StoredProcedure;
 
-                    command.Parameters.Add("@RemessaId", SqlDbType.Int).Value = id; 
+                    command.Parameters.Add("@RemessaId", SqlDbType.Int).Value = id;
                     command.Parameters.Add("@FaccaoId", SqlDbType.Int).Value = remessa.FaccaoId;
                     command.Parameters.Add("@Referencia", SqlDbType.VarChar).Value = remessa.Referencia;
                     command.Parameters.Add("@Quantidade", SqlDbType.Int).Value = remessa.Quantidade;
@@ -473,7 +531,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
 
         public void UpdateStatus()
         {
-            SqlConnection connection = new(_connection.SQLString); 
+            SqlConnection connection = new(_connection.SQLString);
 
             using (connection)
             {
@@ -484,7 +542,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                     command.Connection = connection;
                     command.CommandType = CommandType.StoredProcedure;
 
-                    command.ExecuteNonQuery(); 
+                    command.ExecuteNonQuery();
                 }
                 catch (Exception e)
                 {
@@ -492,7 +550,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 }
                 finally
                 {
-                    if (connection.State == ConnectionState.Open) 
+                    if (connection.State == ConnectionState.Open)
                         connection.Close();
                 }
             }

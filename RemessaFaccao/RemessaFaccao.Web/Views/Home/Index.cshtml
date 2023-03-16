@@ -3,6 +3,29 @@
 }
 
 <div class="text-center">
-    <h1>@ViewData["Title"]</h1>
-    <h2 class="display-6">Bem Vindo</h2>
+    <h1 class="display-5">SISTEMA DE CONTROLE DE REMESSAS E FACÇÕES</h1>
+    <h3 class="display-6">Bem vindo!</h3>
+</div>
+
+<div class="containerHome">
+    <div class="boxHome">
+        <div class="internal">
+            <h5 class="text-center text-warning">Remessas para enviar para produção: @ViewData["EnviarParaProducao"]</h5>
+        </div>
+    </div>
+    <div class="boxHome">
+        <div class="internal">
+            <h5 class="text-center text-dark">Remessas em produção nesse momento: @ViewData["EmProducao"]</h5>
+        </div>
+    </div>
+    <div class="boxHome">
+        <div class="internal">
+            <h5 class="text-center text-danger">Remessas atrasadas: @ViewData["Atrasadas"]</h5>
+        </div>
+    </div>
+    <div class="boxHome">
+        <div class="internal">
+            <h5 class="text-center text-success">Remessas para receber hoje: @ViewData["ReceberHoje"]</h5>
+        </div>
+    </div>
 </div>

@@ -51,4 +51,12 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    @*Validação do valor com uso da vírgula no campo*@
+    <script>
+        jQuery.extend(jQuery.validator.methods, {
+            number: function (value, element) {
+                return this.optional(element) || /^-?(?:\d+|\d{1,3}(?:\.\d{3})+)(?:,\d+)?$/.test(value);
+            }
+        });
+    </script>
 }

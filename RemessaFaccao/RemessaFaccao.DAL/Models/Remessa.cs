@@ -19,6 +19,7 @@ namespace RemessaFaccao.DAL.Models
         [Required(ErrorMessage = "Campo obrigatório")]
         public string Referencia { get; set; }
 
+        [Range(0, int.MaxValue, ErrorMessage = "Insira um valor inteiro (sem pontos, vírgulas ou espaços)")]
         [Required(ErrorMessage = "Campo obrigatório")]
         public int Quantidade { get; set; }
 

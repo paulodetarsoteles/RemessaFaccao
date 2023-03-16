@@ -14,7 +14,7 @@ html {
 }
 
 body {
-    margin-bottom: 60px;
+    margin-bottom: 70px;
 }
 
 table {
@@ -41,12 +41,37 @@ row {
 }
 
 .internal {
-    max-width: 800px; 
     background-color: #f8ebee;
+    max-width: 800px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    box-shadow: 1px 1px 4px 1px #b9b9b9;
+    padding: 20px;
+}
+
+.internalHome {
+    background-color: #f8ebee;
+    max-width: 1080px; 
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
     border-bottom-left-radius: 20px;
     box-shadow: 1px 1px 4px 1px #b9b9b9; 
     padding: 20px; 
+}
+
+.containerHome {
+    width: 100%;
+    height: 65vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.boxHome {
+    width: 600px;
+    height: 400px;
 }

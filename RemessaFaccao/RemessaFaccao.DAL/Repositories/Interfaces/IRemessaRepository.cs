@@ -12,7 +12,9 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
         List<RemessaFaccaoViewModel> GetReceberHoje();
         Remessa GetById(int id);
         int Count();
-        int CountAtrasadas(); 
+        int CountEnviarParaProducao();
+        int CountEmProducao(); 
+        int CountAtrasadas();
         int CountReceberHoje();
         bool Insert(Remessa remessa);
         bool Update(int id, Remessa remessa);
