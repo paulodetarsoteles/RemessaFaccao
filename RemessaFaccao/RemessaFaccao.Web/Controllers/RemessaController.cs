@@ -18,6 +18,7 @@ namespace RemessaFaccao.Web.Controllers
         // GET: RemessaController
         public ActionResult Index()
         {
+            _remessaRepository.UpdateStatus();
             return View(_remessaRepository.GetAll());
         }
 
