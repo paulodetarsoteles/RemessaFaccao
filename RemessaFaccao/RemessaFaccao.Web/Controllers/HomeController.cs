@@ -14,6 +14,8 @@ namespace RemessaFaccao.Web.Controllers
 
         public IActionResult Index()
         {
+            _remessaRepository.UpdateStatus(); 
+
             int enviarParaProducao = _remessaRepository.CountEnviarParaProducao();
             int emProducao = _remessaRepository.CountEmProducao();
             int atrasadas = _remessaRepository.CountAtrasadas();
