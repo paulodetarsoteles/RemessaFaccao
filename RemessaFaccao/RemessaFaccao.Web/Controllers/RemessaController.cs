@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RemessaFaccao.DAL.Models;
 using RemessaFaccao.DAL.Models.Enums;
@@ -15,6 +16,7 @@ namespace RemessaFaccao.Web.Controllers
             _remessaRepository = remessaRepository;
         }
 
+        [Authorize]
         // GET: RemessaController
         public ActionResult Index()
         {
@@ -22,12 +24,14 @@ namespace RemessaFaccao.Web.Controllers
             return View(_remessaRepository.GetAll());
         }
 
+        [Authorize]
         // GET: RemessaController/Details/5
         public ActionResult Details(int id)
         {
             return View(_remessaRepository.GetById(id));
         }
 
+        [Authorize]
         // GET: RemessaController/Create
         public ActionResult Create()
         {
@@ -39,6 +43,7 @@ namespace RemessaFaccao.Web.Controllers
 
         // POST: RemessaController/Create
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Remessa remessa)
         {
@@ -64,6 +69,7 @@ namespace RemessaFaccao.Web.Controllers
         }
 
         // GET: RemessaController/Edit/5
+        [Authorize]
         public ActionResult Edit(int id)
         {
             List<Faccao> faccoes = _remessaRepository.GetFaccoes();
@@ -75,6 +81,7 @@ namespace RemessaFaccao.Web.Controllers
 
         // POST: RemessaController/Edit/5
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, Remessa remessa)
         {
@@ -100,6 +107,7 @@ namespace RemessaFaccao.Web.Controllers
         }
 
         // GET: RemessaController/Delete/5
+        [Authorize]
         public ActionResult Delete(int id)
         {
             Remessa remessa = _remessaRepository.GetById(id);
@@ -108,6 +116,7 @@ namespace RemessaFaccao.Web.Controllers
 
         // POST: RemessaController/Delete/5
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, Remessa remessa)
         {

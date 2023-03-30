@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RemessaFaccao.DAL.Models;
 using RemessaFaccao.DAL.Repositories.Interfaces;
 
@@ -14,18 +15,21 @@ namespace RemessaFaccao.Web.Controllers
         }
 
         // GET: PerfilController
+        [Authorize]
         public ActionResult Index()
         {
             return View(_perfilRepository.GetAll());
         }
 
         // GET: PerfilController/Details/5
+        [Authorize]
         public ActionResult Details(int id)
         {
             return View(_perfilRepository.GetById(id));
         }
 
         // GET: PerfilController/Create
+        [Authorize]
         public ActionResult Create()
         {
             return View();
@@ -33,6 +37,7 @@ namespace RemessaFaccao.Web.Controllers
 
         // POST: PerfilController/Create
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Perfil perfil)
         {
@@ -52,6 +57,7 @@ namespace RemessaFaccao.Web.Controllers
         }
 
         // GET: PerfilController/Edit/5
+        [Authorize]
         public ActionResult Edit(int id)
         {
             Perfil perfil = _perfilRepository.GetById(id);
@@ -60,6 +66,7 @@ namespace RemessaFaccao.Web.Controllers
 
         // POST: PerfilController/Edit/5
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, Perfil perfil)
         {
@@ -79,6 +86,7 @@ namespace RemessaFaccao.Web.Controllers
         }
 
         // GET: PerfilController/Delete/5
+        [Authorize]
         public ActionResult Delete(int id)
         {
             Perfil perfil = _perfilRepository.GetById(id);
@@ -87,6 +95,7 @@ namespace RemessaFaccao.Web.Controllers
 
         // POST: PerfilController/Delete/5
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, Perfil perfil)
         {

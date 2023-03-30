@@ -9,10 +9,12 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
     public class PerfilRepository : IPerfilRepository
     {
         private readonly ConnectionSetting _connection;
+        private readonly ConnectionDbContext _connectionEf;
 
         public PerfilRepository(IOptions<ConnectionSetting> connection)
         {
             _connection = connection.Value;
+            _connectionEf = new ConnectionDbContext(connection);
         }
 
         public List<Perfil> GetAll()
@@ -130,35 +132,22 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
         public bool Insert(Perfil perfil)
         {
             bool result = false;
-            SqlConnection connection = new(_connection.SQLString);
 
-            using (connection)
+            try
             {
-                try
+                using (_connectionEf)
                 {
-                    connection.Open();
+                    _connectionEf.Perfil.Add(perfil);
 
-                    SqlCommand command = new("dbo.PerfilInsert");
-
-                    command.Connection = connection;
-                    command.CommandType = CommandType.StoredProcedure;
-
-                    command.Parameters.Add("@Nome", SqlDbType.VarChar).Value = perfil.Nome;
-
-                    if (Convert.ToInt32(command.ExecuteNonQuery()) != 0)
+                    if (_connectionEf.SaveChanges() > 0)
                         result = true;
                 }
-                catch (Exception e)
-                {
-                    throw new Exception("Erro ao acessar as informações do banco de dados. " + e.Message);
-                }
-                finally
-                {
-                    if (connection.State == ConnectionState.Open)
-                        connection.Close();
-                }
-                return result;
             }
+            catch (Exception e)
+            {
+                throw new Exception("Erro ao acessar as informações do banco de dados. " + e.Message);
+            }
+            return result;
         }
 
         public bool Update(int id, Perfil perfil)

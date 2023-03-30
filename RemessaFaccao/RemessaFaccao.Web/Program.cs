@@ -1,10 +1,13 @@
+using Microsoft.AspNetCore.Identity;
 using RemessaFaccao.DAL.Repositories.Interfaces;
 using RemessaFaccao.DAL.Setting;
 
 var builder = WebApplication.CreateBuilder(args);
+var connectDb = builder.Configuration.GetSection("ConnectionString");
 
 builder.Services.AddControllersWithViews();
-builder.Services.Configure<ConnectionSetting>(builder.Configuration.GetSection("ConnectionString"));
+builder.Services.Configure<ConnectionSetting>(connectDb);
+builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ConnectionDbContext>().AddDefaultTokenProviders();
 builder.Services.AddScoped<IFaccaoRepository, FaccaoRepository>();
 builder.Services.AddScoped<IPerfilRepository, PerfilRepository>();
 builder.Services.AddScoped<IRemessaRepository, RemessaRepository>();
@@ -23,6 +26,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

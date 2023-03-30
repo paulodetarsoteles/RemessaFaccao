@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RemessaFaccao.DAL.Models;
 using RemessaFaccao.DAL.Repositories.Interfaces;
 
@@ -14,18 +15,21 @@ namespace RemessaFaccao.Web.Controllers
         }
 
         // GET: UsuarioController
+        [Authorize]
         public ActionResult Index()
         {
             return View(_usuarioRepository.GetAll());
         }
 
         // GET: UsuarioController/Details/5
+        [Authorize]
         public ActionResult Details(int id)
         {
             return View(_usuarioRepository.GetById(id));
         }
 
         // GET: UsuarioController/Create
+        [Authorize]
         public ActionResult Create()
         {
             return View();
@@ -33,6 +37,7 @@ namespace RemessaFaccao.Web.Controllers
 
         // POST: UsuarioController/Create
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Usuario usuario)
         {
@@ -52,6 +57,7 @@ namespace RemessaFaccao.Web.Controllers
         }
 
         // GET: UsuarioController/Edit/5
+        [Authorize]
         public ActionResult Edit(int id)
         {
             Usuario usuario = _usuarioRepository.GetById(id); ;
@@ -60,6 +66,7 @@ namespace RemessaFaccao.Web.Controllers
 
         // POST: UsuarioController/Edit/5
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, Usuario usuario)
         {
@@ -79,6 +86,7 @@ namespace RemessaFaccao.Web.Controllers
         }
 
         // GET: UsuarioController/Delete/5
+        [Authorize]
         public ActionResult Delete(int id)
         {
             Usuario usuario = _usuarioRepository.GetById(id); 
@@ -87,6 +95,7 @@ namespace RemessaFaccao.Web.Controllers
 
         // POST: UsuarioController/Delete/5
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, Usuario usuario)
         {

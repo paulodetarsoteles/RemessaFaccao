@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RemessaFaccao.DAL.Repositories.Interfaces;
 
 namespace RemessaFaccao.Web.Controllers
@@ -12,6 +13,7 @@ namespace RemessaFaccao.Web.Controllers
             _remessaRepository = remessaRepository;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
             _remessaRepository.UpdateStatus();
@@ -29,6 +31,7 @@ namespace RemessaFaccao.Web.Controllers
             return View();
         }
 
+        [Authorize]
         public IActionResult Contatos()
         {
             return View();
