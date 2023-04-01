@@ -1,0 +1,36 @@
+﻿@model RemessaFaccao.DAL.Models.ViewModels.LoginViewModel
+
+<div class="containerHome">
+    <div class="internalLogin">
+        <div class="row">
+            <div class="col-12 col-md-12 col-lg-12">
+                <h4><i class="bi bi-people-fill"></i> LOGIN</h4>
+                <form asp-controller="Account" asp-action="Login" method="post" role="form" class="form-horizontal">
+                    <hr />
+                    <input type="hidden" asp-for="ReturnUrl" />
+                    <div class="form-group">
+                        <label asp-for="Username" class="col-md-2 control-label"></label>
+                        <div class="col-md-12">
+                            <input asp-for="Username" class="form-control" placeholder="Digite o usuário" />
+                            <span asp-validation-for="Username" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <label asp-for="Password" class="form-group"></label>
+                        <div class="col-md-12">
+                            <input asp-for="Password" class="form-control" placeholder="Digite a senha" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        <br />
+                        <div class="input-group justify-content-end">
+                            <span>
+                                <button class="btn btn-success">Entrar <i class="bi bi-check-circle"></i></button>
+                            </span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

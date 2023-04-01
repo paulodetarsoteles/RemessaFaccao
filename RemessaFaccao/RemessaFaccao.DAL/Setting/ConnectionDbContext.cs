@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using RemessaFaccao.DAL.Models;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace RemessaFaccao.DAL.Setting
 {
-    public class ConnectionDbContext : DbContext
+    public class ConnectionDbContext : IdentityDbContext<IdentityUser>
     {
         public DbSet<Faccao> Faccao { get; set; }
         public DbSet<Remessa> Remessa { get; set; }
@@ -16,7 +17,7 @@ namespace RemessaFaccao.DAL.Setting
 
         public ConnectionDbContext(IOptions<ConnectionSetting> connection)
         {
-            _connection = connection.Value; 
+            _connection = connection.Value;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
