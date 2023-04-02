@@ -13,6 +13,13 @@ namespace RemessaFaccao.DAL.Models.ViewModels
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
+        [Display(Name = "Confirme a senha")]
+        [DataType(DataType.Password)]
+        public string Confirm { get; set; }
+
+        [RegularExpression(".+\\@.+\\..+", ErrorMessage = "Informe um email válido")]
+        public string Email { get; set; }
+
         public string ReturnUrl { get; set; }
     }
 }

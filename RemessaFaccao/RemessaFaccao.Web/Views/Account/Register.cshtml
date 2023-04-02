@@ -1,0 +1,53 @@
+﻿@model RemessaFaccao.DAL.Models.ViewModels.LoginViewModel
+
+<div class="containerHome">
+    <div class="internalLogin">
+        <div class="row">
+            <div class="col-12 col-md-12 col-lg-12">
+                <h4><i class="bi bi-people-fill-add"></i> Registro</h4>
+                <form asp-controller="Account" asp-action="Register" method="post" >
+                    <hr />
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Username" class="col-md-2 control-label"></label>
+                        <div class="col-md-12">
+                            <input asp-for="Username" class="form-control" placeholder="Digite o usuário" />
+                            <span asp-validation-for="Username" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <label asp-for="Email" class="col-md-2 control-label"></label>
+                        <div class="col-md-12">
+                            <input asp-for="Email" class="form-control" placeholder="exemplo@exemplo.com" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <label asp-for="Password" class="form-group"></label>
+                        <div class="col-md-12">
+                            <input asp-for="Password" class="form-control" placeholder="Digite a senha" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        <br />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Confirm" class="form-group"></label>
+                        <div class="col-md-12">
+                            <input asp-for="Confirm" class="form-control" placeholder="Digite a senha novamente" />
+                            <span asp-validation-for="Confirm" class="text-danger"></span>
+                        </div>
+                        <br />
+                    </div>
+                    <div class="input-group justify-content-end">
+                        <span>
+                            <button class="btn btn-success">Registrar <i class="bi bi-check-circle"></i></button>
+                            <a asp-action="Login">Cancelar</a>
+                        </span> 
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
