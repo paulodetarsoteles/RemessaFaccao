@@ -18,7 +18,7 @@ namespace RemessaFaccao.Web.Controllers
         #region Login
 
         [HttpGet]
-        public IActionResult Login(string returnUrl)
+        public IActionResult Login(string? returnUrl)
         {
             return View(new LoginViewModel() { ReturnUrl = returnUrl });
         }
@@ -31,7 +31,7 @@ namespace RemessaFaccao.Web.Controllers
 
             IdentityUser user = await _userManager.FindByNameAsync(login.Username);
 
-            if (user != null)
+            if (user is not null)
             {
                 var result = await _signInManager.PasswordSignInAsync(user, login.Password, false, false);
 
@@ -78,7 +78,7 @@ namespace RemessaFaccao.Web.Controllers
                     if (result.Succeeded)
                     {
                         Console.WriteLine("Usuário {0} registrado com sucesso. {1}", userRegister.Username, dateTime.ToString());
-                        return RedirectToAction("Login", "Account");
+                        return RedirectToAction("Index", "Home");
                     }
                     else
                     {
