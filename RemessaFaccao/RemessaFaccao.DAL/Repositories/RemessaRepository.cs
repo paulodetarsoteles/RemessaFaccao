@@ -253,7 +253,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             {
                 command.Connection = new SqlConnection(_connection.SQLString);
                 command.Connection.Open();
-                command.CommandType = CommandType.StoredProcedure;
+                command.CommandType = CommandType.Text;
                 result = (int)command.ExecuteScalar();
             }
             catch (Exception e)

@@ -8,11 +8,6 @@ namespace RemessaFaccao.DAL.Setting
 {
     public class ConnectionDbContext : IdentityDbContext<IdentityUser>
     {
-        public DbSet<Faccao> Faccao { get; set; }
-        public DbSet<Remessa> Remessa { get; set; }
-        public DbSet<Usuario> Usuario { get; set; }
-        public DbSet<Perfil> Perfil { get; set; }
-
         private readonly ConnectionSetting _connection;
 
         public ConnectionDbContext(IOptions<ConnectionSetting> connection)
@@ -24,5 +19,10 @@ namespace RemessaFaccao.DAL.Setting
         {
             optionsBuilder.UseSqlServer(_connection.SQLString);
         }
+
+        public DbSet<Faccao> Faccao { get; set; }
+        public DbSet<Remessa> Remessa { get; set; }
+        public DbSet<Usuario> Usuario { get; set; }
+        public DbSet<Perfil> Perfil { get; set; }
     }
 }
