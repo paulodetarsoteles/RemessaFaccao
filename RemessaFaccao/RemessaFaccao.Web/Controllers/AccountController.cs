@@ -29,26 +29,33 @@ namespace RemessaFaccao.Web.Controllers
             if (!ModelState.IsValid)
                 return View(login);
 
-            IdentityUser user = await _userManager.FindByNameAsync(login.Username);
-
-            if (user is not null)
+            try
             {
-                var result = await _signInManager.PasswordSignInAsync(user, login.Password, false, false);
-
-                if (result.Succeeded)
+                IdentityUser user = await _userManager.FindByNameAsync(login.Username);
+                if (user is not null)
                 {
-                    DateTime dateTime = DateTime.Now;
-                    Console.WriteLine("Usuário {0} registrado com sucesso. {1}", user.UserName, dateTime.ToString());
+                    var result = await _signInManager.PasswordSignInAsync(user, login.Password, false, false);
 
-                    if (string.IsNullOrEmpty(login.ReturnUrl))
-                        return RedirectToAction("Index", "Home");
-                    else
-                        return Redirect(login.ReturnUrl);
+                    if (result.Succeeded)
+                    {
+                        DateTime dateTime = DateTime.Now;
+                        Console.WriteLine("Usuário {0} registrado com sucesso. {1}", user.UserName, dateTime.ToString());
+
+                        if (string.IsNullOrEmpty(login.ReturnUrl))
+                            return RedirectToAction("Index", "Home");
+                        else
+                            return Redirect(login.ReturnUrl);
+                    }
                 }
-            }
 
-            ModelState.AddModelError("", "Falha ao realizar login!");
-            return View(login);
+                ModelState.AddModelError("", "Falha ao realizar login!");
+                return View(login);
+            }
+            catch
+            {
+                ModelState.AddModelError("", "Falha ao realizar comunicação com o banco de dados!");
+                return View(login);
+            }
         }
 
         #endregion
