@@ -22,7 +22,5 @@ namespace RemessaFaccao.DAL.Setting
 
         public DbSet<Faccao> Faccao { get; set; }
         public DbSet<Remessa> Remessa { get; set; }
-        public DbSet<Usuario> Usuario { get; set; }
-        public DbSet<Perfil> Perfil { get; set; }
     }
 }

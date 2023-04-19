@@ -10,9 +10,7 @@ var connectId = builder.Configuration.GetConnectionString("SQLString");
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IFaccaoRepository, FaccaoRepository>();
-builder.Services.AddScoped<IPerfilRepository, PerfilRepository>();
 builder.Services.AddScoped<IRemessaRepository, RemessaRepository>();
-builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 
 builder.Services.Configure<ConnectionSetting>(connectDb);
 builder.Services.AddDbContext<ConnectionDbContext>(options => options.UseSqlServer(connectId));
