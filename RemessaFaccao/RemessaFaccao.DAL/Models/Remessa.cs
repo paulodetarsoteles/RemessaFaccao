@@ -19,9 +19,38 @@ namespace RemessaFaccao.DAL.Models
         [Required(ErrorMessage = "Campo obrigatório")]
         public string Referencia { get; set; }
 
+        public string Piloto { get; set; }
+
+        public string Modelo { get; set; }
+
+        public string Tecido { get; set; }
+
+        public string Descricao { get; set; }
+
         [Range(0, int.MaxValue, ErrorMessage = "Insira um valor inteiro (sem pontos, vírgulas ou espaços)")]
         [Required(ErrorMessage = "Campo obrigatório")]
         public int Quantidade { get; set; }
+
+        [Display(Name = "Tamanho 1 ano")]
+        public int Tamanho1 { get; set; }
+
+        [Display(Name = "Tamanho 2 ano")]
+        public int Tamanho2 { get; set; }
+
+        [Display(Name = "Tamanho 4 ano")]
+        public int Tamanho4 { get; set; }
+
+        [Display(Name = "Tamanho 6 ano")]
+        public int Tamanho6 { get; set; }
+
+        [Display(Name = "Tamanho 8 ano")]
+        public int Tamanho8 { get; set; }
+
+        [Display(Name = "Tamanho 10 ano")]
+        public int Tamanho10 { get; set; }
+
+        [Display(Name = "Tamanho 12 ano")]
+        public int Tamanho12 { get; set; }
 
         [Display(Name = "Valor Unitário")]
         [Required(ErrorMessage = "Campo obrigatório")]
@@ -51,5 +80,8 @@ namespace RemessaFaccao.DAL.Models
         [NotMapped]
         [Display(Name = "Facção")]
         public virtual Faccao Faccao { get; set; }
+
+        [NotMapped]
+        public virtual List<AviamentoRemessa> AviamentoRemessa { get; set; }
     }
 }

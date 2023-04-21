@@ -25,7 +25,14 @@ namespace RemessaFaccao.Web.Controllers
         [Authorize]
         public ActionResult Details(int id)
         {
-            return View(_facaoRepository.GetById(id));
+            Faccao result = _facaoRepository.GetById(id); 
+
+            if (result == null)
+            {
+                ModelState.AddModelError("", "Falha ao localizar!");
+                return View();
+            }
+            return View(result);
         }
 
         // GET: FaccaoController/Create

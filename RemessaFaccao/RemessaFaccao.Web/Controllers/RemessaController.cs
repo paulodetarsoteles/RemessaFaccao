@@ -28,7 +28,14 @@ namespace RemessaFaccao.Web.Controllers
         // GET: RemessaController/Details/5
         public ActionResult Details(int id)
         {
-            return View(_remessaRepository.GetById(id));
+            Remessa result = _remessaRepository.GetById(id); 
+
+            if (result == null)
+            {
+                ModelState.AddModelError("", "Falha ao localizar!");
+                return View();
+            }
+            return View(result);
         }
 
         [Authorize]
