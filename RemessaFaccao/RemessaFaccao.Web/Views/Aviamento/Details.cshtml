@@ -1,0 +1,37 @@
+﻿@model RemessaFaccao.DAL.Models.Aviamento
+
+@{
+    ViewData["Title"] = "Detalhes";
+}
+
+<h1>Detalhes</h1>
+
+<div class="internal">
+    <h4>Aviamento</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.AviamentoId)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.AviamentoId)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Nome)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Nome)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Observacoes)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Observacoes)
+        </dd>
+    </dl>
+</div>
+<br />
+<div>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.AviamentoId }, new { @class = "btn btn-warning"}) 
+    <a asp-action="Index" class="btn btn-secondary">Voltar</a>
+</div>

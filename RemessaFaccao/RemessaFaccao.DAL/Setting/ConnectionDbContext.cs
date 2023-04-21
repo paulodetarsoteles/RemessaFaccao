@@ -30,6 +30,8 @@ namespace RemessaFaccao.DAL.Setting
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<AviamentoRemessa>(x =>
             {
                 x.HasKey(y => new

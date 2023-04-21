@@ -3,7 +3,7 @@ using RemessaFaccao.DAL.Models;
 using RemessaFaccao.DAL.Repositories.Interfaces;
 using RemessaFaccao.DAL.Setting;
 
-namespace RemessaFaccao.DAL.Repositories
+namespace RemessaFaccao.DAL.Repositories.Interfaces
 {
     public class AviamentoRepository : IAviamentoRepository
     {

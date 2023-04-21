@@ -11,7 +11,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IFaccaoRepository, FaccaoRepository>();
 builder.Services.AddScoped<IRemessaRepository, RemessaRepository>();
-
+builder.Services.AddScoped<IAviamentoRepository, AviamentoRepository>();
 builder.Services.Configure<ConnectionSetting>(connectDb);
 builder.Services.AddDbContext<ConnectionDbContext>(options => options.UseSqlServer(connectId));
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()

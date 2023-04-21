@@ -1,0 +1,65 @@
+﻿@model IEnumerable<RemessaFaccao.DAL.Models.Aviamento>
+
+@{
+    ViewData["Title"] = "Lista de Aviamentos";
+}
+
+<h1>Lista de Aviamentos</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">
+        <i class="bi-plus"></i>
+        Adicionar
+    </a>
+</p>
+<div class="col-md-8">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    &nbsp;&nbsp;&nbsp;&nbsp; @Html.DisplayNameFor(model => model.AviamentoId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Nome)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Observacoes)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                    <tr>
+                        <td>
+                            &nbsp;&nbsp;&nbsp;&nbsp; @Html.DisplayFor(modelItem => item.AviamentoId)
+                        </td>
+                        <td>
+                        @Html.DisplayFor(modelItem => item.Nome)
+                        </td>
+                        <td>
+                        @Html.DisplayFor(modelItem => item.Observacoes, new { @disabled = "disable" })
+                        </td>
+                        <td>
+                            <span>
+                                <a href="@Url.Action("Details", new { id=item.AviamentoId })" class="btn btn-secondary">
+                                    <i class="bi-clipboard"></i>
+                                </a>
+                            </span>
+                            <span>
+                                <a href="@Url.Action("Edit", new { id=item.AviamentoId })" class="btn btn-warning">
+                                    <i class="bi-pencil"></i>
+                                </a>
+                            </span>
+                            <span>
+                                <a href="@Url.Action("Delete", new { id=item.AviamentoId })" class="btn btn-danger">
+                                    <i class="bi-trash"></i>
+                                </a>
+                            </span>
+                        </td>
+                    </tr>
+            }
+        </tbody>
+    </table>
+</div>
