@@ -267,7 +267,53 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                         result.Tamanho12 = 0;
 
                     if (reader["FaccaoId"] != DBNull.Value)
+                    {
                         result.FaccaoId = Convert.ToInt32(reader["FaccaoId"]);
+
+                        Faccao resultFaccao = new();
+                        SqlConnection connectionFaccao = new(_connection.SQLString);
+                        using (connectionFaccao)
+                        {
+                            try
+                            {
+                                connectionFaccao.Open();
+
+                                SqlCommand commandFaccao = new("dbo.FaccaoGetById");
+
+                                commandFaccao.Connection = connectionFaccao;
+                                commandFaccao.CommandType = CommandType.StoredProcedure;
+
+                                commandFaccao.Parameters.Add("@FaccaoId", SqlDbType.Int).Value = result.FaccaoId;
+
+                                SqlDataReader readerF = commandFaccao.ExecuteReader();
+
+                                if (readerF.Read())
+                                {
+                                    resultFaccao.FaccaoId = Convert.ToInt32(readerF["FaccaoId"]);
+                                    resultFaccao.Nome = readerF["Nome"].ToString();
+                                    resultFaccao.Endereco = readerF["Endereco"].ToString();
+                                    resultFaccao.Email = readerF["Email"].ToString();
+                                    resultFaccao.Telefone1 = readerF["Telefone1"].ToString();
+                                    resultFaccao.Telefone1 = readerF["Telefone2"].ToString();
+                                    resultFaccao.FormaDePagamento = readerF["FormaDePagamento"].ToString();
+                                    resultFaccao.Qualificacao = Convert.ToInt32(readerF["Qualificacao"]);
+                                    resultFaccao.Ativo = Convert.ToBoolean(readerF["Ativo"]);
+                                    resultFaccao.Observacoes = readerF["Observacoes"].ToString();
+                                }
+
+                                result.Faccao = resultFaccao;
+                            }
+                            catch (Exception e)
+                            {
+                                throw new Exception("Erro ao acessar informações do banco de dados. " + e.Message);
+                            }
+                            finally
+                            {
+                                if (connectionFaccao.State == ConnectionState.Open)
+                                    connectionFaccao.Close();
+                            }
+                        }
+                    }
                     else
                         result.FaccaoId = null;
                 }
