@@ -16,6 +16,6 @@ namespace RemessaFaccao.DAL.Models
         public string Observacoes { get; set; }
 
         [NotMapped]
-        public virtual List<AviamentoRemessa> AviamentoRemessa { get; set; }
+        public virtual List<Remessa> Remessa { get; set; } = null; 
     }
 }

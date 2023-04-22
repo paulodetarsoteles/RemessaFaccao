@@ -7,6 +7,11 @@ namespace RemessaFaccao.DAL.Models
 {
     public class Remessa
     {
+        public Remessa() 
+        { 
+            this.Aviamento = new HashSet<Aviamento>().ToList();
+        }
+
         [Key]
         [Display(Name = "Código")]
         public int RemessaId { get; set; }
@@ -83,6 +88,6 @@ namespace RemessaFaccao.DAL.Models
         public virtual Faccao Faccao { get; set; }
 
         [NotMapped]
-        public virtual List<AviamentoRemessa> AviamentoRemessa { get; set; }
+        public virtual List<Aviamento> Aviamento { get; set; }
     }
 }

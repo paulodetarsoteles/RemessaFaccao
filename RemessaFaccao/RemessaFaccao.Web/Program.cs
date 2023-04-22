@@ -54,12 +54,6 @@ app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
 {
-    //TODO Implementar área de Admin com restrições
-    //endpoints.MapControllerRoute(
-    //      name: "areas",
-    //      pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
-    //    );
-
     endpoints.MapControllerRoute(
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}");

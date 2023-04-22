@@ -53,7 +53,7 @@ namespace RemessaFaccao.Web.Controllers
 
             if (result)
             {
-                Console.WriteLine("Faccao {0} adicionada com sucasso. {0}", faccao.Nome, dateTime);
+                Console.WriteLine("Faccao {0} adicionada com sucesso. {0}", faccao.Nome, dateTime);
                 return RedirectToAction(nameof(Index));
             }
             else
@@ -81,7 +81,7 @@ namespace RemessaFaccao.Web.Controllers
 
             if (result)
             {
-                Console.WriteLine("Facção {0} adicionada com sucasso. {1}", id, dateTime);
+                Console.WriteLine("Facção {0} adicionada com sucesso. {1}", id, dateTime);
                 return RedirectToAction(nameof(Index));
             }
             else

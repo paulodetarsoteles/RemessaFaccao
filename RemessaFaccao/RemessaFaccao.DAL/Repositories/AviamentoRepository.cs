@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
 using RemessaFaccao.DAL.Models;
-using RemessaFaccao.DAL.Repositories.Interfaces;
 using RemessaFaccao.DAL.Setting;
 
 namespace RemessaFaccao.DAL.Repositories.Interfaces
@@ -30,7 +29,8 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
 
         public Aviamento GetById(int id)
         {
-            Aviamento result;
+            Aviamento result = new(); 
+
             try
             {
                 result = _connectionEf.Aviamento.FirstOrDefault(x => x.AviamentoId == id);
@@ -47,12 +47,36 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
 
         public int Count()
         {
-            throw new NotImplementedException();
+            int result = 0;
+
+            try
+            {
+                result = _connectionEf.Aviamento.Select(a => a.AviamentoId).ToList().Count;
+                
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro ao acessar informações do banco de dados. " + ex.Message);
+            }
         }
 
         public bool Insert(Aviamento aviamento)
         {
-            throw new NotImplementedException();
+            bool result = false;
+
+            try
+            {
+                _connectionEf.Add(aviamento);
+
+                if (_connectionEf.SaveChanges() != 0) 
+                    result = true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro ao acessar informações do banco de dados. " + ex.Message);
+            }
+            return result;
         }
 
         public bool Update(int id, Aviamento aviamento)

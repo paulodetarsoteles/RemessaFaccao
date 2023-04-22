@@ -16,6 +16,7 @@ namespace RemessaFaccao.Web.Controllers
         // GET: AviamentoController
         public ActionResult Index()
         {
+            _aviamentoRepository.Count();
             return View(_aviamentoRepository.GetAll());
         }
 
@@ -42,22 +43,27 @@ namespace RemessaFaccao.Web.Controllers
         // POST: AviamentoController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Aviamento aviamento)
         {
-            try
+            bool result = _aviamentoRepository.Insert(aviamento); 
+            DateTime dateTime = DateTime.Now;
+
+            if (result)
             {
+                Console.WriteLine("Aviamento {0} adicionado com sucesso. {1}", aviamento.Nome, dateTime);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            else
             {
-                return View();
+                Console.WriteLine("Erro ao adicionar aviamento {0}. {1}", aviamento.Nome, dateTime);
+                return View(aviamento);
             }
         }
 
         // GET: AviamentoController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            return RedirectToAction("Index", "Manutencao");
         }
 
         // POST: AviamentoController/Edit/5
@@ -78,7 +84,7 @@ namespace RemessaFaccao.Web.Controllers
         // GET: AviamentoController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            return RedirectToAction("Index", "Manutencao");
         }
 
         // POST: AviamentoController/Delete/5

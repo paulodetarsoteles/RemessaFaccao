@@ -25,21 +25,5 @@ namespace RemessaFaccao.DAL.Setting
         public DbSet<Aviamento> Aviamento { get; set; }
 
         public DbSet<Remessa> Remessa { get; set; }
-
-        public DbSet<AviamentoRemessa> AviamentoRemessa { get; set; }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<AviamentoRemessa>(x =>
-            {
-                x.HasKey(y => new
-                {
-                    y.AviamentoId,
-                    y.RemessaId
-                });
-            });
-        }
     }
 }
