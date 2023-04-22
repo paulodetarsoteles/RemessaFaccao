@@ -25,6 +25,7 @@ namespace RemessaFaccao.DAL.Models
 
         public string Tecido { get; set; }
 
+        [Display(Name = "Descrição")]
         public string Descricao { get; set; }
 
         [Range(0, int.MaxValue, ErrorMessage = "Insira um valor inteiro (sem pontos, vírgulas ou espaços)")]

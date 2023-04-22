@@ -28,7 +28,7 @@ namespace RemessaFaccao.Web.Controllers
         // GET: RemessaController/Details/5
         public ActionResult Details(int id)
         {
-            Remessa result = _remessaRepository.GetById(id); 
+            Remessa result = _remessaRepository.GetById(id);
 
             if (result == null)
             {
@@ -92,8 +92,8 @@ namespace RemessaFaccao.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, Remessa remessa)
         {
-            remessa.RemessaId = id; 
-            remessa.ValorTotal = remessa.ValorUnitario * remessa.Quantidade; 
+            remessa.RemessaId = id;
+            remessa.ValorTotal = remessa.ValorUnitario * remessa.Quantidade;
 
             List<Faccao> faccoes = _remessaRepository.GetFaccoes();
             ViewBag.Faccoes = new SelectList(faccoes, "FaccaoId", "Nome", remessa.FaccaoId);
@@ -140,6 +140,18 @@ namespace RemessaFaccao.Web.Controllers
                 Console.WriteLine("Erro ao excluír remessa {0}. {1}", id, dateTime);
                 return View(remessa);
             }
+        }
+
+        public ActionResult ToPrint(int id)
+        {
+            Remessa result = _remessaRepository.GetById(id);
+
+            if (result == null)
+            {
+                ModelState.AddModelError("", "Falha ao localizar!");
+                return View();
+            }
+            return View(result);
         }
     }
 }

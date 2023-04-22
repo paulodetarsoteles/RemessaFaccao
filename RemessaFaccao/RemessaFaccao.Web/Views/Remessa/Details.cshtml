@@ -35,10 +35,76 @@
             @Html.DisplayFor(model => model.Referencia)
         </dd>
         <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.Piloto)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Piloto)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.Modelo)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Modelo)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.Tecido)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Tecido)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.Descricao)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Descricao)
+        </dd>
+        <dt class = "col-sm-3">
             @Html.DisplayNameFor(model => model.Quantidade)
         </dt>
         <dd class = "col-sm-9">
             @Html.DisplayFor(model => model.Quantidade)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.Tamanho1)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Tamanho1)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.Tamanho2)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Tamanho2)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.Tamanho4)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Tamanho4)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.Tamanho6)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Tamanho6)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.Tamanho8)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Tamanho8)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.Tamanho10)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Tamanho10)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.Tamanho12)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Tamanho12)
         </dd>
         <dt class = "col-sm-3">
             @Html.DisplayNameFor(model => model.ValorUnitario)
@@ -82,4 +148,8 @@
 <div>
     @Html.ActionLink("Editar", "Edit", new {id = Model.RemessaId }, new { @class="btn btn-warning"}) 
     <a asp-action="Index" class="btn btn-secondary">Voltar</a>
+</div>
+<br />
+<div>
+    @Html.ActionLink("Versão para impressão", "ToPrint", new {id = Model.RemessaId }, new { @target="_blank", @class="btn btn-dark" }) 
 </div>

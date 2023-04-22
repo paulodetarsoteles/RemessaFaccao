@@ -3,12 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemessaFaccao.Web", "RemessaFaccao.Web\RemessaFaccao.Web.csproj", "{C37E0546-D376-4863-967B-D5F0DBE0A830}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RemessaFaccao.Web", "RemessaFaccao.Web\RemessaFaccao.Web.csproj", "{C37E0546-D376-4863-967B-D5F0DBE0A830}"
 	ProjectSection(ProjectDependencies) = postProject
 		{3036F8C7-09CE-4510-AEA7-327AF5D7A09A} = {3036F8C7-09CE-4510-AEA7-327AF5D7A09A}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemessaFaccao.DAL", "RemessaFaccao.DAL\RemessaFaccao.DAL.csproj", "{3036F8C7-09CE-4510-AEA7-327AF5D7A09A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RemessaFaccao.DAL", "RemessaFaccao.DAL\RemessaFaccao.DAL.csproj", "{3036F8C7-09CE-4510-AEA7-327AF5D7A09A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

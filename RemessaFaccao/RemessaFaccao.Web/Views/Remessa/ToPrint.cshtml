@@ -1,0 +1,105 @@
+﻿@model RemessaFaccao.DAL.Models.Remessa
+
+@{
+    Layout = null; 
+    ViewData["Title"] = "Remessa";
+}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        .titulo {
+            text-align: center;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            margin-left: 5px; 
+            margin-right: 5px; 
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1 class="titulo">Remessa @Html.DisplayFor(model => model.RemessaId)</h1>
+    </header>
+    <br />
+    <table align="center" width="80%" border="1px" style="border-collapse: collapse">
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.Faccao) : @Html.DisplayFor(model => model.FaccaoId)
+            </td>
+            <td>
+                @Html.DisplayNameFor(model => model.Referencia) : @Html.DisplayFor(model => model.Referencia)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.Piloto): @Html.DisplayFor(model => model.Piloto)
+            </td>
+            <td>
+                @Html.DisplayNameFor(model => model.Modelo): @Html.DisplayFor(model => model.Modelo)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.Tecido): @Html.DisplayFor(model => model.Tecido)
+            </td>
+            <td>
+                @Html.DisplayNameFor(model => model.Quantidade): @Html.DisplayFor(model => model.Quantidade)
+            </td>
+        </tr>
+        <tr>
+            <td rowspan="7">
+            </td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+
+            </td>
+            <td>
+
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

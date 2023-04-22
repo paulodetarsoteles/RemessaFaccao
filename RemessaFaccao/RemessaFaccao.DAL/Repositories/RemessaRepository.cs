@@ -21,10 +21,10 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
         {
             List<Remessa> result = new();
             SqlCommand command = new("SELECT TOP 100 RemessaId, Referencia, StatusRemessa ,Quantidade, ValorTotal " +
-                         "FROM Remessa (NOLOCK) " +
-                         "WHERE StatusRemessa <> 4 " +
-                         "ORDER BY StatusRemessa DESC, " +
-                         "FaccaoId ASC; ");
+                                     "FROM Remessa (NOLOCK) " +
+                                     "WHERE StatusRemessa <> 4 " +
+                                     "ORDER BY StatusRemessa DESC, " +
+                                     "FaccaoId ASC; ");
             SqlDataReader reader;
 
             try
@@ -218,6 +218,10 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 {
                     result.RemessaId = Convert.ToInt32(reader["RemessaId"]);
                     result.Referencia = reader["Referencia"].ToString();
+                    result.Piloto = reader["Piloto"].ToString();
+                    result.Modelo = reader["Modelo"].ToString();
+                    result.Tecido = reader["Tecido"].ToString();
+                    result.Descricao = reader["Descricao"].ToString();
                     result.Quantidade = Convert.ToInt32(reader["Quantidade"]);
                     result.ValorUnitario = Convert.ToDecimal(reader["ValorUnitario"]);
                     result.ValorTotal = Convert.ToDecimal(reader["ValorTotal"]);
@@ -226,6 +230,41 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                     result.DataRecebimento = Convert.ToDateTime(reader["DataRecebimento"]);
                     result.StatusRemessa = (StatusRemessa)Convert.ToInt16(reader["StatusRemessa"]);
                     result.Observacoes = reader["Observacoes"].ToString();
+
+                    if (reader["Tamanho1"] != DBNull.Value)
+                        result.Tamanho1 = Convert.ToInt32(reader["Tamanho1"]);
+                    else
+                        result.Tamanho1 = 0;
+
+                    if (reader["Tamanho2"] != DBNull.Value)
+                        result.Tamanho2 = Convert.ToInt32(reader["Tamanho2"]);
+                    else
+                        result.Tamanho2 = 0;
+
+                    if (reader["Tamanho4"] != DBNull.Value)
+                        result.Tamanho4 = Convert.ToInt32(reader["Tamanho4"]);
+                    else
+                        result.Tamanho4 = 0;
+
+                    if (reader["Tamanho6"] != DBNull.Value)
+                        result.Tamanho6 = Convert.ToInt32(reader["Tamanho6"]);
+                    else
+                        result.Tamanho6 = 0;
+
+                    if (reader["Tamanho8"] != DBNull.Value)
+                        result.Tamanho8 = Convert.ToInt32(reader["Tamanho8"]);
+                    else
+                        result.Tamanho8 = 0;
+
+                    if (reader["Tamanho10"] != DBNull.Value)
+                        result.Tamanho10 = Convert.ToInt32(reader["Tamanho10"]);
+                    else
+                        result.Tamanho10 = 0;
+
+                    if (reader["Tamanho12"] != DBNull.Value)
+                        result.Tamanho12 = Convert.ToInt32(reader["Tamanho12"]);
+                    else
+                        result.Tamanho12 = 0;
 
                     if (reader["FaccaoId"] != DBNull.Value)
                         result.FaccaoId = Convert.ToInt32(reader["FaccaoId"]);
@@ -387,7 +426,18 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.Add("@FaccaoId", SqlDbType.Int).Value = remessa.FaccaoId;
                 command.Parameters.Add("@Referencia", SqlDbType.VarChar).Value = remessa.Referencia;
+                command.Parameters.Add("@Piloto", SqlDbType.VarChar).Value = remessa.Piloto;
+                command.Parameters.Add("@Modelo", SqlDbType.VarChar).Value = remessa.Modelo;
+                command.Parameters.Add("@Tecido", SqlDbType.VarChar).Value = remessa.Tecido;
+                command.Parameters.Add("@Descricao", SqlDbType.VarChar).Value = remessa.Descricao;
                 command.Parameters.Add("@Quantidade", SqlDbType.Int).Value = remessa.Quantidade;
+                command.Parameters.Add("@Tamanho1", SqlDbType.Int).Value = remessa.Tamanho1;
+                command.Parameters.Add("@Tamanho2", SqlDbType.Int).Value = remessa.Tamanho2;
+                command.Parameters.Add("@Tamanho4", SqlDbType.Int).Value = remessa.Tamanho4;
+                command.Parameters.Add("@Tamanho6", SqlDbType.Int).Value = remessa.Tamanho6;
+                command.Parameters.Add("@Tamanho8", SqlDbType.Int).Value = remessa.Tamanho8;
+                command.Parameters.Add("@Tamanho10", SqlDbType.Int).Value = remessa.Tamanho10;
+                command.Parameters.Add("@Tamanho12", SqlDbType.Int).Value = remessa.Tamanho12;
                 command.Parameters.Add("@ValorUnitario", SqlDbType.Decimal).Value = remessa.ValorUnitario;
                 command.Parameters.Add("@ValorTotal", SqlDbType.Decimal).Value = remessa.ValorTotal;
                 command.Parameters.Add("@DataDeEntrega", SqlDbType.DateTime).Value = remessa.DataDeEntrega;
@@ -427,7 +477,18 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 command.Parameters.Add("@RemessaId", SqlDbType.Int).Value = id;
                 command.Parameters.Add("@FaccaoId", SqlDbType.Int).Value = remessa.FaccaoId;
                 command.Parameters.Add("@Referencia", SqlDbType.VarChar).Value = remessa.Referencia;
+                command.Parameters.Add("@Piloto", SqlDbType.VarChar).Value = remessa.Piloto;
+                command.Parameters.Add("@Modelo", SqlDbType.VarChar).Value = remessa.Modelo;
+                command.Parameters.Add("@Tecido", SqlDbType.VarChar).Value = remessa.Tecido;
+                command.Parameters.Add("@Descricao", SqlDbType.VarChar).Value = remessa.Descricao;
                 command.Parameters.Add("@Quantidade", SqlDbType.Int).Value = remessa.Quantidade;
+                command.Parameters.Add("@Tamanho1", SqlDbType.Int).Value = remessa.Tamanho1;
+                command.Parameters.Add("@Tamanho2", SqlDbType.Int).Value = remessa.Tamanho2;
+                command.Parameters.Add("@Tamanho4", SqlDbType.Int).Value = remessa.Tamanho4;
+                command.Parameters.Add("@Tamanho6", SqlDbType.Int).Value = remessa.Tamanho6;
+                command.Parameters.Add("@Tamanho8", SqlDbType.Int).Value = remessa.Tamanho8;
+                command.Parameters.Add("@Tamanho10", SqlDbType.Int).Value = remessa.Tamanho10;
+                command.Parameters.Add("@Tamanho12", SqlDbType.Int).Value = remessa.Tamanho12;
                 command.Parameters.Add("@ValorUnitario", SqlDbType.Decimal).Value = remessa.ValorUnitario;
                 command.Parameters.Add("@ValorTotal", SqlDbType.Decimal).Value = remessa.ValorTotal;
                 command.Parameters.Add("@DataDeEntrega", SqlDbType.DateTime).Value = remessa.DataDeEntrega;
