@@ -1,4 +1,4 @@
-﻿@model List<RemessaFaccao.DAL.Models.ViewModels.LoginViewModel>
+﻿@model IEnumerable<RemessaFaccao.DAL.Models.ViewModels.LoginViewModel>
 
 @{
     ViewData["Title"] = "Lista de Usuários";
@@ -16,7 +16,7 @@
         <thead>
             <tr>
                 <th>
-                    Nome
+                    @Html.DisplayNameFor(model => model.Username)
                 </th>
                 <th></th>
             </tr>
