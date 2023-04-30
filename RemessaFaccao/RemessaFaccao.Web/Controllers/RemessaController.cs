@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.IdentityModel.Tokens;
 using RemessaFaccao.DAL.Models;
 using RemessaFaccao.DAL.Models.Enums;
 using RemessaFaccao.DAL.Repositories.Interfaces;
@@ -18,6 +19,7 @@ namespace RemessaFaccao.Web.Controllers
         }
 
         // GET: RemessaController
+        [HttpGet]
         public ActionResult Index()
         {
             _remessaRepository.UpdateStatus();
@@ -25,6 +27,7 @@ namespace RemessaFaccao.Web.Controllers
         }
 
         // GET: RemessaController/Details/5
+        [HttpGet]
         public ActionResult Details(int id)
         {
             Remessa result = _remessaRepository.GetById(id);
@@ -38,9 +41,10 @@ namespace RemessaFaccao.Web.Controllers
         }
 
         // GET: RemessaController/Create
+        [HttpGet]
         public ActionResult Create()
         {
-            List<Faccao> faccoes = _remessaRepository.GetFaccoes();
+            List<Faccao> faccoes = _remessaRepository.GetFaccoesAtivas();
             ViewBag.Faccoes = new SelectList(faccoes, "FaccaoId", "Nome");
 
             return View();
@@ -51,10 +55,16 @@ namespace RemessaFaccao.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Remessa remessa)
         {
+            if (!ModelState.IsValid || ModelState.IsNullOrEmpty())
+            {
+                ModelState.AddModelError("", "Objeto inválido!");
+                return View(remessa);
+            }
+
             remessa.ValorTotal = remessa.ValorUnitario * remessa.Quantidade;
             remessa.StatusRemessa = StatusRemessa.Preparada;
 
-            List<Faccao> faccoes = _remessaRepository.GetFaccoes();
+            List<Faccao> faccoes = _remessaRepository.GetFaccoesAtivas();
             ViewBag.Faccoes = new SelectList(faccoes, "FaccaoId", "Nome");
 
             bool result = _remessaRepository.Insert(remessa);
@@ -73,13 +83,13 @@ namespace RemessaFaccao.Web.Controllers
         }
 
         // GET: RemessaController/Edit/5
+        [HttpGet]
         public ActionResult Edit(int id)
         {
-            List<Faccao> faccoes = _remessaRepository.GetFaccoes();
+            List<Faccao> faccoes = _remessaRepository.GetFaccoesAtivas();
             ViewBag.Faccoes = new SelectList(faccoes, "FaccaoId", "Nome");
 
-            Remessa remessa = _remessaRepository.GetById(id);
-            return View(remessa);
+            return View(_remessaRepository.GetById(id));
         }
 
         // POST: RemessaController/Edit/5
@@ -87,10 +97,17 @@ namespace RemessaFaccao.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, Remessa remessa)
         {
+            if (!ModelState.IsValid || ModelState.IsNullOrEmpty())
+            {
+                ModelState.AddModelError("", "Objeto inválido!");
+                return View(remessa);
+            }
+
             remessa.RemessaId = id;
+            remessa.Quantidade = remessa.Tamanho1 + remessa.Tamanho2 + remessa.Tamanho4 + remessa.Tamanho6 + remessa.Tamanho8 + remessa.Tamanho10 + remessa.Tamanho12; 
             remessa.ValorTotal = remessa.ValorUnitario * remessa.Quantidade;
 
-            List<Faccao> faccoes = _remessaRepository.GetFaccoes();
+            List<Faccao> faccoes = _remessaRepository.GetFaccoesAtivas();
             ViewBag.Faccoes = new SelectList(faccoes, "FaccaoId", "Nome", remessa.FaccaoId);
 
             bool result = _remessaRepository.Update(id, remessa);
@@ -109,10 +126,10 @@ namespace RemessaFaccao.Web.Controllers
         }
 
         // GET: RemessaController/Delete/5
+        [HttpGet]
         public ActionResult Delete(int id)
         {
-            Remessa remessa = _remessaRepository.GetById(id);
-            return View(remessa);
+            return View(_remessaRepository.GetById(id));
         }
 
         // POST: RemessaController/Delete/5

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using RemessaFaccao.DAL.Models;
 using RemessaFaccao.DAL.Models.ViewModels;
 
 namespace RemessaFaccao.Web.Controllers
@@ -130,7 +131,7 @@ namespace RemessaFaccao.Web.Controllers
 
         #endregion
 
-        #region Index_Details_Edit_Delete
+        #region Index_Details_Edit
 
         // GET: AccountController
         [HttpGet]
@@ -142,36 +143,22 @@ namespace RemessaFaccao.Web.Controllers
 
         // GET: AccountController/Details/5
         [HttpGet]
-        public ActionResult Details(string userId)
+        public ActionResult Details(string userName)
         {
-            IdentityUser result = _userManager.FindByIdAsync(userId).Result;
-
-            if (result == null)
-            {
-                ModelState.AddModelError("", "Falha ao localizar!");
-                return View();
-            }
-            return View(result);
+            return View(_userManager.FindByNameAsync(userName).Result);
         }
 
         // GET: AccountController/Edit/
         [HttpGet]
-        public ActionResult Edit(string id)
+        public ActionResult Edit(string userName)
         {
-            IdentityUser result = _userManager.FindByIdAsync(id).Result;
-
-            if (result == null)
-            {
-                ModelState.AddModelError("", "Falha ao localizar usuário!");
-                return View();
-            }
-            return View(result);
+            return View(_userManager.FindByNameAsync(userName).Result);
         }
 
         // POST: AccountController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(string id, LoginViewModel user)
+        public ActionResult Edit(string userName, LoginViewModel user)
         {
             if (ModelState.IsValid && !ModelState.IsNullOrEmpty())
             {
@@ -179,30 +166,23 @@ namespace RemessaFaccao.Web.Controllers
 
                 try
                 {
-                    IdentityUser result = _userManager.FindByIdAsync(id).Result;
+                    IdentityUser result = _userManager.FindByNameAsync(userName).Result;
 
-                    if (result == null)
+                    result.UserName = user.Username; 
+                    result.Email = user.Email;
+                    result.PasswordHash = user.Password; 
+
+                    Task<IdentityResult> identityResult = _userManager.UpdateAsync(result);
+
+                    if (identityResult != null)
                     {
-                        ModelState.AddModelError("", "Falha ao localizar usuário!");
-                        return View();
+                        return RedirectToAction(nameof(Index));
                     }
                     else
                     {
-                        result.UserName = user.Username;
-                        result.Email = user.Email;
-                        result.PasswordHash = user.Password;
-
-                        Task<IdentityResult> identityResult = _userManager.UpdateAsync(result);
-                        if (identityResult != null)
-                        {
-                            return RedirectToAction(nameof(Index));
-                        }
-                        else
-                        {
-                            Console.WriteLine("Falha ao tentar atualizar user {0}. {1}", user.Username, dateTime);
-                            ModelState.AddModelError("", "Falha ao tentar atualizar usuário!");
-                            return View(user);
-                        }
+                        Console.WriteLine("Falha ao tentar atualizar user {0}. {1}", user.Username, dateTime);
+                        ModelState.AddModelError("", "Falha ao tentar atualizar usuário!");
+                        return View(user);
                     }
                 }
                 catch (Exception)
@@ -217,23 +197,6 @@ namespace RemessaFaccao.Web.Controllers
                 ModelState.AddModelError("", "Falha ao carregar usuário!");
                 return View();
             }
-        }
-
-        // GET: AccountController/Delete/5
-        [HttpGet]
-        public ActionResult Delete(string id)
-        {
-            //TODO
-            return View();
-        }
-
-        // POST: AccountController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(string id, LoginViewModel user)
-        {
-            //TODO
-            return View();
         }
 
         #endregion

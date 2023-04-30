@@ -1,0 +1,40 @@
+﻿@model RemessaFaccao.DAL.Models.Aviamento
+
+@{
+    ViewData["Title"] = "Excluir";
+}
+
+<h1>Excluir</h1>
+
+<h3>ATENÇÃO!!!</h3>
+<div>
+    <div class="internal">
+        <h4>Aviamento</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.AviamentoId)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.AviamentoId)
+            </dd>
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.Nome)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Nome)
+            </dd>
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.Observacoes)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Observacoes)
+            </dd>
+        </dl>
+    </div>
+    <br />
+    <form asp-action="Delete">
+        <input type="submit" value="Excluir" class="btn btn-danger" />
+        <a asp-action="Index" class="btn btn-secondary">Voltar</a>
+    </form>
+</div>

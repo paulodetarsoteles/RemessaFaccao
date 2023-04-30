@@ -1,0 +1,47 @@
+﻿@model List<RemessaFaccao.DAL.Models.ViewModels.LoginViewModel>
+
+@{
+    ViewData["Title"] = "Lista de Usuários";
+}
+
+<h1>Lista de Usuários</h1>
+<p>
+    <a asp-action="Register" class="btn btn-primary">
+        <i class="bi-plus"></i>
+        Adicionar
+    </a>
+</p>
+<div class="col-md-8">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Nome
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        &nbsp;&nbsp;&nbsp;&nbsp; @Html.DisplayFor(modelItem => item.Username)
+                    </td>
+                    <td>
+                        <span>
+                            <a href="@Url.Action("Details", new { id=item.Username })" class="btn btn-secondary">
+                                <i class="bi-clipboard"></i>
+                            </a>
+                        </span>
+                        <span>
+                            <a href="@Url.Action("Edit", new { id=item.Username })" class="btn btn-warning">
+                                <i class="bi-pencil"></i>
+                            </a>
+                        </span>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

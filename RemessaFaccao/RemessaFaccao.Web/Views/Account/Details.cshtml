@@ -1,0 +1,31 @@
+﻿@model RemessaFaccao.DAL.Models.ViewModels.LoginViewModel
+
+@{
+    ViewData["Title"] = "Detalhes";
+}
+
+<h1>Detalhes</h1>
+
+<div class="internal">
+    <h4>Usuário</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Username)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Username)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+    </dl>
+</div>
+<br />
+<div>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.Username }, new { @class = "btn btn-warning"}) 
+    <a asp-action="Index" class="btn btn-secondary">Voltar</a>
+</div>

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using RemessaFaccao.DAL.Models;
 using RemessaFaccao.DAL.Setting;
 
@@ -21,26 +22,26 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             {
                 return _connectionEf.Aviamento.ToList();
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                throw new Exception("Erro ao acessar informações do banco de dados. " + ex.Message);
+                throw new Exception("Erro ao acessar informações do banco de dados. " + e.Message);
             }
         }
 
         public Aviamento GetById(int id)
         {
-            Aviamento result = new(); 
+            Aviamento result = new();
 
             try
             {
                 result = _connectionEf.Aviamento.FirstOrDefault(x => x.AviamentoId == id);
 
-                if (result == null)
+                if (result is null)
                     return null;
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                throw new Exception("Erro ao acessar informações do banco de dados. " + ex.Message);
+                throw new Exception("Erro ao acessar informações do banco de dados. " + e.Message);
             }
             return result;
         }
@@ -52,12 +53,12 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             try
             {
                 result = _connectionEf.Aviamento.Select(a => a.AviamentoId).ToList().Count;
-                
+
                 return result;
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                throw new Exception("Erro ao acessar informações do banco de dados. " + ex.Message);
+                throw new Exception("Erro ao acessar informações do banco de dados. " + e.Message);
             }
         }
 
@@ -69,24 +70,59 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             {
                 _connectionEf.Add(aviamento);
 
-                if (_connectionEf.SaveChanges() != 0) 
+                if (_connectionEf.SaveChanges() != 0)
                     result = true;
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                throw new Exception("Erro ao acessar informações do banco de dados. " + ex.Message);
+                throw new Exception("Erro ao acessar informações do banco de dados. " + e.Message);
             }
             return result;
         }
 
         public bool Update(int id, Aviamento aviamento)
         {
-            throw new NotImplementedException();
+            bool result = false;
+
+            try
+            {
+                aviamento.AviamentoId = id;
+                _connectionEf.Update(aviamento);
+
+                if (_connectionEf.SaveChanges() != 0)
+                    result = true;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Erro ao acessar informações do banco de dados. " + e.Message);
+            }
+            return result;
         }
 
         public bool Delete(int id)
         {
-            throw new NotImplementedException();
+            bool result = false;
+
+            try
+            {
+                Aviamento aviamento = GetById(id);
+
+                if (aviamento is null)
+                    throw new Exception("Id não encontrado. ");
+
+                else
+                {
+                    _connectionEf.Aviamento.Remove(aviamento);
+
+                    if (_connectionEf.SaveChanges() != 0)
+                        result = true;
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Erro ao acessar informações do banco de dados. " + e.Message);
+            }
+            return result;
         }
     }
 }

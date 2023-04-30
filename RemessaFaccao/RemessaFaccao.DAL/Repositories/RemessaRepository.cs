@@ -25,14 +25,14 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                                      "WHERE StatusRemessa <> 4 " +
                                      "ORDER BY StatusRemessa DESC, " +
                                      "FaccaoId ASC; ");
-            SqlDataReader reader;
 
             try
             {
                 command.Connection = new SqlConnection(_connection.SQLString);
                 command.Connection.Open();
                 command.CommandType = CommandType.Text;
-                reader = command.ExecuteReader();
+
+                SqlDataReader reader = command.ExecuteReader();
 
                 while (reader.Read())
                 {
@@ -62,14 +62,14 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
         {
             List<Remessa> result = new();
             SqlCommand command = new("dbo.RemessaGetNaoEnviadaParaProducao");
-            SqlDataReader reader;
 
             try
             {
                 command.Connection = new SqlConnection(_connection.SQLString);
                 command.Connection.Open();
                 command.CommandType = CommandType.Text;
-                reader = command.ExecuteReader();
+
+                SqlDataReader reader = command.ExecuteReader();
 
                 while (reader.Read())
                 {
@@ -96,14 +96,14 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
         {
             List<RemessaFaccaoViewModel> result = new();
             SqlCommand command = new("dbo.RemessaGetAtrasadas");
-            SqlDataReader reader;
 
             try
             {
                 command.Connection = new SqlConnection(_connection.SQLString);
                 command.Connection.Open();
                 command.CommandType = CommandType.StoredProcedure;
-                reader = command.ExecuteReader();
+
+                SqlDataReader reader = command.ExecuteReader();
 
                 while (reader.Read())
                 {
@@ -131,7 +131,6 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
         {
             List<RemessaFaccaoViewModel> result = new();
             SqlCommand command = new("dbo.RemessaGetEmProducao");
-            SqlDataReader reader;
 
             try
             {
@@ -139,7 +138,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 command.Connection.Open();
                 command.CommandType = CommandType.StoredProcedure;
 
-                reader = command.ExecuteReader();
+                SqlDataReader reader = command.ExecuteReader();
 
                 while (reader.Read())
                 {
@@ -167,7 +166,6 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
         {
             List<RemessaFaccaoViewModel> result = new();
             SqlCommand command = new("dbo.RemessaGetReceberHoje");
-            SqlDataReader reader;
 
             try
             {
@@ -175,7 +173,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 command.Connection.Open();
                 command.CommandType = CommandType.StoredProcedure;
 
-                reader = command.ExecuteReader();
+                SqlDataReader reader = command.ExecuteReader();
 
                 while (reader.Read())
                 {
@@ -203,7 +201,6 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
         {
             Remessa result = new();
             SqlCommand command = new("dbo.RemessaGetById");
-            SqlDataReader reader;
 
             try
             {
@@ -212,7 +209,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.Add("@RemessaID", SqlDbType.Int).Value = id;
 
-                reader = command.ExecuteReader();
+                SqlDataReader reader = command.ExecuteReader();
 
                 if (reader.Read())
                 {
@@ -377,7 +374,6 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                     command.Connection.Close();
             }
             return result;
-
         }
 
         public int CountEmProducao()
@@ -513,7 +509,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             SqlCommand command = new("dbo.RemessaUpdate");
 
             if (GetById(id) is null)
-                throw new Exception("ID da remessa não encontrado no banco de dados. ");
+                throw new Exception("Id da remessa não encontrado no banco de dados. ");
 
             try
             {
@@ -586,7 +582,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             SqlCommand command = new("dbo.RemessaDelete");
 
             if (GetById(id) is null)
-                throw new Exception("ID da remessa não encontrado no banco de dados. ");
+                throw new Exception("Id da remessa não encontrado no banco de dados. ");
 
             else
             {
@@ -613,19 +609,20 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             }
         }
 
-        public List<Faccao> GetFaccoes()
+        public List<Faccao> GetFaccoesAtivas()
         {
             List<Faccao> result = new();
             SqlCommand command = new("SELECT FaccaoId, Nome, Ativo " +
-                                     "FROM dbo.Faccao (NOLOCK); ");
-            SqlDataReader reader;
+                                     "FROM dbo.Faccao (NOLOCK) " +
+                                     "WHERE Faccao.Ativo = true; ");
 
             try
             {
                 command.Connection = new(_connection.SQLString);
                 command.Connection.Open();
                 command.CommandType = CommandType.Text;
-                reader = command.ExecuteReader();
+
+                SqlDataReader reader = command.ExecuteReader();
 
                 while (reader.Read())
                 {
