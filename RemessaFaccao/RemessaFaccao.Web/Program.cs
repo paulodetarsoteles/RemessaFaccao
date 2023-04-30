@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RemessaFaccao.DAL.Repositories.Interfaces;
+using RemessaFaccao.DAL.Service;
 using RemessaFaccao.DAL.Setting;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +13,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IFaccaoRepository, FaccaoRepository>();
 builder.Services.AddScoped<IRemessaRepository, RemessaRepository>();
 builder.Services.AddScoped<IAviamentoRepository, AviamentoRepository>();
+builder.Services.AddScoped<SeedUserRoleInitial>();
+builder.Services.AddAuthorization(options => options.AddPolicy("Admin", p => p.RequireRole("Admin")));
 builder.Services.Configure<ConnectionSetting>(connectDb);
 builder.Services.AddDbContext<ConnectionDbContext>(options => options.UseSqlServer(connectId));
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
@@ -34,6 +37,9 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+
+builder.Services.BuildServiceProvider().GetService<SeedUserRoleInitial>().SeedRoles();
+builder.Services.BuildServiceProvider().GetService<SeedUserRoleInitial>().SeedUsers();
 
 var app = builder.Build();
 

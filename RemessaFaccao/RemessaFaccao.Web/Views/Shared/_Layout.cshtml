@@ -34,11 +34,14 @@
                                 <a class="nav-link text-light" asp-area="" asp-controller="Aviamento" asp-action="Index">Aviamento</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="Register">Novo Usuário</a>
-                            </li>
-                            <li class="nav-item">
                                 <a class="nav-link text-light" asp-area="" asp-controller="Relatorios" asp-action="Index">Relatórios</a>
                             </li>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="Register">Usuários</a>
+                                </li>
+                            }
                             <li class="nav-item">
                                 <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Contatos">Contatos</a>
                             </li>

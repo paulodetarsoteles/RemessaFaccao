@@ -4,6 +4,7 @@ using RemessaFaccao.DAL.Repositories.Interfaces;
 
 namespace RemessaFaccao.Web.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly IRemessaRepository _remessaRepository;
@@ -13,7 +14,6 @@ namespace RemessaFaccao.Web.Controllers
             _remessaRepository = remessaRepository;
         }
 
-        [Authorize]
         public IActionResult Index()
         {
             _remessaRepository.UpdateStatus();
@@ -31,7 +31,6 @@ namespace RemessaFaccao.Web.Controllers
             return View();
         }
 
-        [Authorize]
         public IActionResult Contatos()
         {
             return View();

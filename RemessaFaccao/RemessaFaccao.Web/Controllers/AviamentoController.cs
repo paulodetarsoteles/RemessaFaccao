@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RemessaFaccao.DAL.Models;
 using RemessaFaccao.DAL.Repositories.Interfaces;
 
 namespace RemessaFaccao.Web.Controllers
 {
+    [Authorize]
     public class AviamentoController : Controller
     {
         private readonly IAviamentoRepository _aviamentoRepository;
