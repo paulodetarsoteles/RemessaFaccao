@@ -23,6 +23,12 @@ namespace RemessaFaccao.Web.Controllers
         public ActionResult Index()
         {
             _remessaRepository.UpdateStatus();
+
+            ViewData["contagem"] = _remessaRepository.CountReceberHoje() + 
+                           _remessaRepository.CountEnviarParaProducao() + 
+                           _remessaRepository.CountEmProducao() + 
+                           _remessaRepository.CountAtrasadas(); 
+
             return View(_remessaRepository.GetAll());
         }
 

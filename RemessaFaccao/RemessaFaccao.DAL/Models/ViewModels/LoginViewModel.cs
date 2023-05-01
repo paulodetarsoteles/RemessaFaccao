@@ -17,6 +17,10 @@ namespace RemessaFaccao.DAL.Models.ViewModels
         [DataType(DataType.Password)]
         public string Confirm { get; set; }
 
+        [Display(Name = "Senha atual")]
+        [DataType(DataType.Password)]
+        public string PasswordOld { get; set; }
+
         [RegularExpression(".+\\@.+\\..+", ErrorMessage = "Informe um email válido")]
         public string Email { get; set; }
 

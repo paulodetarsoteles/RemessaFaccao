@@ -614,7 +614,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             List<Faccao> result = new();
             SqlCommand command = new("SELECT FaccaoId, Nome, Ativo " +
                                      "FROM dbo.Faccao (NOLOCK) " +
-                                     "WHERE Faccao.Ativo = true; ");
+                                     "WHERE Faccao.Ativo = 1; ");
 
             try
             {

@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using RemessaFaccao.DAL.Models;
 using RemessaFaccao.DAL.Repositories.Interfaces;
@@ -21,7 +20,6 @@ namespace RemessaFaccao.Web.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            _aviamentoRepository.Count();
             return View(_aviamentoRepository.GetAll());
         }
 

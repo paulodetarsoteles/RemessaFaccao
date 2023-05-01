@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using RemessaFaccao.DAL.Models;
 using RemessaFaccao.DAL.Models.ViewModels;
 
 namespace RemessaFaccao.Web.Controllers
@@ -137,65 +136,102 @@ namespace RemessaFaccao.Web.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            List<IdentityUser> result = _userManager.Users.ToList();
-            return View(result);
+            List<IdentityUser> identities = _userManager.Users.ToList();
+            List<LoginViewModel> logins = new();
+
+            foreach (IdentityUser identity in identities)
+            {
+                LoginViewModel login = new();
+
+                login.Username = identity.UserName;
+                logins.Add(login);
+            }
+
+            return View(logins);
         }
 
-        // GET: AccountController/Details/5
+        // GET: AccountController/Details/admin
         [HttpGet]
         public ActionResult Details(string userName)
         {
-            return View(_userManager.FindByNameAsync(userName).Result);
+            IdentityUser identity = _userManager.FindByNameAsync(userName).Result;
+            LoginViewModel login = new();
+
+            login.Username = identity.UserName;
+            login.Email = identity.Email;
+
+            return View(login);
         }
 
-        // GET: AccountController/Edit/
+        // GET: AccountController/Edit/admin
         [HttpGet]
         public ActionResult Edit(string userName)
         {
-            return View(_userManager.FindByNameAsync(userName).Result);
+            IdentityUser identity = _userManager.FindByNameAsync(userName).Result;
+            LoginViewModel login = new();
+
+            login.Username = identity.UserName;
+            login.Email = identity.Email;
+
+            return View(login);
         }
 
-        // POST: AccountController/Edit/5
+        // POST: AccountController/Edit/admin
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(string userName, LoginViewModel user)
         {
-            if (ModelState.IsValid && !ModelState.IsNullOrEmpty())
-            {
-                DateTime dateTime = DateTime.Now;
-
-                try
-                {
-                    IdentityUser result = _userManager.FindByNameAsync(userName).Result;
-
-                    result.UserName = user.Username; 
-                    result.Email = user.Email;
-                    result.PasswordHash = user.Password; 
-
-                    Task<IdentityResult> identityResult = _userManager.UpdateAsync(result);
-
-                    if (identityResult != null)
-                    {
-                        return RedirectToAction(nameof(Index));
-                    }
-                    else
-                    {
-                        Console.WriteLine("Falha ao tentar atualizar user {0}. {1}", user.Username, dateTime);
-                        ModelState.AddModelError("", "Falha ao tentar atualizar usuário!");
-                        return View(user);
-                    }
-                }
-                catch (Exception)
-                {
-                    Console.WriteLine("Erro ao atualizar user {0}. {1}", user.Username, dateTime);
-                    ModelState.AddModelError("", "Erro ao atualizar usuário!");
-                    return View(user);
-                }
-            }
-            else
+            if (!ModelState.IsValid && ModelState.IsNullOrEmpty())
             {
                 ModelState.AddModelError("", "Falha ao carregar usuário!");
-                return View();
+                return View(user);
+            }
+
+            if (user.Password != user.Confirm)
+            {
+                ModelState.AddModelError("", "Senha e conformação devem ser iguais. ");
+                return View(user);
+            }
+
+            if (user.PasswordOld is null)
+            {
+                ModelState.AddModelError("", "Favor preencher senha atual. ");
+                return View(user);
+            }
+
+            DateTime dateTime = DateTime.Now;
+
+            try
+            {
+                IdentityUser result = _userManager.FindByNameAsync(userName).Result;
+
+                result.UserName = user.Username;
+                result.Email = user.Email;
+
+                Task<IdentityResult> identityPass = _userManager.ChangePasswordAsync(result, user.PasswordOld, user.Password);
+
+                if (identityPass is null || !identityPass.Result.Succeeded)
+                {
+                    ModelState.AddModelError("", "Senha atual inválida. ");
+                    return View(user);
+                }
+
+                Task<IdentityResult> identityResult = _userManager.UpdateAsync(result);
+
+                if (identityResult is null)
+                {
+                    Console.WriteLine("Falha ao tentar atualizar user {0}. {1}", user.Username, dateTime);
+                    ModelState.AddModelError("", "Falha ao tentar atualizar usuário!");
+                    return View(user);
+                }
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Erro ao atualizar user {0}. {1}" + e.Message, user.Username, dateTime);
+                ModelState.AddModelError("", "Erro ao atualizar usuário!");
+                return View(user);
             }
         }
 
