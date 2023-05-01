@@ -18,15 +18,10 @@ namespace RemessaFaccao.Web.Controllers
         {
             _remessaRepository.UpdateStatus();
 
-            int enviarParaProducao = _remessaRepository.CountEnviarParaProducao();
-            int emProducao = _remessaRepository.CountEmProducao();
-            int atrasadas = _remessaRepository.CountAtrasadas();
-            int receberHoje = _remessaRepository.CountReceberHoje();
-
-            ViewData["EnviarParaProducao"] = enviarParaProducao;
-            ViewData["EmProducao"] = emProducao;
-            ViewData["Atrasadas"] = atrasadas;
-            ViewData["ReceberHoje"] = receberHoje;
+            ViewData["EnviarParaProducao"] = _remessaRepository.CountEnviarParaProducao();
+            ViewData["EmProducao"] = _remessaRepository.CountEmProducao();
+            ViewData["Atrasadas"] = _remessaRepository.CountAtrasadas();
+            ViewData["ReceberHoje"] = _remessaRepository.CountReceberHoje();
 
             return View();
         }
