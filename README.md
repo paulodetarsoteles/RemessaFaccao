@@ -5,7 +5,7 @@ Projeto usando ASP.Net MVC
 Backend: C# 
 Frontend: HTML, CSS, Razor
 
-Atutenticação: Identity
+Autenticação: Identity
 
 Outras ferramentas e frameworks: ADO.Net e Entity Framework 
 
