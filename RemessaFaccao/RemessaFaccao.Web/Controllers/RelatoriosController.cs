@@ -10,5 +10,30 @@ namespace RemessaFaccao.Web.Controllers
         {
             return RedirectToAction("Index", "Manutencao"); 
         }
+
+        public IActionResult RelatorioEnviarParaProducao()
+        {
+            return RedirectToAction("Index", "Manutencao");
+        }
+
+        public IActionResult RelatorioEmProducao()
+        {
+            return RedirectToAction("Index", "Manutencao");
+        }
+
+        public IActionResult RelatorioAtrasadas()
+        {
+            return RedirectToAction("Index", "Manutencao");
+        }
+
+        public IActionResult RelatorioReceberHoje()
+        {
+            return RedirectToAction("Index", "Manutencao");
+        }
+
+        public IActionResult RelatorioPersonalizado()
+        {
+            return RedirectToAction("Index", "Manutencao");
+        }
     }
 }

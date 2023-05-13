@@ -9,23 +9,31 @@
 
 <div class="containerHome">
     <div class="boxHome">
-        <div class="internal">
-            <h5 class="text-center text-warning">Remessas para enviar para produção: @ViewData["EnviarParaProducao"]</h5>
-        </div>
+        <a href="@Url.Action("Index", "Manutencao")">
+            <div class="internal">
+                <h5 class="text-center text-warning">Remessas para enviar para produção: @ViewData["EnviarParaProducao"]</h5>
+            </div>
+        </a>
     </div>
     <div class="boxHome">
-        <div class="internal">
-            <h5 class="text-center text-dark">Remessas em produção nesse momento: @ViewData["EmProducao"]</h5>
-        </div>
+        <a href="@Url.Action("Index", "Manutencao")">
+            <div class="internal">
+                <h5 class="text-center text-dark">Remessas em produção nesse momento: @ViewData["EmProducao"]</h5>
+            </div>
+        </a>
     </div>
     <div class="boxHome">
-        <div class="internal">
-            <h5 class="text-center text-danger">Remessas atrasadas: @ViewData["Atrasadas"]</h5>
-        </div>
+        <a href="@Url.Action("Index", "Manutencao")">
+            <div class="internal">
+                <h5 class="text-center text-danger">Remessas atrasadas: @ViewData["Atrasadas"]</h5>
+            </div>
+        </a>
     </div>
     <div class="boxHome">
-        <div class="internal">
-            <h5 class="text-center text-success">Remessas para receber hoje: @ViewData["ReceberHoje"]</h5>
-        </div>
+        <a href="@Url.Action("Index", "Manutencao")">
+            <div class="internal">
+                <h5 class="text-center text-success">Remessas para receber hoje: @ViewData["ReceberHoje"]</h5>
+            </div>
+        </a>
     </div>
 </div>

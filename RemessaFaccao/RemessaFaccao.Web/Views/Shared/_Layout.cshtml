@@ -33,8 +33,18 @@
                             <li class="nav-item">
                                 <a class="nav-link text-light" asp-area="" asp-controller="Aviamento" asp-action="Index">Aviamento</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Relatorios" asp-action="Index">Relatórios</a>
+                            <li>
+                                <a href="#" class="nav-link dropdown-toggle text-light" data-toggle="dropdown">
+                                    Relatórios<span class="caret"></span>
+                                </a>
+                                <ul class="dropdown dropdown-menu">
+                                    <li><a asp-area="" asp-controller="Relatorios" asp-action="RelatorioReceberHoje">Remessas para enviar para produção</a></li>
+                                    <li><a asp-area="" asp-controller="Relatorios" asp-action="RelatorioReceberHoje">Remessas em produção nesse momento</a></li>
+                                    <li><a asp-area="" asp-controller="Relatorios" asp-action="RelatorioReceberHoje">Remessas atrasadas</a></li>
+                                    <li><a asp-area="" asp-controller="Relatorios" asp-action="RelatorioReceberHoje">Remessas p/ Receber Hoje</a></li>
+                                    <li class="nav-divider"></li>
+                                    <li><a asp-area="" asp-controller="Relatorios" asp-action="RelatorioPersonalizado">Relatório Personalizado</a></li>
+                                </ul>
                             </li>
                             @if (User.IsInRole("Admin"))
                             {
@@ -60,7 +70,7 @@
                         </form>
                     </div>
                 }
-                else{ }
+                else { }
             </div>
         </nav>
     </header>
