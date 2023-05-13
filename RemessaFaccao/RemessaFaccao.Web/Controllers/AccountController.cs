@@ -11,11 +11,13 @@ namespace RemessaFaccao.Web.Controllers
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
         }
 
         #region Login
@@ -24,7 +26,43 @@ namespace RemessaFaccao.Web.Controllers
         [AllowAnonymous]
         public IActionResult Login(string? returnUrl)
         {
-            return View(new LoginViewModel() { ReturnUrl = returnUrl });
+            try
+            {
+                if (!_roleManager.RoleExistsAsync("Admin").Result)
+                {
+                    IdentityRole role = new IdentityRole();
+                    role.Name = "Admin";
+                    role.NormalizedName = "ADMIN";
+                    IdentityResult roleResult = _roleManager.CreateAsync(role).Result;
+                }
+
+                if (_userManager.FindByEmailAsync("admin@localhost").Result == null)
+                {
+                    IdentityUser user = new();
+                    user.UserName = "admin";
+                    user.Email = "admin@localhost";
+                    user.NormalizedUserName = "ADMIN";
+                    user.NormalizedEmail = "ADMIN@LOCALHOST";
+                    user.EmailConfirmed = true;
+                    user.LockoutEnabled = false;
+                    user.SecurityStamp = Guid.NewGuid().ToString();
+
+                    IdentityResult result = _userManager.CreateAsync(user, "admin123").Result;
+
+                    if (result.Succeeded)
+                    {
+                        _userManager.AddToRoleAsync(user, "Admin").Wait();
+                    }
+                }
+
+                return View(new LoginViewModel() { ReturnUrl = returnUrl });
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ModelState.AddModelError("", "Falha ao realizar comunicação com o banco de dados!");
+                return View();
+            }
         }
 
         [HttpPost]
@@ -56,8 +94,9 @@ namespace RemessaFaccao.Web.Controllers
                 ModelState.AddModelError("", "Falha ao realizar login!");
                 return View(login);
             }
-            catch
+            catch (Exception e)
             {
+                Console.WriteLine(e.Message);
                 ModelState.AddModelError("", "Falha ao realizar comunicação com o banco de dados!");
                 return View(login);
             }

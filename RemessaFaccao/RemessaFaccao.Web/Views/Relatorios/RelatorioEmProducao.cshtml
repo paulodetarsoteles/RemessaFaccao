@@ -1,0 +1,47 @@
+﻿@model IEnumerable<RemessaFaccao.DAL.Models.ViewModels.RemessaFaccaoViewModel>
+
+@{
+    ViewData["Title"] = "Relatório de Remessas Em Produção";
+}
+
+<h1>Remessas Em Produção Neste Momento</h1>
+
+<div class="col-md-8">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    &nbsp;&nbsp;&nbsp;&nbsp; @Html.DisplayNameFor(model => model.RemessaId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Referencia)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Quantidade)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Nome)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        &nbsp;&nbsp;&nbsp;&nbsp; @Html.DisplayFor(modelItem => item.RemessaId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Referencia)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Quantidade)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nome)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

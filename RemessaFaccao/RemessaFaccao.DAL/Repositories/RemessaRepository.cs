@@ -75,6 +75,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 {
                     result.Add(new Remessa
                     {
+                        RemessaId = Convert.ToInt32(reader["RemessaId"]), 
                         Referencia = reader["Referencia"].ToString(),
                         Quantidade = Convert.ToInt32(reader["Quantidade"])
                     });
@@ -109,6 +110,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 {
                     result.Add(new RemessaFaccaoViewModel
                     {
+                        RemessaId = Convert.ToInt32(reader["RemessaId"]), 
                         Nome = reader["Nome"].ToString(),
                         Referencia = reader["Referencia"].ToString(),
                         Quantidade = Convert.ToInt32(reader["Quantidade"])
@@ -144,6 +146,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 {
                     result.Add(new RemessaFaccaoViewModel
                     {
+                        RemessaId = Convert.ToInt32(reader["RemessaId"]), 
                         Nome = reader["Nome"].ToString(),
                         Referencia = reader["Referencia"].ToString(),
                         Quantidade = Convert.ToInt32(reader["Quantidade"])
@@ -179,6 +182,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 {
                     result.Add(new RemessaFaccaoViewModel
                     {
+                        RemessaId = Convert.ToInt32(reader["RemessaId"]),
                         Nome = reader["Nome"].ToString(),
                         Referencia = reader["Referencia"].ToString(),
                         Quantidade = Convert.ToInt32(reader["Quantidade"])

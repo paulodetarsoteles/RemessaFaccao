@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,6 +10,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/RemessaFaccao.Web.styles.css" asp-append-version="true" />
 </head>
+
 <body>
     <header>
         <nav class="headInternal text-light navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
@@ -23,7 +25,7 @@
                 @if (user.IsSignedIn(User) && User.Identity is not null && User.Identity.Name is not null)
                 {
                     <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between text-light">
-                        <ul class="navbar-nav flex-grow-1 text-light">
+                        <ul class="nav navbar-nav">
                             <li class="nav-item">
                                 <a class="nav-link text-light" asp-area="" asp-controller="Faccao" asp-action="Index">Facção</a>
                             </li>
@@ -33,17 +35,17 @@
                             <li class="nav-item">
                                 <a class="nav-link text-light" asp-area="" asp-controller="Aviamento" asp-action="Index">Aviamento</a>
                             </li>
-                            <li>
-                                <a href="#" class="nav-link dropdown-toggle text-light" data-toggle="dropdown">
-                                    Relatórios<span class="caret"></span>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-light" data-bs-toggle="dropdown" href="#" id="navbarDropdown1" role="button" aria-expanded="false">
+                                    Relatórios
                                 </a>
-                                <ul class="dropdown dropdown-menu">
-                                    <li><a asp-area="" asp-controller="Relatorios" asp-action="RelatorioReceberHoje">Remessas para enviar para produção</a></li>
-                                    <li><a asp-area="" asp-controller="Relatorios" asp-action="RelatorioReceberHoje">Remessas em produção nesse momento</a></li>
-                                    <li><a asp-area="" asp-controller="Relatorios" asp-action="RelatorioReceberHoje">Remessas atrasadas</a></li>
-                                    <li><a asp-area="" asp-controller="Relatorios" asp-action="RelatorioReceberHoje">Remessas p/ Receber Hoje</a></li>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Relatorios" asp-action="RelatorioEnviarParaProducao">Remessas para enviar para produção</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Relatorios" asp-action="RelatorioEmProducao">Remessas em produção nesse momento</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Relatorios" asp-action="RelatorioAtrasadas">Remessas atrasadas</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Relatorios" asp-action="RelatorioReceberHoje">Remessas p/ Receber Hoje</a></li>
                                     <li class="nav-divider"></li>
-                                    <li><a asp-area="" asp-controller="Relatorios" asp-action="RelatorioPersonalizado">Relatório Personalizado</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Relatorios" asp-action="RelatorioPersonalizado">Relatório Personalizado</a></li>
                                 </ul>
                             </li>
                             @if (User.IsInRole("Admin"))
@@ -74,6 +76,7 @@
             </div>
         </nav>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -85,9 +88,11 @@
             &copy; 2023 - RemessaFaccao.Web - <a asp-area="" asp-controller="Home" asp-action="Contatos">Contatos</a>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
 </body>
 </html>
