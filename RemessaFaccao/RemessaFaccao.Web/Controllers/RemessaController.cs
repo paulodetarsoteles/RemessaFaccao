@@ -20,16 +20,51 @@ namespace RemessaFaccao.Web.Controllers
 
         // GET: RemessaController
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string search)
         {
             _remessaRepository.UpdateStatus();
 
-            ViewData["contagem"] = _remessaRepository.CountReceberHoje() + 
-                           _remessaRepository.CountEnviarParaProducao() + 
-                           _remessaRepository.CountEmProducao() + 
-                           _remessaRepository.CountAtrasadas(); 
+            ViewData["contagem"] = _remessaRepository.CountReceberHoje() + _remessaRepository.CountEnviarParaProducao() + _remessaRepository.CountEmProducao() + _remessaRepository.CountAtrasadas();
+            ViewData["statusSort"] = String.IsNullOrEmpty(sortOrder) ? "StatusDesc" : "";
+            ViewData["referenciaSort"] = sortOrder == "Referencia" ? "ReferenciaDesc" : "Referencia";
+            ViewData["quantidadeSort"] = sortOrder == "Quantidade" ? "QuantidadeDesc" : "Quantidade";
+            ViewData["valorSort"] = sortOrder == "ValorTotal" ? "ValorTotalDesc" : "ValorTotal";
+            ViewData["CurrentFilter"] = search;
 
-            return View(_remessaRepository.GetAll());
+            IEnumerable<Remessa> remessas = from r in _remessaRepository.GetAll() select r;
+
+            if (!String.IsNullOrEmpty(search))
+                remessas = remessas.Where(s => s.Referencia.Contains(search));
+
+            switch (sortOrder)
+            {
+                case "StatusDesc":
+                    remessas = remessas.OrderByDescending(r => r.StatusRemessa); 
+                    break;
+                case "Referencia":
+                    remessas = remessas.OrderBy(r => r.Referencia); 
+                    break;
+                case "ReferenciaDesc":
+                    remessas = remessas.OrderByDescending(r => r.Referencia);
+                    break;
+                case "Quantidade":
+                    remessas = remessas.OrderBy(r => r.Quantidade); 
+                    break;
+                case "QuantidadeDesc":
+                    remessas = remessas.OrderByDescending(r => r.Quantidade);
+                    break;
+                case "ValorTotal":
+                    remessas = remessas.OrderBy(r => r.ValorTotal);
+                    break;
+                case "ValorTotalDesc":
+                    remessas = remessas.OrderByDescending(r => r.ValorTotal);
+                    break;
+                default:
+                    remessas = remessas.OrderBy(r => r.StatusRemessa); 
+                    break;
+            }
+
+            return View(remessas.ToList());
         }
 
         // GET: RemessaController/Details/5

@@ -5,13 +5,20 @@
 }
 
 <h1>Lista de Remessas</h1>
-<p>Total de Remessas Pendentes: @ViewData["contagem"]</p>
 <p>
+    Total de Remessas Pendentes: @ViewData["contagem"]&nbsp;
+</p>
+<div>
     <a asp-action="Create" class="btn btn-primary">
         <i class="bi-plus"></i>
         Adicionar
     </a>
-</p>
+    <form asp-action="Index" method="get">
+        <input type="text" name="search" value="@ViewData["CurrentFilter"]" placeholder="Pesquisar por Referência" />
+        <input type="submit" value="&#128269;" class="btn btn-light" />
+    </form>
+
+</div>
 <div class="col-md-8">
     <table class="table">
         <thead>
@@ -20,16 +27,16 @@
                     &nbsp;&nbsp;&nbsp;&nbsp; @Html.DisplayNameFor(model => model.RemessaId)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Referencia)
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["statusSort"]">@Html.DisplayNameFor(model => model.StatusRemessa)</a>
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.StatusRemessa)
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["referenciaSort"]">@Html.DisplayNameFor(model => model.Referencia)</a>
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Quantidade)
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["quantidadeSort"]">@Html.DisplayNameFor(model => model.Quantidade)</a>
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.ValorTotal)
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["valorSort"]">@Html.DisplayNameFor(model => model.ValorTotal)</a>
                 </th>
                 <th></th>
             </tr>
@@ -42,10 +49,10 @@
                         &nbsp;&nbsp;&nbsp;&nbsp; @Html.DisplayFor(modelItem => item.RemessaId)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Referencia)
+                        @Html.DisplayFor(modelItem => item.StatusRemessa)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.StatusRemessa)
+                        @Html.DisplayFor(modelItem => item.Referencia)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Quantidade)
