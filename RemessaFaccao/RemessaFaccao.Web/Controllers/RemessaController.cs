@@ -73,7 +73,7 @@ namespace RemessaFaccao.Web.Controllers
         {
             Remessa result = _remessaRepository.GetById(id);
 
-            if (result == null)
+            if (result is null)
             {
                 ModelState.AddModelError("", "Falha ao localizar!");
                 return View();
@@ -85,9 +85,7 @@ namespace RemessaFaccao.Web.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            List<Faccao> faccoes = _remessaRepository.GetFaccoesAtivas();
-            ViewBag.Faccoes = new SelectList(faccoes, "FaccaoId", "Nome");
-
+            ViewBag.Faccoes = new SelectList(_remessaRepository.GetFaccoesAtivas(), "FaccaoId", "Nome");
             return View();
         }
 
@@ -96,22 +94,20 @@ namespace RemessaFaccao.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Remessa remessa)
         {
-            if (!ModelState.IsValid || ModelState.IsNullOrEmpty())
+            if (!ModelState.IsValid || ModelState.IsNullOrEmpty() || remessa is null)
             {
                 ModelState.AddModelError("", "Objeto inválido!");
                 return View(remessa);
             }
 
+            ViewBag.Faccoes = new SelectList(_remessaRepository.GetFaccoesAtivas(), "FaccaoId", "Nome");
+            DateTime dateTime = DateTime.Now;
+            
             remessa.ValorTotal = remessa.ValorUnitario * remessa.Quantidade;
             remessa.StatusRemessa = StatusRemessa.Preparada;
 
-            List<Faccao> faccoes = _remessaRepository.GetFaccoesAtivas();
-            ViewBag.Faccoes = new SelectList(faccoes, "FaccaoId", "Nome");
 
-            bool result = _remessaRepository.Insert(remessa);
-            DateTime dateTime = DateTime.Now;
-
-            if (result)
+            if (_remessaRepository.Insert(remessa))
             {
                 Console.WriteLine("Remessa {0} adicionada com sucesso. {1}", remessa.Referencia, dateTime.ToString());
                 return RedirectToAction(nameof(Index));
@@ -127,9 +123,7 @@ namespace RemessaFaccao.Web.Controllers
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            List<Faccao> faccoes = _remessaRepository.GetFaccoesAtivas();
-            ViewBag.Faccoes = new SelectList(faccoes, "FaccaoId", "Nome");
-
+            ViewBag.Faccoes = new SelectList(_remessaRepository.GetFaccoesAtivas(), "FaccaoId", "Nome");
             return View(_remessaRepository.GetById(id));
         }
 
@@ -138,23 +132,20 @@ namespace RemessaFaccao.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, Remessa remessa)
         {
-            if (!ModelState.IsValid || ModelState.IsNullOrEmpty())
+            if (!ModelState.IsValid || ModelState.IsNullOrEmpty() || remessa is null)
             {
                 ModelState.AddModelError("", "Objeto inválido!");
                 return View(remessa);
             }
 
+            ViewBag.Faccoes = new SelectList(_remessaRepository.GetFaccoesAtivas(), "FaccaoId", "Nome", remessa.FaccaoId);
+            DateTime dateTime = DateTime.Now;
+
             remessa.RemessaId = id;
             remessa.Quantidade = remessa.Tamanho1 + remessa.Tamanho2 + remessa.Tamanho4 + remessa.Tamanho6 + remessa.Tamanho8 + remessa.Tamanho10 + remessa.Tamanho12; 
             remessa.ValorTotal = remessa.ValorUnitario * remessa.Quantidade;
 
-            List<Faccao> faccoes = _remessaRepository.GetFaccoesAtivas();
-            ViewBag.Faccoes = new SelectList(faccoes, "FaccaoId", "Nome", remessa.FaccaoId);
-
-            bool result = _remessaRepository.Update(id, remessa);
-            DateTime dateTime = DateTime.Now;
-
-            if (result)
+            if (_remessaRepository.Update(id, remessa))
             {
                 Console.WriteLine("Remessa {0} editada com sucesso. {1}", id, dateTime.ToString());
                 return RedirectToAction(nameof(Index));
@@ -178,10 +169,9 @@ namespace RemessaFaccao.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, Remessa remessa)
         {
-            bool result = _remessaRepository.Delete(id);
             DateTime dateTime = DateTime.Now;
 
-            if (result)
+            if (_remessaRepository.Delete(id))
             {
                 Console.WriteLine("Remessa {0} excluída com sucesso. {1}", id, dateTime);
                 return RedirectToAction(nameof(Index));
@@ -199,7 +189,7 @@ namespace RemessaFaccao.Web.Controllers
         {
             Remessa result = _remessaRepository.GetById(id);
 
-            if (result == null)
+            if (result is null)
             {
                 ModelState.AddModelError("", "Falha ao localizar!");
                 return View();
