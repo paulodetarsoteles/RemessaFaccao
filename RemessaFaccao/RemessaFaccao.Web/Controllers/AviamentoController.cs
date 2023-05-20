@@ -56,10 +56,9 @@ namespace RemessaFaccao.Web.Controllers
                 return View(aviamento);
             }
 
-            bool result = _aviamentoRepository.Insert(aviamento);
             DateTime dateTime = DateTime.Now;
 
-            if (result)
+            if (_aviamentoRepository.Insert(aviamento))
             {
                 Console.WriteLine("Aviamento {0} adicionado com sucesso. {1}", aviamento.Nome, dateTime);
                 return RedirectToAction(nameof(Index));
@@ -90,10 +89,9 @@ namespace RemessaFaccao.Web.Controllers
                 return View(aviamento); 
             }
 
-            bool result = _aviamentoRepository.Update(id, aviamento); 
             DateTime dateTime = DateTime.Now;
 
-            if (result)
+            if (_aviamentoRepository.Update(id, aviamento))
             {
                 Console.WriteLine("Aviamento {0} adicionado com sucesso. {1}", id, dateTime);
                 return RedirectToAction(nameof(Index));
@@ -118,10 +116,9 @@ namespace RemessaFaccao.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, Aviamento aviamento)
         {
-            bool result = _aviamentoRepository.Delete(id);
             DateTime dateTime = DateTime.Now;
 
-            if (result)
+            if (_aviamentoRepository.Delete(id))
             {
                 Console.WriteLine("Aviamento {0} excluído com sucesso. {1}", id, dateTime);
                 return RedirectToAction(nameof(Index));

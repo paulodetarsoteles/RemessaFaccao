@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using RemessaFaccao.DAL.Models.ViewModels;
+using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace RemessaFaccao.Web.Controllers
 {
@@ -36,7 +37,7 @@ namespace RemessaFaccao.Web.Controllers
                     IdentityResult roleResult = _roleManager.CreateAsync(role).Result;
                 }
 
-                if (_userManager.FindByEmailAsync("admin@localhost").Result == null)
+                if (_userManager.FindByEmailAsync("admin@localhost").Result is null)
                 {
                     IdentityUser user = new();
                     user.UserName = "admin";
@@ -47,9 +48,7 @@ namespace RemessaFaccao.Web.Controllers
                     user.LockoutEnabled = false;
                     user.SecurityStamp = Guid.NewGuid().ToString();
 
-                    IdentityResult result = _userManager.CreateAsync(user, "admin123").Result;
-
-                    if (result.Succeeded)
+                    if (_userManager.CreateAsync(user, "admin123").Result.Succeeded)
                     {
                         _userManager.AddToRoleAsync(user, "Admin").Wait();
                     }
@@ -75,9 +74,10 @@ namespace RemessaFaccao.Web.Controllers
             try
             {
                 IdentityUser user = await _userManager.FindByNameAsync(login.Username);
+
                 if (user is not null)
                 {
-                    var result = await _signInManager.PasswordSignInAsync(user, login.Password, false, false);
+                    SignInResult result = await _signInManager.PasswordSignInAsync(user, login.Password, false, false);
 
                     if (result.Succeeded)
                     {
@@ -255,9 +255,7 @@ namespace RemessaFaccao.Web.Controllers
                     return View(user);
                 }
 
-                Task<IdentityResult> identityResult = _userManager.UpdateAsync(result);
-
-                if (identityResult is null)
+                if (_userManager.UpdateAsync(result) is null)
                 {
                     Console.WriteLine("Falha ao tentar atualizar user {0}. {1}", user.Username, dateTime);
                     ModelState.AddModelError("", "Falha ao tentar atualizar usuário!");

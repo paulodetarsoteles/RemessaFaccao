@@ -117,10 +117,9 @@ namespace RemessaFaccao.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, Faccao faccao)
         {
-            bool result = _facaoRepository.Delete(id);
             DateTime dateTime = DateTime.Now;
 
-            if (result)
+            if (_facaoRepository.Delete(id))
             {
                 Console.WriteLine("Facção {0} excluída com sucesso. {1}", id, dateTime);
                 return RedirectToAction(nameof(Index));
