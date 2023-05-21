@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using RemessaFaccao.DAL.Models;
 using RemessaFaccao.DAL.Setting;
 
@@ -38,23 +37,20 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
 
                 if (result is null)
                     return null;
+
+                return result;
             }
             catch (Exception e)
             {
                 throw new Exception("Erro ao acessar informações do banco de dados. " + e.Message);
             }
-            return result;
         }
 
         public int Count()
         {
-            int result = 0;
-
             try
             {
-                result = _connectionEf.Aviamento.Select(a => a.AviamentoId).ToList().Count;
-
-                return result;
+                return _connectionEf.Aviamento.Select(a => a.AviamentoId).ToList().Count;
             }
             catch (Exception e)
             {
@@ -72,12 +68,13 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
 
                 if (_connectionEf.SaveChanges() != 0)
                     result = true;
+            
+                return result;
             }
             catch (Exception e)
             {
                 throw new Exception("Erro ao acessar informações do banco de dados. " + e.Message);
             }
-            return result;
         }
 
         public bool Update(int id, Aviamento aviamento)
@@ -91,12 +88,13 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
 
                 if (_connectionEf.SaveChanges() != 0)
                     result = true;
+            
+                return result;
             }
             catch (Exception e)
             {
                 throw new Exception("Erro ao acessar informações do banco de dados. " + e.Message);
             }
-            return result;
         }
 
         public bool Delete(int id)
@@ -116,13 +114,14 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
 
                     if (_connectionEf.SaveChanges() != 0)
                         result = true;
+            
+                    return result;
                 }
             }
             catch (Exception e)
             {
                 throw new Exception("Erro ao acessar informações do banco de dados. " + e.Message);
             }
-            return result;
         }
     }
 }

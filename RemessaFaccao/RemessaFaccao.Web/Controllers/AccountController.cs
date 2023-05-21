@@ -49,9 +49,7 @@ namespace RemessaFaccao.Web.Controllers
                     user.SecurityStamp = Guid.NewGuid().ToString();
 
                     if (_userManager.CreateAsync(user, "admin123").Result.Succeeded)
-                    {
                         _userManager.AddToRoleAsync(user, "Admin").Wait();
-                    }
                 }
 
                 return View(new LoginViewModel() { ReturnUrl = returnUrl });
@@ -68,36 +66,29 @@ namespace RemessaFaccao.Web.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginViewModel login)
         {
-            if (!ModelState.IsValid)
-                return View(login);
-
             try
             {
-                IdentityUser user = await _userManager.FindByNameAsync(login.Username);
+                if (!ModelState.IsValid)
+                    return View(login);
 
-                if (user is not null)
-                {
-                    SignInResult result = await _signInManager.PasswordSignInAsync(user, login.Password, false, false);
+                IdentityUser user = await _userManager.FindByNameAsync(login.Username) ?? throw new Exception("Usuário não encontrado");
+                SignInResult result = await _signInManager.PasswordSignInAsync(user, login.Password, false, false);
 
-                    if (result.Succeeded)
-                    {
-                        DateTime dateTime = DateTime.Now;
-                        Console.WriteLine("Usuário {0} registrado com sucesso. {1}", user.UserName, dateTime.ToString());
+                if (!result.Succeeded)
+                    throw new Exception("Falha ao realizar login!");
 
-                        if (string.IsNullOrEmpty(login.ReturnUrl))
-                            return RedirectToAction("Index", "Home");
-                        else
-                            return Redirect(login.ReturnUrl);
-                    }
-                }
+                if (!string.IsNullOrEmpty(login.ReturnUrl))
+                    return Redirect(login.ReturnUrl);
 
-                ModelState.AddModelError("", "Falha ao realizar login!");
-                return View(login);
+                DateTime dateTime = DateTime.Now;
+                Console.WriteLine("Usuário {0} logado com sucesso. {1}", user.UserName, dateTime.ToString());
+
+                return RedirectToAction("Index", "Home");
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                ModelState.AddModelError("", "Falha ao realizar comunicação com o banco de dados!");
+                ModelState.AddModelError("", e.Message);
                 return View(login);
             }
         }
@@ -118,37 +109,32 @@ namespace RemessaFaccao.Web.Controllers
         [Authorize(Policy = "Admin")]
         public async Task<IActionResult> Register(LoginViewModel userRegister)
         {
-            if (userRegister.Password == userRegister.Confirm)
-            {
-                if (ModelState.IsValid)
-                {
-                    DateTime dateTime = DateTime.Now;
-                    IdentityUser user = new();
-                    user.UserName = userRegister.Username;
-                    user.Email = userRegister.Email;
-                    IdentityResult result = await _userManager.CreateAsync(user, userRegister.Password);
+            DateTime dateTime = DateTime.Now;
 
-                    if (result.Succeeded)
-                    {
-                        Console.WriteLine("Usuário {0} registrado com sucesso. {1}", userRegister.Username, dateTime.ToString());
-                        return RedirectToAction("Index", "Home");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Erro ao registrar usuário {0}. {1}", userRegister.Username, dateTime.ToString());
-                        this.ModelState.AddModelError("Registro", "Erro ao registrar usuário.");
-                        return View(userRegister);
-                    }
-                }
-                else
-                {
-                    this.ModelState.AddModelError("Registro", "Usuário inválido.");
-                    return View(userRegister);
-                }
-            }
-            else
+            try
             {
-                this.ModelState.AddModelError("Registro", "Senha e confirmação não estão iguais.");
+                if (userRegister.Password != userRegister.Confirm)
+                    throw new Exception("Senha e confirmação não estão iguais.");
+
+                if (!ModelState.IsValid)
+                    throw new Exception("Usuário inválido.");
+
+                IdentityUser user = new();
+                user.UserName = userRegister.Username;
+                user.Email = userRegister.Email;
+
+                IdentityResult result = await _userManager.CreateAsync(user, userRegister.Password);
+
+                if (!result.Succeeded)
+                    throw new Exception("Erro ao registrar usuário.");
+
+                Console.WriteLine("Usuário {0} registrado com sucesso. {1}", userRegister.Username, dateTime.ToString());
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Erro ao registrar usuário {0}. {1} " + e.Message, userRegister.Username, dateTime.ToString());
+                this.ModelState.AddModelError("Registro", e.Message);
                 return View(userRegister);
             }
         }
@@ -162,9 +148,17 @@ namespace RemessaFaccao.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
-            HttpContext.Session.Clear();
-            await _signInManager.SignOutAsync();
-            return RedirectToAction("Login", "Account");
+            try
+            {
+                HttpContext.Session.Clear();
+                await _signInManager.SignOutAsync();
+                return RedirectToAction("Login", "Account");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return RedirectToAction("Login", "Account");
+            }
         }
 
         #endregion
@@ -175,44 +169,71 @@ namespace RemessaFaccao.Web.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            List<IdentityUser> identities = _userManager.Users.ToList();
-            List<LoginViewModel> logins = new();
-
-            foreach (IdentityUser identity in identities)
+            try
             {
-                LoginViewModel login = new();
+                List<IdentityUser> identities = _userManager.Users.ToList();
+                List<LoginViewModel> logins = new();
 
-                login.Username = identity.UserName;
-                logins.Add(login);
+                foreach (IdentityUser identity in identities)
+                {
+                    LoginViewModel login = new();
+
+                    login.Username = identity.UserName;
+                    logins.Add(login);
+                }
+
+                return View(logins);
             }
-
-            return View(logins);
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ModelState.AddModelError("", e.Message);
+                return View();
+            }
         }
 
         // GET: AccountController/Details/admin
         [HttpGet]
         public ActionResult Details(string userName)
         {
-            IdentityUser identity = _userManager.FindByNameAsync(userName).Result;
-            LoginViewModel login = new();
+            try
+            {
+                IdentityUser identity = _userManager.FindByNameAsync(userName).Result ?? throw new Exception("Usuário não encontrado. ");
+                LoginViewModel login = new();
 
-            login.Username = identity.UserName;
-            login.Email = identity.Email;
+                login.Username = identity.UserName;
+                login.Email = identity.Email;
 
-            return View(login);
+                return View(login);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ModelState.AddModelError("", e.Message);
+                return View();
+            }
         }
 
         // GET: AccountController/Edit/admin
         [HttpGet]
         public ActionResult Edit(string userName)
         {
-            IdentityUser identity = _userManager.FindByNameAsync(userName).Result;
-            LoginViewModel login = new();
+            try
+            {
+                IdentityUser identity = _userManager.FindByNameAsync(userName).Result ?? throw new Exception("Usuário não encontrado. ");
+                
+                LoginViewModel login = new();
+                login.Username = identity.UserName;
+                login.Email = identity.Email;
 
-            login.Username = identity.UserName;
-            login.Email = identity.Email;
-
-            return View(login);
+                return View(login);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ModelState.AddModelError("", e.Message);
+                return View();
+            }
         }
 
         // POST: AccountController/Edit/admin
@@ -220,29 +241,20 @@ namespace RemessaFaccao.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(string userName, LoginViewModel user)
         {
-            if (!ModelState.IsValid && ModelState.IsNullOrEmpty())
-            {
-                ModelState.AddModelError("", "Falha ao carregar usuário!");
-                return View(user);
-            }
-
-            if (user.Password != user.Confirm)
-            {
-                ModelState.AddModelError("", "Senha e conformação devem ser iguais. ");
-                return View(user);
-            }
-
-            if (user.PasswordOld is null)
-            {
-                ModelState.AddModelError("", "Favor preencher senha atual. ");
-                return View(user);
-            }
-
             DateTime dateTime = DateTime.Now;
 
             try
             {
-                IdentityUser result = _userManager.FindByNameAsync(userName).Result;
+                if (!ModelState.IsValid && ModelState.IsNullOrEmpty())
+                    throw new Exception("Falha ao carregar usuário!");
+
+                if (user.Password != user.Confirm)
+                    throw new Exception("Senha e conformação devem ser iguais. ");
+
+                if (user.PasswordOld is null)
+                    throw new Exception("Favor preencher senha atual. ");
+
+                IdentityUser result = _userManager.FindByNameAsync(userName).Result ?? throw new Exception("Usuário não encontrado. ");
 
                 result.UserName = user.Username;
                 result.Email = user.Email;
@@ -250,24 +262,17 @@ namespace RemessaFaccao.Web.Controllers
                 Task<IdentityResult> identityPass = _userManager.ChangePasswordAsync(result, user.PasswordOld, user.Password);
 
                 if (identityPass is null || !identityPass.Result.Succeeded)
-                {
-                    ModelState.AddModelError("", "Senha atual inválida. ");
-                    return View(user);
-                }
+                    throw new Exception("Senha atual inválida. ");
 
                 if (_userManager.UpdateAsync(result) is null)
-                {
-                    Console.WriteLine("Falha ao tentar atualizar user {0}. {1}", user.Username, dateTime);
-                    ModelState.AddModelError("", "Falha ao tentar atualizar usuário!");
-                    return View(user);
-                }
+                    throw new Exception("Falha ao tentar atualizar usuário!");
 
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception e)
             {
                 Console.WriteLine("Erro ao atualizar user {0}. {1}" + e.Message, user.Username, dateTime);
-                ModelState.AddModelError("", "Erro ao atualizar usuário!");
+                ModelState.AddModelError("", e.Message);
                 return View(user);
             }
         }

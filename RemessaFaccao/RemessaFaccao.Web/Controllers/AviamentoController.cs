@@ -20,22 +20,40 @@ namespace RemessaFaccao.Web.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            return View(_aviamentoRepository.GetAll());
+            try
+            {
+                return View(_aviamentoRepository.GetAll());
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ModelState.AddModelError("", e.Message);
+                return View();
+            }
         }
 
         // GET: AviamentoController/Details/5
         [HttpGet]
         public ActionResult Details(int id)
         {
-            Aviamento result = _aviamentoRepository.GetById(id);
-
-            if (result is null)
+            try
             {
-                ModelState.AddModelError("", "Falha ao localizar!");
+                Aviamento result = _aviamentoRepository.GetById(id);
+
+                if (result is null)
+                {
+                    ModelState.AddModelError("", "Falha ao localizar!");
+                    return View();
+                }
+
+                return View(result);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ModelState.AddModelError("", e.Message);
                 return View();
             }
-
-            return View(result);
         }
 
         // GET: AviamentoController/Create
@@ -50,23 +68,29 @@ namespace RemessaFaccao.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Aviamento aviamento)
         {
-            if (!ModelState.IsValid || ModelState.IsNullOrEmpty())
+            try
             {
-                ModelState.AddModelError("", "Objeto inválido!");
-                return View(aviamento);
-            }
+                if (!ModelState.IsValid || ModelState.IsNullOrEmpty())
+                {
+                    throw new Exception("Objeto inválido. ");
+                }
 
-            DateTime dateTime = DateTime.Now;
+                DateTime dateTime = DateTime.Now;
 
-            if (_aviamentoRepository.Insert(aviamento))
-            {
+                if (!_aviamentoRepository.Insert(aviamento))
+                {
+                    Console.WriteLine("Erro ao adicionar aviamento {0}. {1}", aviamento.Nome, dateTime);
+                    throw new Exception("Falha ao adicionar!");
+                }
+
                 Console.WriteLine("Aviamento {0} adicionado com sucesso. {1}", aviamento.Nome, dateTime);
                 return RedirectToAction(nameof(Index));
+
             }
-            else
+            catch (Exception e)
             {
-                Console.WriteLine("Erro ao adicionar aviamento {0}. {1}", aviamento.Nome, dateTime);
-                ModelState.AddModelError("", "Falha ao adicionar!");
+                Console.WriteLine(e.Message);
+                ModelState.AddModelError("", e.Message);
                 return View(aviamento);
             }
         }
@@ -75,7 +99,16 @@ namespace RemessaFaccao.Web.Controllers
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            return View(_aviamentoRepository.GetById(id));
+            try
+            {
+                return View(_aviamentoRepository.GetById(id));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ModelState.AddModelError("", e.Message);
+                return View();
+            }
         }
 
         // POST: AviamentoController/Edit/5
@@ -83,23 +116,28 @@ namespace RemessaFaccao.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, Aviamento aviamento)
         {
-            if (!ModelState.IsValid || ModelState.IsNullOrEmpty())
+            try
             {
-                ModelState.AddModelError("", "Objeto inválido!");
-                return View(aviamento); 
-            }
+                if (!ModelState.IsValid || ModelState.IsNullOrEmpty())
+                {
+                    throw new Exception("Objeto inválido!");
+                }
 
-            DateTime dateTime = DateTime.Now;
+                DateTime dateTime = DateTime.Now;
 
-            if (_aviamentoRepository.Update(id, aviamento))
-            {
+                if (!_aviamentoRepository.Update(id, aviamento))
+                {
+                    Console.WriteLine("Erro ao adicionar a aviamento {0}. {1}", id, dateTime);
+                    throw new Exception("Falha ao tentar atualizar aviamento!");
+                }
+
                 Console.WriteLine("Aviamento {0} adicionado com sucesso. {1}", id, dateTime);
                 return RedirectToAction(nameof(Index));
             }
-            else
+            catch (Exception e)
             {
-                Console.WriteLine("Erro ao adicionar a aviamento {0}. {1}", id, dateTime);
-                ModelState.AddModelError("", "Falha ao tentar atualizar aviamento!");
+                Console.WriteLine(e.Message);
+                ModelState.AddModelError("", e.Message);
                 return View(aviamento);
             }
         }
@@ -108,7 +146,16 @@ namespace RemessaFaccao.Web.Controllers
         [HttpGet]
         public ActionResult Delete(int id)
         {
-            return View(_aviamentoRepository.GetById(id));
+            try
+            {
+                return View(_aviamentoRepository.GetById(id));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ModelState.AddModelError("", e.Message);
+                return View();
+            }
         }
 
         // POST: AviamentoController/Delete/5
@@ -116,17 +163,23 @@ namespace RemessaFaccao.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, Aviamento aviamento)
         {
-            DateTime dateTime = DateTime.Now;
-
-            if (_aviamentoRepository.Delete(id))
+            try
             {
+                DateTime dateTime = DateTime.Now;
+
+                if (!_aviamentoRepository.Delete(id))
+                {
+                    Console.WriteLine("Erro ao excluir aviamento {0}. {1}", id, dateTime);
+                    throw new Exception("Falha ao tentar excluir aviamento!");
+                }
+
                 Console.WriteLine("Aviamento {0} excluído com sucesso. {1}", id, dateTime);
                 return RedirectToAction(nameof(Index));
             }
-            else
+            catch (Exception e)
             {
-                Console.WriteLine("Erro ao excluir aviamento {0}. {1}", id, dateTime);
-                ModelState.AddModelError("", "Falha ao tentar excluir aviamento!");
+                Console.WriteLine(e.Message);
+                ModelState.AddModelError("", e.Message);
                 return View(aviamento);
             }
         }

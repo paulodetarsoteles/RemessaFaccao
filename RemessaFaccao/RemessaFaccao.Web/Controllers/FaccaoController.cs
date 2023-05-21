@@ -20,21 +20,38 @@ namespace RemessaFaccao.Web.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            return View(_facaoRepository.GetAll());
+            try
+            {
+                return View(_facaoRepository.GetAll());
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ModelState.AddModelError("", e.Message);
+                return View();
+            }
         }
 
         // GET: FaccaoController/Details/5
         [HttpGet]
         public ActionResult Details(int id)
         {
-            Faccao result = _facaoRepository.GetById(id);
-
-            if (result == null)
+            try
             {
-                ModelState.AddModelError("", "Falha ao localizar!");
+                Faccao result = _facaoRepository.GetById(id);
+
+                if (result is null)
+                {
+                    throw new("Falha ao localizar!");
+                }
+                return View(result);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ModelState.AddModelError("", e.Message);
                 return View();
             }
-            return View(result);
         }
 
         // GET: FaccaoController/Create
@@ -49,25 +66,29 @@ namespace RemessaFaccao.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Faccao faccao)
         {
-            if (!ModelState.IsValid || ModelState.IsNullOrEmpty())
+            try
             {
-                ModelState.AddModelError("", "Objeto inválido!");
-                return View(faccao);
-            }
+                if (!ModelState.IsValid || ModelState.IsNullOrEmpty())
+                {
+                    throw new("Objeto inválido!");
+                }
 
-            bool result = _facaoRepository.Insert(faccao);
-            DateTime dateTime = DateTime.Now;
+                DateTime dateTime = DateTime.Now;
 
-            if (result)
-            {
+                if (!_facaoRepository.Insert(faccao))
+                {
+                    Console.WriteLine("Erro ao adicionar faccao {0}. {1}", faccao.Nome, dateTime);
+                    throw new("Falha ao tentar adicionar facção!");
+                }
+
                 Console.WriteLine("Faccao {0} adicionada com sucesso. {0}", faccao.Nome, dateTime);
                 return RedirectToAction(nameof(Index));
             }
-            else
+            catch (Exception e)
             {
-                Console.WriteLine("Erro ao adicionar faccao {0}. {1}", faccao.Nome, dateTime);
-                ModelState.AddModelError("", "Falha ao tentar adicionar facção!");
-                return View(faccao);
+                Console.WriteLine(e.Message);
+                ModelState.AddModelError("", e.Message);
+                return View();
             }
         }
 
