@@ -38,13 +38,7 @@ namespace RemessaFaccao.Web.Controllers
         {
             try
             {
-                Faccao result = _facaoRepository.GetById(id);
-
-                if (result is null)
-                {
-                    throw new("Falha ao localizar!");
-                }
-                return View(result);
+                return View(_facaoRepository.GetById(id));
             }
             catch (Exception e)
             {
@@ -69,17 +63,10 @@ namespace RemessaFaccao.Web.Controllers
             try
             {
                 if (!ModelState.IsValid || ModelState.IsNullOrEmpty())
-                {
                     throw new("Objeto inválido!");
-                }
 
                 DateTime dateTime = DateTime.Now;
-
-                if (!_facaoRepository.Insert(faccao))
-                {
-                    Console.WriteLine("Erro ao adicionar faccao {0}. {1}", faccao.Nome, dateTime);
-                    throw new("Falha ao tentar adicionar facção!");
-                }
+                _facaoRepository.Insert(faccao);
 
                 Console.WriteLine("Faccao {0} adicionada com sucesso. {0}", faccao.Nome, dateTime);
                 return RedirectToAction(nameof(Index));
@@ -96,7 +83,16 @@ namespace RemessaFaccao.Web.Controllers
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            return View(_facaoRepository.GetById(id));
+            try
+            {
+                return View(_facaoRepository.GetById(id));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ModelState.AddModelError("", e.Message);
+                return View();
+            }
         }
 
         // POST: FaccaoController/Edit/5
@@ -104,25 +100,22 @@ namespace RemessaFaccao.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, Faccao faccao)
         {
-            if (!ModelState.IsValid || ModelState.IsNullOrEmpty())
+            try
             {
-                ModelState.AddModelError("", "Objeto inválido!");
-                return View(faccao);
-            }
+                if (!ModelState.IsValid || ModelState.IsNullOrEmpty())
+                    throw new Exception("Objeto inválido!");
 
-            bool result = _facaoRepository.Update(id, faccao);
-            DateTime dateTime = DateTime.Now;
+                _facaoRepository.Update(id, faccao);
+                DateTime dateTime = DateTime.Now;
 
-            if (result)
-            {
                 Console.WriteLine("Facção {0} adicionada com sucesso. {1}", id, dateTime);
                 return RedirectToAction(nameof(Index));
             }
-            else
+            catch (Exception e)
             {
-                Console.WriteLine("Erro ao adicionar a facção {0}. {1}", id, dateTime);
-                ModelState.AddModelError("", "Falha ao tentar atualizar facção!");
-                return View(faccao);
+                Console.WriteLine(e.Message);
+                ModelState.AddModelError("", e.Message);
+                return View();
             }
         }
 
@@ -130,7 +123,16 @@ namespace RemessaFaccao.Web.Controllers
         [HttpGet]
         public ActionResult Delete(int id)
         {
-            return View(_facaoRepository.GetById(id));
+            try
+            {
+                return View(_facaoRepository.GetById(id));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ModelState.AddModelError("", e.Message);
+                return View();
+            }
         }
 
         // POST: FaccaoController/Delete/5
@@ -138,18 +140,19 @@ namespace RemessaFaccao.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, Faccao faccao)
         {
-            DateTime dateTime = DateTime.Now;
-
-            if (_facaoRepository.Delete(id))
+            try
             {
+                DateTime dateTime = DateTime.Now;
+                _facaoRepository.Delete(id);
+
                 Console.WriteLine("Facção {0} excluída com sucesso. {1}", id, dateTime);
                 return RedirectToAction(nameof(Index));
             }
-            else
+            catch (Exception e)
             {
-                Console.WriteLine("Erro ao excluir a facção {0}. {1}", id, dateTime);
-                ModelState.AddModelError("", "Falha ao tentar excluir facção!");
-                return View(faccao);
+                Console.WriteLine(e.Message);
+                ModelState.AddModelError("", e.Message);
+                return View(_facaoRepository.GetById(id));
             }
         }
     }

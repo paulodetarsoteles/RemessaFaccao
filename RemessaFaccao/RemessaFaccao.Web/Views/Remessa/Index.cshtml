@@ -15,10 +15,12 @@
     </a>
     <form asp-action="Index" method="get">
         <input type="text" name="search" value="@ViewData["CurrentFilter"]" placeholder="Pesquisar por Referência" />
-        <input type="submit" value="&#128269;" class="btn btn-light" />
+        <button type="submit" class="btn btn-outline-secondary">
+            <i class="bi bi-search"></i>
+        </button>
     </form>
-
 </div>
+<br />
 <div class="col-md-8">
     <table class="table">
         <thead>

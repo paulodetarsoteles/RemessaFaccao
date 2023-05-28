@@ -16,14 +16,23 @@ namespace RemessaFaccao.Web.Controllers
 
         public IActionResult Index()
         {
-            _remessaRepository.UpdateStatus();
+            try
+            {
+                _remessaRepository.UpdateStatus();
 
-            ViewData["EnviarParaProducao"] = _remessaRepository.CountEnviarParaProducao();
-            ViewData["EmProducao"] = _remessaRepository.CountEmProducao();
-            ViewData["Atrasadas"] = _remessaRepository.CountAtrasadas();
-            ViewData["ReceberHoje"] = _remessaRepository.CountReceberHoje();
+                ViewData["EnviarParaProducao"] = _remessaRepository.CountEnviarParaProducao();
+                ViewData["EmProducao"] = _remessaRepository.CountEmProducao();
+                ViewData["Atrasadas"] = _remessaRepository.CountAtrasadas();
+                ViewData["ReceberHoje"] = _remessaRepository.CountReceberHoje();
 
-            return View();
+                return View();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ModelState.AddModelError("", e.Message);
+                return View();
+            }
         }
 
         public IActionResult Contatos()

@@ -38,15 +38,7 @@ namespace RemessaFaccao.Web.Controllers
         {
             try
             {
-                Aviamento result = _aviamentoRepository.GetById(id);
-
-                if (result is null)
-                {
-                    ModelState.AddModelError("", "Falha ao localizar!");
-                    return View();
-                }
-
-                return View(result);
+                return View(_aviamentoRepository.GetById(id));
             }
             catch (Exception e)
             {
@@ -71,21 +63,13 @@ namespace RemessaFaccao.Web.Controllers
             try
             {
                 if (!ModelState.IsValid || ModelState.IsNullOrEmpty())
-                {
                     throw new Exception("Objeto inválido. ");
-                }
 
                 DateTime dateTime = DateTime.Now;
-
-                if (!_aviamentoRepository.Insert(aviamento))
-                {
-                    Console.WriteLine("Erro ao adicionar aviamento {0}. {1}", aviamento.Nome, dateTime);
-                    throw new Exception("Falha ao adicionar!");
-                }
+                _aviamentoRepository.Insert(aviamento);
 
                 Console.WriteLine("Aviamento {0} adicionado com sucesso. {1}", aviamento.Nome, dateTime);
                 return RedirectToAction(nameof(Index));
-
             }
             catch (Exception e)
             {
@@ -119,17 +103,10 @@ namespace RemessaFaccao.Web.Controllers
             try
             {
                 if (!ModelState.IsValid || ModelState.IsNullOrEmpty())
-                {
                     throw new Exception("Objeto inválido!");
-                }
 
                 DateTime dateTime = DateTime.Now;
-
-                if (!_aviamentoRepository.Update(id, aviamento))
-                {
-                    Console.WriteLine("Erro ao adicionar a aviamento {0}. {1}", id, dateTime);
-                    throw new Exception("Falha ao tentar atualizar aviamento!");
-                }
+                _aviamentoRepository.Update(id, aviamento);
 
                 Console.WriteLine("Aviamento {0} adicionado com sucesso. {1}", id, dateTime);
                 return RedirectToAction(nameof(Index));
@@ -166,12 +143,7 @@ namespace RemessaFaccao.Web.Controllers
             try
             {
                 DateTime dateTime = DateTime.Now;
-
-                if (!_aviamentoRepository.Delete(id))
-                {
-                    Console.WriteLine("Erro ao excluir aviamento {0}. {1}", id, dateTime);
-                    throw new Exception("Falha ao tentar excluir aviamento!");
-                }
+                _aviamentoRepository.Delete(id);
 
                 Console.WriteLine("Aviamento {0} excluído com sucesso. {1}", id, dateTime);
                 return RedirectToAction(nameof(Index));

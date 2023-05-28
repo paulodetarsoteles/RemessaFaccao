@@ -22,71 +22,91 @@ namespace RemessaFaccao.Web.Controllers
         [HttpGet]
         public ActionResult Index(string sortOrder, string search)
         {
-            _remessaRepository.UpdateStatus();
-
-            ViewData["contagem"] = _remessaRepository.CountReceberHoje() + _remessaRepository.CountEnviarParaProducao() + _remessaRepository.CountEmProducao() + _remessaRepository.CountAtrasadas();
-            ViewData["statusSort"] = String.IsNullOrEmpty(sortOrder) ? "StatusDesc" : "";
-            ViewData["referenciaSort"] = sortOrder == "Referencia" ? "ReferenciaDesc" : "Referencia";
-            ViewData["quantidadeSort"] = sortOrder == "Quantidade" ? "QuantidadeDesc" : "Quantidade";
-            ViewData["valorSort"] = sortOrder == "ValorTotal" ? "ValorTotalDesc" : "ValorTotal";
-            ViewData["CurrentFilter"] = search;
-
-            IEnumerable<Remessa> remessas = from r in _remessaRepository.GetAll() select r;
-
-            if (!String.IsNullOrEmpty(search))
-                remessas = remessas.Where(s => s.Referencia.Contains(search));
-
-            switch (sortOrder)
+            try
             {
-                case "StatusDesc":
-                    remessas = remessas.OrderByDescending(r => r.StatusRemessa); 
-                    break;
-                case "Referencia":
-                    remessas = remessas.OrderBy(r => r.Referencia); 
-                    break;
-                case "ReferenciaDesc":
-                    remessas = remessas.OrderByDescending(r => r.Referencia);
-                    break;
-                case "Quantidade":
-                    remessas = remessas.OrderBy(r => r.Quantidade); 
-                    break;
-                case "QuantidadeDesc":
-                    remessas = remessas.OrderByDescending(r => r.Quantidade);
-                    break;
-                case "ValorTotal":
-                    remessas = remessas.OrderBy(r => r.ValorTotal);
-                    break;
-                case "ValorTotalDesc":
-                    remessas = remessas.OrderByDescending(r => r.ValorTotal);
-                    break;
-                default:
-                    remessas = remessas.OrderBy(r => r.StatusRemessa); 
-                    break;
-            }
+                _remessaRepository.UpdateStatus();
 
-            return View(remessas.ToList());
+                ViewData["contagem"] = _remessaRepository.CountReceberHoje() + _remessaRepository.CountEnviarParaProducao() + _remessaRepository.CountEmProducao() + _remessaRepository.CountAtrasadas();
+                ViewData["statusSort"] = String.IsNullOrEmpty(sortOrder) ? "StatusDesc" : "";
+                ViewData["referenciaSort"] = sortOrder == "Referencia" ? "ReferenciaDesc" : "Referencia";
+                ViewData["quantidadeSort"] = sortOrder == "Quantidade" ? "QuantidadeDesc" : "Quantidade";
+                ViewData["valorSort"] = sortOrder == "ValorTotal" ? "ValorTotalDesc" : "ValorTotal";
+                ViewData["CurrentFilter"] = search;
+
+                IEnumerable<Remessa> remessas = from r in _remessaRepository.GetAll() select r;
+
+                if (!String.IsNullOrEmpty(search))
+                    remessas = remessas.Where(s => s.Referencia.Contains(search));
+
+                switch (sortOrder)
+                {
+                    case "StatusDesc":
+                        remessas = remessas.OrderByDescending(r => r.StatusRemessa);
+                        break;
+                    case "Referencia":
+                        remessas = remessas.OrderBy(r => r.Referencia);
+                        break;
+                    case "ReferenciaDesc":
+                        remessas = remessas.OrderByDescending(r => r.Referencia);
+                        break;
+                    case "Quantidade":
+                        remessas = remessas.OrderBy(r => r.Quantidade);
+                        break;
+                    case "QuantidadeDesc":
+                        remessas = remessas.OrderByDescending(r => r.Quantidade);
+                        break;
+                    case "ValorTotal":
+                        remessas = remessas.OrderBy(r => r.ValorTotal);
+                        break;
+                    case "ValorTotalDesc":
+                        remessas = remessas.OrderByDescending(r => r.ValorTotal);
+                        break;
+                    default:
+                        remessas = remessas.OrderBy(r => r.StatusRemessa);
+                        break;
+                }
+
+                return View(remessas.ToList());
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ModelState.AddModelError("", e.Message);
+                return View();
+            }
         }
 
         // GET: RemessaController/Details/5
         [HttpGet]
         public ActionResult Details(int id)
         {
-            Remessa result = _remessaRepository.GetById(id);
-
-            if (result is null)
+            try
             {
-                ModelState.AddModelError("", "Falha ao localizar!");
-                return View();
+                return View(_remessaRepository.GetById(id));
             }
-            return View(result);
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ModelState.AddModelError("", e.Message);
+                return RedirectToAction("Index", "Manutencao", e.Message);
+            }
         }
 
         // GET: RemessaController/Create
         [HttpGet]
         public ActionResult Create()
         {
-            ViewBag.Faccoes = new SelectList(_remessaRepository.GetFaccoesAtivas(), "FaccaoId", "Nome");
-            return View();
+            try
+            {
+                ViewBag.Faccoes = new SelectList(_remessaRepository.GetFaccoesAtivas(), "FaccaoId", "Nome");
+                return View();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ModelState.AddModelError("", e.Message);
+                return View();
+            }
         }
 
         // POST: RemessaController/Create
@@ -94,28 +114,28 @@ namespace RemessaFaccao.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Remessa remessa)
         {
-            if (!ModelState.IsValid || ModelState.IsNullOrEmpty() || remessa is null)
+            try
             {
-                ModelState.AddModelError("", "Objeto inválido!");
-                return View(remessa);
-            }
+                if (!ModelState.IsValid || ModelState.IsNullOrEmpty())
+                    throw new Exception("Objeto inválido!");
 
-            ViewBag.Faccoes = new SelectList(_remessaRepository.GetFaccoesAtivas(), "FaccaoId", "Nome");
-            DateTime dateTime = DateTime.Now;
-            
-            remessa.ValorTotal = remessa.ValorUnitario * remessa.Quantidade;
-            remessa.StatusRemessa = StatusRemessa.Preparada;
+                ViewBag.Faccoes = new SelectList(_remessaRepository.GetFaccoesAtivas(), "FaccaoId", "Nome");
+                DateTime dateTime = DateTime.Now;
 
+                remessa.Quantidade = remessa.Tamanho1 + remessa.Tamanho2 + remessa.Tamanho4 + remessa.Tamanho6 + remessa.Tamanho8 + remessa.Tamanho10 + remessa.Tamanho12;
+                remessa.ValorTotal = remessa.ValorUnitario * remessa.Quantidade;
+                remessa.StatusRemessa = StatusRemessa.Preparada;
 
-            if (_remessaRepository.Insert(remessa))
-            {
+                _remessaRepository.Insert(remessa);
+
                 Console.WriteLine("Remessa {0} adicionada com sucesso. {1}", remessa.Referencia, dateTime.ToString());
                 return RedirectToAction(nameof(Index));
             }
-            else
+            catch (Exception e)
             {
-                Console.WriteLine("Erro ao adicionar remessa {0}. {1}", remessa.Referencia, dateTime.ToString());
-                return View(remessa);
+                Console.WriteLine(e.Message);
+                ModelState.AddModelError("", e.Message);
+                return View();
             }
         }
 
@@ -123,8 +143,17 @@ namespace RemessaFaccao.Web.Controllers
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            ViewBag.Faccoes = new SelectList(_remessaRepository.GetFaccoesAtivas(), "FaccaoId", "Nome");
-            return View(_remessaRepository.GetById(id));
+            try
+            {
+                ViewBag.Faccoes = new SelectList(_remessaRepository.GetFaccoesAtivas(), "FaccaoId", "Nome");
+                return View(_remessaRepository.GetById(id));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ModelState.AddModelError("", e.Message);
+                return View();
+            }
         }
 
         // POST: RemessaController/Edit/5
@@ -132,28 +161,28 @@ namespace RemessaFaccao.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, Remessa remessa)
         {
-            if (!ModelState.IsValid || ModelState.IsNullOrEmpty() || remessa is null)
+            try
             {
-                ModelState.AddModelError("", "Objeto inválido!");
-                return View(remessa);
-            }
+                if (!ModelState.IsValid || ModelState.IsNullOrEmpty() || remessa is null)
+                    throw new Exception("Objeto inválido!");
 
-            ViewBag.Faccoes = new SelectList(_remessaRepository.GetFaccoesAtivas(), "FaccaoId", "Nome", remessa.FaccaoId);
-            DateTime dateTime = DateTime.Now;
+                ViewBag.Faccoes = new SelectList(_remessaRepository.GetFaccoesAtivas(), "FaccaoId", "Nome", remessa.FaccaoId);
+                DateTime dateTime = DateTime.Now;
 
-            remessa.RemessaId = id;
-            remessa.Quantidade = remessa.Tamanho1 + remessa.Tamanho2 + remessa.Tamanho4 + remessa.Tamanho6 + remessa.Tamanho8 + remessa.Tamanho10 + remessa.Tamanho12; 
-            remessa.ValorTotal = remessa.ValorUnitario * remessa.Quantidade;
+                remessa.RemessaId = id;
+                remessa.Quantidade = remessa.Tamanho1 + remessa.Tamanho2 + remessa.Tamanho4 + remessa.Tamanho6 + remessa.Tamanho8 + remessa.Tamanho10 + remessa.Tamanho12;
+                remessa.ValorTotal = remessa.ValorUnitario * remessa.Quantidade;
 
-            if (_remessaRepository.Update(id, remessa))
-            {
+                _remessaRepository.Update(id, remessa);
+
                 Console.WriteLine("Remessa {0} editada com sucesso. {1}", id, dateTime.ToString());
                 return RedirectToAction(nameof(Index));
             }
-            else
+            catch (Exception e)
             {
-                Console.WriteLine("Erro ao editar perfil {0}. {1}", id, dateTime.ToString());
-                return View(remessa);
+                Console.WriteLine(e.Message);
+                ModelState.AddModelError("", e.Message);
+                return View();
             }
         }
 
@@ -161,7 +190,16 @@ namespace RemessaFaccao.Web.Controllers
         [HttpGet]
         public ActionResult Delete(int id)
         {
-            return View(_remessaRepository.GetById(id));
+            try
+            {
+                return View(_remessaRepository.GetById(id));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ModelState.AddModelError("", e.Message);
+                return View();
+            }
         }
 
         // POST: RemessaController/Delete/5
@@ -169,17 +207,19 @@ namespace RemessaFaccao.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, Remessa remessa)
         {
-            DateTime dateTime = DateTime.Now;
-
-            if (_remessaRepository.Delete(id))
+            try
             {
+                DateTime dateTime = DateTime.Now;
+                _remessaRepository.Delete(id);
+
                 Console.WriteLine("Remessa {0} excluída com sucesso. {1}", id, dateTime);
                 return RedirectToAction(nameof(Index));
             }
-            else
+            catch (Exception e)
             {
-                Console.WriteLine("Erro ao excluír remessa {0}. {1}", id, dateTime);
-                return View(remessa);
+                Console.WriteLine(e.Message);
+                ModelState.AddModelError("", e.Message);
+                return View();
             }
         }
 
@@ -187,14 +227,16 @@ namespace RemessaFaccao.Web.Controllers
         [HttpGet]
         public ActionResult ToPrint(int id)
         {
-            Remessa result = _remessaRepository.GetById(id);
-
-            if (result is null)
+            try
             {
-                ModelState.AddModelError("", "Falha ao localizar!");
+                return View(_remessaRepository.GetById(id));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ModelState.AddModelError("", e.Message);
                 return View();
             }
-            return View(result);
         }
     }
 }

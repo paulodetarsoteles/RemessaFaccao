@@ -17,38 +17,92 @@ namespace RemessaFaccao.Web.Controllers
         // GET: RelatorioEnviarParaProducao
         public IActionResult RelatorioEnviarParaProducao()
         {
-            return View(_remessaRepository.GetNaoEnviadaParaProducao());
+            try
+            {
+                return View(_remessaRepository.GetNaoEnviadaParaProducao());
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ModelState.AddModelError("", e.Message);
+                return View();
+            }
         }
 
         // GET: RelatorioEmProducao
         public IActionResult RelatorioEmProducao()
         {
-            return View(_remessaRepository.GetEmProducao());
+            try
+            {
+                return View(_remessaRepository.GetEmProducao());
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ModelState.AddModelError("", e.Message);
+                return View();
+            }
         }
 
         // GET: RelatorioAtrasadas
         public IActionResult RelatorioAtrasadas()
         {
-            return View(_remessaRepository.GetAtrasadas());
+            try
+            {
+                return View(_remessaRepository.GetAtrasadas());
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ModelState.AddModelError("", e.Message);
+                return View();
+            }
         }
 
         // GET: RelatorioReceberHoje
         public IActionResult RelatorioReceberHoje()
         {
-            return View(_remessaRepository.GetReceberHoje());
+            try
+            {
+                return View(_remessaRepository.GetReceberHoje());
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ModelState.AddModelError("", e.Message);
+                return View();
+            }
         }
 
         // GET: RelatorioPersonalizado
         public IActionResult RelatorioPersonalizado()
         {
-            return RedirectToAction("Index", "Manutencao");
+            try
+            {
+                return RedirectToAction("Index", "Manutencao");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ModelState.AddModelError("", e.Message);
+                return View();
+            }
         }
 
         // POST: RelatorioPersonalizado
         [HttpPost]
         public IActionResult RelatorioPersonalizado(object model)
         {
-            return RedirectToAction("Index", "Manutencao");
+            try
+            {
+                return RedirectToAction("Index", "Manutencao");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ModelState.AddModelError("", e.Message);
+                return View();
+            }
         }
     }
 }

@@ -29,6 +29,9 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
 
                 SqlDataReader reader = command.ExecuteReader();
 
+                if (!reader.Read())
+                    throw new Exception("Nenhum objeto não encontrado. ");
+
                 while (reader.Read())
                 {
                     result.Add(new Faccao
@@ -65,19 +68,19 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
 
                 SqlDataReader reader = command.ExecuteReader();
 
-                if (reader.Read())
-                {
-                    result.FaccaoId = Convert.ToInt32(reader["FaccaoId"]);
-                    result.Nome = reader["Nome"].ToString();
-                    result.Endereco = reader["Endereco"].ToString();
-                    result.Email = reader["Email"].ToString();
-                    result.Telefone1 = reader["Telefone1"].ToString();
-                    result.Telefone1 = reader["Telefone2"].ToString();
-                    result.FormaDePagamento = reader["FormaDePagamento"].ToString();
-                    result.Qualificacao = Convert.ToInt32(reader["Qualificacao"]);
-                    result.Ativo = Convert.ToBoolean(reader["Ativo"]);
-                    result.Observacoes = reader["Observacoes"].ToString();
-                }
+                if (!reader.Read())
+                    throw new Exception("Objeto não encontrado. ");
+
+                result.FaccaoId = Convert.ToInt32(reader["FaccaoId"]);
+                result.Nome = reader["Nome"].ToString();
+                result.Endereco = reader["Endereco"].ToString();
+                result.Email = reader["Email"].ToString();
+                result.Telefone1 = reader["Telefone1"].ToString();
+                result.Telefone1 = reader["Telefone2"].ToString();
+                result.FormaDePagamento = reader["FormaDePagamento"].ToString();
+                result.Qualificacao = Convert.ToInt32(reader["Qualificacao"]);
+                result.Ativo = Convert.ToBoolean(reader["Ativo"]);
+                result.Observacoes = reader["Observacoes"].ToString();
             }
             catch (Exception e)
             {
@@ -223,7 +226,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 }
                 catch (Exception e)
                 {
-                    throw new Exception("Erro ao acessar informações do banco de dados. " + e.Message);
+                    throw new Exception("Erro ao excluir a facção, verifique se ela está vinculada a alguma remessa, por favor. ");
                 }
                 finally
                 {

@@ -34,6 +34,9 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
 
                 SqlDataReader reader = command.ExecuteReader();
 
+                if (!reader.Read())
+                    throw new Exception("Nenhum objeto não encontrado. ");
+
                 while (reader.Read())
                 {
                     result.Add(new Remessa
@@ -75,7 +78,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 {
                     result.Add(new Remessa
                     {
-                        RemessaId = Convert.ToInt32(reader["RemessaId"]), 
+                        RemessaId = Convert.ToInt32(reader["RemessaId"]),
                         Referencia = reader["Referencia"].ToString(),
                         Quantidade = Convert.ToInt32(reader["Quantidade"])
                     });
@@ -110,7 +113,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 {
                     result.Add(new RemessaFaccaoViewModel
                     {
-                        RemessaId = Convert.ToInt32(reader["RemessaId"]), 
+                        RemessaId = Convert.ToInt32(reader["RemessaId"]),
                         Nome = reader["Nome"].ToString(),
                         Referencia = reader["Referencia"].ToString(),
                         Quantidade = Convert.ToInt32(reader["Quantidade"])
@@ -146,7 +149,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 {
                     result.Add(new RemessaFaccaoViewModel
                     {
-                        RemessaId = Convert.ToInt32(reader["RemessaId"]), 
+                        RemessaId = Convert.ToInt32(reader["RemessaId"]),
                         Nome = reader["Nome"].ToString(),
                         Referencia = reader["Referencia"].ToString(),
                         Quantidade = Convert.ToInt32(reader["Quantidade"])
@@ -215,113 +218,110 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
 
                 SqlDataReader reader = command.ExecuteReader();
 
-                if (reader.Read())
+                if (!reader.Read())
+                    throw new Exception("Objeto não encontrado. ");
+
+                result.RemessaId = Convert.ToInt32(reader["RemessaId"]);
+                result.Referencia = reader["Referencia"].ToString();
+                result.Piloto = reader["Piloto"].ToString();
+                result.Modelo = reader["Modelo"].ToString();
+                result.Tecido = reader["Tecido"].ToString();
+                result.Descricao = reader["Descricao"].ToString();
+                result.Quantidade = Convert.ToInt32(reader["Quantidade"]);
+                result.ValorUnitario = Convert.ToDecimal(reader["ValorUnitario"]);
+                result.ValorTotal = Convert.ToDecimal(reader["ValorTotal"]);
+                result.DataDeEntrega = Convert.ToDateTime(reader["DataDeEntrega"]);
+                result.DataPrazo = Convert.ToDateTime(reader["DataPrazo"]);
+                result.DataRecebimento = Convert.ToDateTime(reader["DataRecebimento"]);
+                result.StatusRemessa = (StatusRemessa)Convert.ToInt16(reader["StatusRemessa"]);
+                result.Observacoes = reader["Observacoes"].ToString();
+
+                if (reader["Tamanho1"] != DBNull.Value)
+                    result.Tamanho1 = Convert.ToInt32(reader["Tamanho1"]);
+                else
+                    result.Tamanho1 = 0;
+
+                if (reader["Tamanho2"] != DBNull.Value)
+                    result.Tamanho2 = Convert.ToInt32(reader["Tamanho2"]);
+                else
+                    result.Tamanho2 = 0;
+
+                if (reader["Tamanho4"] != DBNull.Value)
+                    result.Tamanho4 = Convert.ToInt32(reader["Tamanho4"]);
+                else
+                    result.Tamanho4 = 0;
+
+                if (reader["Tamanho6"] != DBNull.Value)
+                    result.Tamanho6 = Convert.ToInt32(reader["Tamanho6"]);
+                else
+                    result.Tamanho6 = 0;
+
+                if (reader["Tamanho8"] != DBNull.Value)
+                    result.Tamanho8 = Convert.ToInt32(reader["Tamanho8"]);
+                else
+                    result.Tamanho8 = 0;
+
+                if (reader["Tamanho10"] != DBNull.Value)
+                    result.Tamanho10 = Convert.ToInt32(reader["Tamanho10"]);
+                else
+                    result.Tamanho10 = 0;
+
+                if (reader["Tamanho12"] != DBNull.Value)
+                    result.Tamanho12 = Convert.ToInt32(reader["Tamanho12"]);
+                else
+                    result.Tamanho12 = 0;
+
+                if (reader["FaccaoId"] != DBNull.Value)
                 {
-                    result.RemessaId = Convert.ToInt32(reader["RemessaId"]);
-                    result.Referencia = reader["Referencia"].ToString();
-                    result.Piloto = reader["Piloto"].ToString();
-                    result.Modelo = reader["Modelo"].ToString();
-                    result.Tecido = reader["Tecido"].ToString();
-                    result.Descricao = reader["Descricao"].ToString();
-                    result.Quantidade = Convert.ToInt32(reader["Quantidade"]);
-                    result.ValorUnitario = Convert.ToDecimal(reader["ValorUnitario"]);
-                    result.ValorTotal = Convert.ToDecimal(reader["ValorTotal"]);
-                    result.DataDeEntrega = Convert.ToDateTime(reader["DataDeEntrega"]);
-                    result.DataPrazo = Convert.ToDateTime(reader["DataPrazo"]);
-                    result.DataRecebimento = Convert.ToDateTime(reader["DataRecebimento"]);
-                    result.StatusRemessa = (StatusRemessa)Convert.ToInt16(reader["StatusRemessa"]);
-                    result.Observacoes = reader["Observacoes"].ToString();
+                    result.FaccaoId = Convert.ToInt32(reader["FaccaoId"]);
 
-                    if (reader["Tamanho1"] != DBNull.Value)
-                        result.Tamanho1 = Convert.ToInt32(reader["Tamanho1"]);
-                    else
-                        result.Tamanho1 = 0;
+                    Faccao resultFaccao = new();
+                    SqlCommand commandFaccao = new("dbo.FaccaoGetById");
 
-                    if (reader["Tamanho2"] != DBNull.Value)
-                        result.Tamanho2 = Convert.ToInt32(reader["Tamanho2"]);
-                    else
-                        result.Tamanho2 = 0;
-
-                    if (reader["Tamanho4"] != DBNull.Value)
-                        result.Tamanho4 = Convert.ToInt32(reader["Tamanho4"]);
-                    else
-                        result.Tamanho4 = 0;
-
-                    if (reader["Tamanho6"] != DBNull.Value)
-                        result.Tamanho6 = Convert.ToInt32(reader["Tamanho6"]);
-                    else
-                        result.Tamanho6 = 0;
-
-                    if (reader["Tamanho8"] != DBNull.Value)
-                        result.Tamanho8 = Convert.ToInt32(reader["Tamanho8"]);
-                    else
-                        result.Tamanho8 = 0;
-
-                    if (reader["Tamanho10"] != DBNull.Value)
-                        result.Tamanho10 = Convert.ToInt32(reader["Tamanho10"]);
-                    else
-                        result.Tamanho10 = 0;
-
-                    if (reader["Tamanho12"] != DBNull.Value)
-                        result.Tamanho12 = Convert.ToInt32(reader["Tamanho12"]);
-                    else
-                        result.Tamanho12 = 0;
-
-                    if (reader["FaccaoId"] != DBNull.Value)
+                    try
                     {
-                        result.FaccaoId = Convert.ToInt32(reader["FaccaoId"]);
+                        commandFaccao.Connection = new(_connection.SQLString);
+                        commandFaccao.Connection.Open();
+                        commandFaccao.CommandType = CommandType.StoredProcedure;
 
-                        Faccao resultFaccao = new();
-                        SqlConnection connectionFaccao = new(_connection.SQLString);
-                        using (connectionFaccao)
+                        commandFaccao.Parameters.Add("@FaccaoId", SqlDbType.Int).Value = result.FaccaoId;
+
+                        SqlDataReader readerF = commandFaccao.ExecuteReader();
+
+                        if (readerF.Read())
                         {
-                            try
-                            {
-                                connectionFaccao.Open();
-
-                                SqlCommand commandFaccao = new("dbo.FaccaoGetById");
-
-                                commandFaccao.Connection = connectionFaccao;
-                                commandFaccao.CommandType = CommandType.StoredProcedure;
-
-                                commandFaccao.Parameters.Add("@FaccaoId", SqlDbType.Int).Value = result.FaccaoId;
-
-                                SqlDataReader readerF = commandFaccao.ExecuteReader();
-
-                                if (readerF.Read())
-                                {
-                                    resultFaccao.FaccaoId = Convert.ToInt32(readerF["FaccaoId"]);
-                                    resultFaccao.Nome = readerF["Nome"].ToString();
-                                    resultFaccao.Endereco = readerF["Endereco"].ToString();
-                                    resultFaccao.Email = readerF["Email"].ToString();
-                                    resultFaccao.Telefone1 = readerF["Telefone1"].ToString();
-                                    resultFaccao.Telefone1 = readerF["Telefone2"].ToString();
-                                    resultFaccao.FormaDePagamento = readerF["FormaDePagamento"].ToString();
-                                    resultFaccao.Qualificacao = Convert.ToInt32(readerF["Qualificacao"]);
-                                    resultFaccao.Ativo = Convert.ToBoolean(readerF["Ativo"]);
-                                    resultFaccao.Observacoes = readerF["Observacoes"].ToString();
-                                }
-
-                                result.Faccao = resultFaccao;
-                            }
-                            catch (Exception e)
-                            {
-                                throw new Exception("Erro ao acessar informações do banco de dados. " + e.Message);
-                            }
-                            finally
-                            {
-                                if (connectionFaccao.State == ConnectionState.Open)
-                                    connectionFaccao.Close();
-                            }
+                            resultFaccao.FaccaoId = Convert.ToInt32(readerF["FaccaoId"]);
+                            resultFaccao.Nome = readerF["Nome"].ToString();
+                            resultFaccao.Endereco = readerF["Endereco"].ToString();
+                            resultFaccao.Email = readerF["Email"].ToString();
+                            resultFaccao.Telefone1 = readerF["Telefone1"].ToString();
+                            resultFaccao.Telefone1 = readerF["Telefone2"].ToString();
+                            resultFaccao.FormaDePagamento = readerF["FormaDePagamento"].ToString();
+                            resultFaccao.Qualificacao = Convert.ToInt32(readerF["Qualificacao"]);
+                            resultFaccao.Ativo = Convert.ToBoolean(readerF["Ativo"]);
+                            resultFaccao.Observacoes = readerF["Observacoes"].ToString();
                         }
+
+                        result.Faccao = resultFaccao;
                     }
-                    else
-                        result.FaccaoId = null;
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                        throw new Exception("Erro ao acessar informações do banco de dados. ");
+                    }
+                    finally
+                    {
+                        if (commandFaccao.Connection.State == ConnectionState.Open)
+                            commandFaccao.Connection.Close();
+                    }
                 }
+                else
+                    result.FaccaoId = null;
+
             }
             catch (Exception e)
             {
-                throw new Exception("Erro ao acessar informações do banco de dados. " + e.Message);
+                throw new Exception(e.Message);
             }
 
             if (command.Connection.State == ConnectionState.Open)

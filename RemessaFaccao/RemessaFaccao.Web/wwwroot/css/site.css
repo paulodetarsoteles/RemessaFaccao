@@ -19,12 +19,16 @@ body {
 
 table {
     table-layout: auto;
-    background-color: #f8ebee;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
-    border-bottom-left-radius: 20px;
-    box-shadow: 1px 1px 4px 1px #b9b9b9;
+    background-color: #f3e1e9;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    box-shadow: 1px 1px 10px 3px #e5e5e5;
+}
+
+tr:hover {
+    background-color: #eac8d7;
 }
 
 dt, dd {
@@ -32,47 +36,69 @@ dt, dd {
 }
 
 row {
-    padding: 10px; 
+    padding: 10px;
 }
 
 .headInternal {
-    background-color: #a52f62; 
-    color: cornsilk; 
+    background-color: #a52f62;
+    color: cornsilk;
+}
+
+li:hover {
+    background-color: #8d2652;
 }
 
 .internal {
-    background-color: #f8ebee;
+    background-color: #f3e1e9;
     max-width: 800px;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
-    border-bottom-left-radius: 20px;
-    box-shadow: 1px 1px 4px 1px #b9b9b9;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    box-shadow: 1px 1px 10px 3px #e5e5e5;
     padding: 20px;
 }
 
+.internalRet {
+    background-color: #f3e1e9;
+    max-width: 800px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    box-shadow: 1px 1px 10px 3px #e5e5e5;
+    padding: 20px;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+    .internalRet:hover {
+        -webkit-transform: scale(1.03);
+        transform: scale(1.03);
+    }
+
 .internalHome {
-    background-color: #f8ebee;
-    max-width: 1080px; 
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
-    border-bottom-left-radius: 20px;
-    box-shadow: 1px 1px 4px 1px #b9b9b9; 
-    padding: 20px; 
+    background-color: #f3e1e9;
+    max-width: 1080px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    box-shadow: 1px 1px 10px 3px #e5e5e5;
+    padding: 20px;
 }
 
 .internalLogin {
-    background-color: #f8ebee;
+    background-color: #f3e1e9;
     max-width: 400px;
     width: 100%;
     position: absolute;
     top: 20%;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
-    border-bottom-left-radius: 20px;
-    box-shadow: 1px 1px 4px 1px #b9b9b9;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    box-shadow: 1px 1px 10px 3px #e5e5e5;
     padding: 20px;
 }
 
