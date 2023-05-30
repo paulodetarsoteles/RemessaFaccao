@@ -22,9 +22,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             List<Remessa> result = new();
             SqlCommand command = new("SELECT TOP 100 RemessaId, Referencia, StatusRemessa ,Quantidade, ValorTotal " +
                                      "FROM Remessa (NOLOCK) " +
-                                     "WHERE StatusRemessa <> 4 " +
-                                     "ORDER BY StatusRemessa DESC, " +
-                                     "FaccaoId ASC; ");
+                                     "WHERE StatusRemessa <> 4;");
 
             try
             {
@@ -34,7 +32,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
 
                 SqlDataReader reader = command.ExecuteReader();
 
-                if (!reader.Read())
+                if (!reader.HasRows)
                     throw new Exception("Nenhum objeto não encontrado. ");
 
                 while (reader.Read())

@@ -29,7 +29,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
 
                 SqlDataReader reader = command.ExecuteReader();
 
-                if (!reader.Read())
+                if (!reader.HasRows)
                     throw new Exception("Nenhum objeto não encontrado. ");
 
                 while (reader.Read())
@@ -96,7 +96,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
 
         public int Count()
         {
-            int result = 0;
+            int result;
             SqlCommand command = new("SELECT COUNT(FaccaoId) result FROM Faccao; ");
 
             try
