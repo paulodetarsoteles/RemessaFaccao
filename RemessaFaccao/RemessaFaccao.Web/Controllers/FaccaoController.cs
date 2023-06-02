@@ -18,11 +18,36 @@ namespace RemessaFaccao.Web.Controllers
 
         // GET: FaccaoController
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string search)
         {
             try
             {
-                return View(_facaoRepository.GetAll());
+                ViewData["nomeSort"] = String.IsNullOrEmpty(sortOrder) ? "NomeDesc" : "";
+                ViewData["ativoSort"] = sortOrder == "Ativo" ? "AtivoDesc" : "Ativo";
+                ViewData["CurrentFilter"] = search;
+
+                IEnumerable<Faccao> faccoes = from f in _facaoRepository.GetAll() select f;
+
+                if (String.IsNullOrEmpty(search))
+                    faccoes = faccoes.Where(f => f.Nome.Contains(search)); 
+
+                switch (sortOrder)
+                {
+                    case "NomeDesc":
+                        faccoes = faccoes.OrderByDescending(f => f.Nome);
+                        break;
+                    case "Ativo":
+                        faccoes = faccoes.OrderBy(f => f.Ativo);
+                        break;
+                    case "AtivoDesc":
+                        faccoes = faccoes.OrderByDescending(f => f.Ativo);
+                        break;
+                    default:
+                        faccoes = faccoes.OrderBy(f => f.Nome); 
+                        break;
+                }
+
+                return View(faccoes.ToList());
             }
             catch (Exception e)
             {
