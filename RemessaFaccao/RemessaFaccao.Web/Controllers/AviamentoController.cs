@@ -34,7 +34,7 @@ namespace RemessaFaccao.Web.Controllers
                 ViewData["CurrentFilter"] = search; 
 
                 if (!String.IsNullOrEmpty(search))
-                    aviamentos = aviamentos.Where(a => a.Nome.Contains(search));
+                    aviamentos = aviamentos.Where(a => a.Nome.IndexOf(search, StringComparison.OrdinalIgnoreCase) != -1);
 
                 return View(aviamentos.ToList());
             }

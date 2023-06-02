@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using RemessaFaccao.DAL.Models;
 using RemessaFaccao.DAL.Repositories.Interfaces;
+using System.Linq;
 
 namespace RemessaFaccao.Web.Controllers
 {
@@ -45,8 +46,8 @@ namespace RemessaFaccao.Web.Controllers
 
                 ViewData["CurrentFilter"] = search;
 
-                if (String.IsNullOrEmpty(search))
-                    faccoes = faccoes.Where(f => f.Nome.Contains(search)); 
+                if (!String.IsNullOrEmpty(search))
+                    faccoes = faccoes.Where(f => f.Nome.IndexOf(search, StringComparison.OrdinalIgnoreCase) != -1); 
 
                 return View(faccoes.ToList());
             }

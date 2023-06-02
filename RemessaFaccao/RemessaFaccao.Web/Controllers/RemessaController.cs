@@ -31,12 +31,8 @@ namespace RemessaFaccao.Web.Controllers
                 ViewData["referenciaSort"] = sortOrder == "Referencia" ? "ReferenciaDesc" : "Referencia";
                 ViewData["quantidadeSort"] = sortOrder == "Quantidade" ? "QuantidadeDesc" : "Quantidade";
                 ViewData["valorSort"] = sortOrder == "ValorTotal" ? "ValorTotalDesc" : "ValorTotal";
-                ViewData["CurrentFilter"] = search;
 
                 IEnumerable<Remessa> remessas = from r in _remessaRepository.GetAll() select r;
-
-                if (!String.IsNullOrEmpty(search))
-                    remessas = remessas.Where(s => s.Referencia.Contains(search));
 
                 switch (sortOrder)
                 {
@@ -65,6 +61,11 @@ namespace RemessaFaccao.Web.Controllers
                         remessas = remessas.OrderBy(r => r.StatusRemessa);
                         break;
                 }
+
+                ViewData["CurrentFilter"] = search;
+
+                if (!String.IsNullOrEmpty(search))
+                    remessas = remessas.Where(s => s.Referencia.IndexOf(search, StringComparison.OrdinalIgnoreCase) != -1);
 
                 return View(remessas.ToList());
             }
