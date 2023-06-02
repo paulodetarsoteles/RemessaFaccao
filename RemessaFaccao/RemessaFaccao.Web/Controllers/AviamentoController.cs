@@ -18,11 +18,25 @@ namespace RemessaFaccao.Web.Controllers
 
         // GET: AviamentoController
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string search)
         {
             try
             {
-                return View(_aviamentoRepository.GetAll());
+                ViewData["nomeSort"] = String.IsNullOrEmpty(sortOrder) ? "NomeDesc" : "";
+
+                IEnumerable<Aviamento> aviamentos = from a in _aviamentoRepository.GetAll() select a;
+
+                if (sortOrder == "NomeDesc")
+                    aviamentos = aviamentos.OrderByDescending(a => a.Nome);
+                else
+                    aviamentos = aviamentos.OrderBy(a => a.Nome);
+
+                ViewData["CurrentFilter"] = search; 
+
+                if (!String.IsNullOrEmpty(search))
+                    aviamentos = aviamentos.Where(a => a.Nome.Contains(search));
+
+                return View(aviamentos.ToList());
             }
             catch (Exception e)
             {

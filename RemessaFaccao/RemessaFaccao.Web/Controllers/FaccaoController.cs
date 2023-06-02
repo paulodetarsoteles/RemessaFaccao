@@ -24,12 +24,8 @@ namespace RemessaFaccao.Web.Controllers
             {
                 ViewData["nomeSort"] = String.IsNullOrEmpty(sortOrder) ? "NomeDesc" : "";
                 ViewData["ativoSort"] = sortOrder == "Ativo" ? "AtivoDesc" : "Ativo";
-                ViewData["CurrentFilter"] = search;
 
                 IEnumerable<Faccao> faccoes = from f in _facaoRepository.GetAll() select f;
-
-                if (String.IsNullOrEmpty(search))
-                    faccoes = faccoes.Where(f => f.Nome.Contains(search)); 
 
                 switch (sortOrder)
                 {
@@ -46,6 +42,11 @@ namespace RemessaFaccao.Web.Controllers
                         faccoes = faccoes.OrderBy(f => f.Nome); 
                         break;
                 }
+
+                ViewData["CurrentFilter"] = search;
+
+                if (String.IsNullOrEmpty(search))
+                    faccoes = faccoes.Where(f => f.Nome.Contains(search)); 
 
                 return View(faccoes.ToList());
             }
