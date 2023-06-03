@@ -1,4 +1,5 @@
-﻿@model IEnumerable<RemessaFaccao.DAL.Models.Faccao>
+﻿@using X.PagedList.Mvc.Core;
+@model X.PagedList.PagedList<RemessaFaccao.DAL.Models.Faccao>
 
 @{
     ViewData["Title"] = "Lista de Facções";
@@ -14,7 +15,7 @@
     </div>
     <form asp-action="Index" method="get" class="col-md-3">
         <div class="input-group">
-            <input type="text" class="form-control" name="search" value="@ViewData["CurrentFilter"]" placeholder="Pesquisar por Nome" />
+            <input type="text" class="form-control" name="searchString" value="@ViewBag.CurrentFilter" placeholder="Pesquisar por Nome" />
             &nbsp;
             <div class="input-group-btn">
                 <button type="submit" class="btn btn-outline-secondary"><i class="bi bi-search"></i></button>
@@ -28,13 +29,13 @@
         <thead>
             <tr>
                 <th>
-                    &nbsp;&nbsp;&nbsp;&nbsp; @Html.DisplayNameFor(model => model.FaccaoId)
+                    &nbsp;&nbsp;&nbsp;&nbsp; Código
                 </th>
                 <th>
-                    <a asp-action="Index" asp-route-sortOrder="@ViewData["nomeSort"]">@Html.DisplayNameFor(model => model.Nome)</a>
+                    @Html.ActionLink("Nome", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter=ViewBag.CurrentFilter })
                 </th>
                 <th>
-                    <a asp-action="Index" asp-route-sortOrder="@ViewData["ativoSort"]">@Html.DisplayNameFor(model => model.Ativo)</a>
+                    @Html.ActionLink("Ativo", "Index", new { sortOrder = ViewBag.AtivoSortParm, currentFilter=ViewBag.CurrentFilter })
                 </th>
                 <th></th>
             </tr>
@@ -74,6 +75,14 @@
         </tbody>
     </table>
 </div>
+<br />
+<p style="font-size:18px">
+    Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
+</p>
+<h4>
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+</h4>
+
 <script>
     function myFunction() {
         document.getElementById("check").disabled = true;

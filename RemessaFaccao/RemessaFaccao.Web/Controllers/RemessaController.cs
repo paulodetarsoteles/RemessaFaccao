@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using RemessaFaccao.DAL.Models;
 using RemessaFaccao.DAL.Models.Enums;
 using RemessaFaccao.DAL.Repositories.Interfaces;
+using X.PagedList;
 
 namespace RemessaFaccao.Web.Controllers
 {
@@ -20,7 +21,7 @@ namespace RemessaFaccao.Web.Controllers
 
         // GET: RemessaController
         [HttpGet]
-        public ActionResult Index(string sortOrder, string search)
+        public ActionResult Index(string sortOrder, string search, int page = 1)
         {
             try
             {
@@ -67,7 +68,7 @@ namespace RemessaFaccao.Web.Controllers
                 if (!String.IsNullOrEmpty(search))
                     remessas = remessas.Where(s => s.Referencia.IndexOf(search, StringComparison.OrdinalIgnoreCase) != -1);
 
-                return View(remessas.ToList());
+                return View(remessas.ToList().ToPagedList(page, 20));
             }
             catch (Exception e)
             {

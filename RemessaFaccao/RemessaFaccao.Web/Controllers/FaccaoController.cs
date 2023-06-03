@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using RemessaFaccao.DAL.Models;
 using RemessaFaccao.DAL.Repositories.Interfaces;
-using System.Linq;
+using X.PagedList;
 
 namespace RemessaFaccao.Web.Controllers
 {
@@ -19,12 +19,13 @@ namespace RemessaFaccao.Web.Controllers
 
         // GET: FaccaoController
         [HttpGet]
-        public ActionResult Index(string sortOrder, string search)
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             try
             {
-                ViewData["nomeSort"] = String.IsNullOrEmpty(sortOrder) ? "NomeDesc" : "";
-                ViewData["ativoSort"] = sortOrder == "Ativo" ? "AtivoDesc" : "Ativo";
+                ViewBag.CurrentSort = sortOrder;
+                ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "NomeDesc" : "";
+                ViewBag.AtivoSortParm = sortOrder == "Ativo" ? "AtivoDesc" : "Ativo";
 
                 IEnumerable<Faccao> faccoes = from f in _facaoRepository.GetAll() select f;
 
@@ -40,16 +41,23 @@ namespace RemessaFaccao.Web.Controllers
                         faccoes = faccoes.OrderByDescending(f => f.Ativo);
                         break;
                     default:
-                        faccoes = faccoes.OrderBy(f => f.Nome); 
+                        faccoes = faccoes.OrderBy(f => f.Nome);
                         break;
                 }
 
-                ViewData["CurrentFilter"] = search;
+                if (searchString != null)
+                    page = 1;
+                else
+                    searchString = currentFilter;
 
-                if (!String.IsNullOrEmpty(search))
-                    faccoes = faccoes.Where(f => f.Nome.IndexOf(search, StringComparison.OrdinalIgnoreCase) != -1); 
+                ViewBag.CurrentFilter = searchString;
 
-                return View(faccoes.ToList());
+                int pageNumber = (page ?? 1);
+
+                if (!String.IsNullOrEmpty(searchString))
+                    faccoes = faccoes.Where(f => f.Nome.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) != -1);
+
+                return View(faccoes.ToPagedList(pageNumber, 5));
             }
             catch (Exception e)
             {
