@@ -19,13 +19,13 @@ namespace RemessaFaccao.Web.Controllers
 
         // GET: FaccaoController
         [HttpGet]
-        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int page = 1, int pageSize = 10)
         {
             try
             {
                 ViewBag.CurrentSort = sortOrder;
-                ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "NomeDesc" : "";
-                ViewBag.AtivoSortParm = sortOrder == "Ativo" ? "AtivoDesc" : "Ativo";
+                ViewBag.NameSort = String.IsNullOrEmpty(sortOrder) ? "NomeDesc" : "";
+                ViewBag.AtivoSort = sortOrder == "Ativo" ? "AtivoDesc" : "Ativo";
 
                 IEnumerable<Faccao> faccoes = from f in _facaoRepository.GetAll() select f;
 
@@ -52,12 +52,10 @@ namespace RemessaFaccao.Web.Controllers
 
                 ViewBag.CurrentFilter = searchString;
 
-                int pageNumber = (page ?? 1);
-
                 if (!String.IsNullOrEmpty(searchString))
                     faccoes = faccoes.Where(f => f.Nome.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) != -1);
 
-                return View(faccoes.ToPagedList(pageNumber, 5));
+                return View(faccoes.ToPagedList(page, pageSize));
             }
             catch (Exception e)
             {

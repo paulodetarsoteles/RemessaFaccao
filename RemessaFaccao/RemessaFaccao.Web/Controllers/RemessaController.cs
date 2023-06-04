@@ -21,14 +21,14 @@ namespace RemessaFaccao.Web.Controllers
 
         // GET: RemessaController
         [HttpGet]
-        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int page = 1, int pageSize = 10)
         {
             try
             {
                 _remessaRepository.UpdateStatus();
 
                 ViewData["contagem"] = _remessaRepository.CountReceberHoje() + _remessaRepository.CountEnviarParaProducao() + _remessaRepository.CountEmProducao() + _remessaRepository.CountAtrasadas();
-                
+
                 ViewBag.StatusSort = String.IsNullOrEmpty(sortOrder) ? "StatusDesc" : "";
                 ViewBag.ReferenciaSort = sortOrder == "Referencia" ? "ReferenciaDesc" : "Referencia";
                 ViewBag.QuantidadeSort = sortOrder == "Quantidade" ? "QuantidadeDesc" : "Quantidade";
@@ -36,33 +36,17 @@ namespace RemessaFaccao.Web.Controllers
 
                 IEnumerable<Remessa> remessas = from r in _remessaRepository.GetAll() select r;
 
-                switch (sortOrder)
+                remessas = sortOrder switch
                 {
-                    case "StatusDesc":
-                        remessas = remessas.OrderByDescending(r => r.StatusRemessa);
-                        break;
-                    case "Referencia":
-                        remessas = remessas.OrderBy(r => r.Referencia);
-                        break;
-                    case "ReferenciaDesc":
-                        remessas = remessas.OrderByDescending(r => r.Referencia);
-                        break;
-                    case "Quantidade":
-                        remessas = remessas.OrderBy(r => r.Quantidade);
-                        break;
-                    case "QuantidadeDesc":
-                        remessas = remessas.OrderByDescending(r => r.Quantidade);
-                        break;
-                    case "ValorTotal":
-                        remessas = remessas.OrderBy(r => r.ValorTotal);
-                        break;
-                    case "ValorTotalDesc":
-                        remessas = remessas.OrderByDescending(r => r.ValorTotal);
-                        break;
-                    default:
-                        remessas = remessas.OrderBy(r => r.StatusRemessa);
-                        break;
-                }
+                    "StatusDesc" => remessas.OrderByDescending(r => r.StatusRemessa),
+                    "Referencia" => remessas.OrderBy(r => r.Referencia),
+                    "ReferenciaDesc" => remessas.OrderByDescending(r => r.Referencia),
+                    "Quantidade" => remessas.OrderBy(r => r.Quantidade),
+                    "QuantidadeDesc" => remessas.OrderByDescending(r => r.Quantidade),
+                    "ValorTotal" => remessas.OrderBy(r => r.ValorTotal),
+                    "ValorTotalDesc" => remessas.OrderByDescending(r => r.ValorTotal),
+                    _ => remessas.OrderBy(r => r.StatusRemessa),
+                };
 
                 if (searchString != null)
                     page = 1;
@@ -71,12 +55,10 @@ namespace RemessaFaccao.Web.Controllers
 
                 ViewBag.CurrentFilter = searchString;
 
-                int pageNumber = (page ?? 1);
-
                 if (!String.IsNullOrEmpty(searchString))
                     remessas = remessas.Where(s => s.Referencia.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) != -1);
 
-                return View(remessas.ToList().ToPagedList(pageNumber, 20));
+                return View(remessas.ToList().ToPagedList(page, pageSize));
             }
             catch (Exception e)
             {

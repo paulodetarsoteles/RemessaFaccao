@@ -1,4 +1,7 @@
-﻿@model IEnumerable<RemessaFaccao.DAL.Models.Remessa>
+﻿@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Web.Common;
+@model X.PagedList.PagedList<RemessaFaccao.DAL.Models.Remessa>
 
 @{
     ViewData["Title"] = "Lista de Remessas";
@@ -16,7 +19,7 @@
     </div>
     <form asp-action="Index" method="get" class="col-md-3">
         <div class="input-group">
-            <input type="text" class="form-control" name="search" value="@ViewData["CurrentFilter"]" placeholder="Pesquisar por Referência" />
+            <input type="text" class="form-control" name="searchString" value="@ViewBag.CurrentFilter" placeholder="Pesquisar por Nome" />
             &nbsp;
             <div class="input-group-btn">
                 <button type="submit" class="btn btn-outline-secondary"><i class="bi bi-search"></i></button>
@@ -30,19 +33,19 @@
         <thead>
             <tr>
                 <th>
-                    &nbsp;&nbsp;&nbsp;&nbsp; @Html.DisplayNameFor(model => model.RemessaId)
+                    &nbsp;&nbsp;&nbsp;&nbsp; Código
                 </th>
                 <th>
-                    <a asp-action="Index" asp-route-sortOrder="@ViewData["statusSort"]">@Html.DisplayNameFor(model => model.StatusRemessa)</a>
+                    <a asp-action="Index" asp-route-sortOrder="@ViewBag.StatusSort" asp-route-currentFilter="@ViewBag.CurrentFilter">Status</a>
                 </th>
                 <th>
-                    <a asp-action="Index" asp-route-sortOrder="@ViewData["referenciaSort"]">@Html.DisplayNameFor(model => model.Referencia)</a>
+                    <a asp-action="Index" asp-route-sortOrder="@ViewBag.ReferenciaSort" asp-route-currentFilter="@ViewBag.CurrentFilter">Referência</a>
                 </th>
                 <th>
-                    <a asp-action="Index" asp-route-sortOrder="@ViewData["quantidadeSort"]">@Html.DisplayNameFor(model => model.Quantidade)</a>
+                    <a asp-action="Index" asp-route-sortOrder="@ViewBag.QuantidadeSort" asp-route-currentFilter="@ViewBag.CurrentFilter">Quantidade</a>
                 </th>
                 <th>
-                    <a asp-action="Index" asp-route-sortOrder="@ViewData["valorSort"]">@Html.DisplayNameFor(model => model.ValorTotal)</a>
+                    <a asp-action="Index" asp-route-sortOrder="@ViewBag.ValorSort" ]" asp-route-currentFilter="@ViewBag.CurrentFilter">Valor Total</a>
                 </th>
                 <th></th>
             </tr>
@@ -87,4 +90,13 @@
             }
         </tbody>
     </table>
+</div>
+<br />
+<div>
+    <span>
+        Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
+    </span>
+    <p>
+        @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }), new PagedListRenderOptions { LiElementClasses = new string[] { "page-item" },PageClasses = new string[] { "page-link" }})
+    </p>
 </div>

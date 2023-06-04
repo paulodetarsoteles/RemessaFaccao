@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using RemessaFaccao.DAL.Models;
 using RemessaFaccao.DAL.Repositories.Interfaces;
+using System.Collections.Specialized;
+using System.Configuration;
+using System.Drawing.Printing;
 using X.PagedList;
 
 namespace RemessaFaccao.Web.Controllers
@@ -19,12 +22,12 @@ namespace RemessaFaccao.Web.Controllers
 
         // GET: AviamentoController
         [HttpGet]
-        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int page = 1, int pageSize = 10)
         {
             try
             {
                 ViewBag.CurrentSort = sortOrder;
-                ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "NomeDesc" : "";
+                ViewBag.NameSort = String.IsNullOrEmpty(sortOrder) ? "NomeDesc" : "";
 
                 IEnumerable<Aviamento> aviamentos = from a in _aviamentoRepository.GetAll() select a;
 
@@ -40,12 +43,10 @@ namespace RemessaFaccao.Web.Controllers
 
                 ViewBag.CurrentFilter = searchString;
 
-                int pageNumber = (page ?? 1);
-
                 if (!String.IsNullOrEmpty(searchString))
                     aviamentos = aviamentos.Where(a => a.Nome.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) != -1);
 
-                return View(aviamentos.ToList().ToPagedList(pageNumber, 20));
+                return View(aviamentos.ToList().ToPagedList(page, pageSize));
             }
             catch (Exception e)
             {

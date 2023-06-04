@@ -34,10 +34,10 @@
                     &nbsp;&nbsp;&nbsp;&nbsp; Código
                 </th>
                 <th>
-                    @Html.ActionLink("Nome", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter=ViewBag.CurrentFilter })
+                    <a asp-action="Index" asp-route-sortOrder="@ViewBag.NameSort" asp-route-currentFilter="@ViewBag.CurrentFilter">Nome</a>
                 </th>
                 <th>
-                    @Html.ActionLink("Ativo", "Index", new { sortOrder = ViewBag.AtivoSortParm, currentFilter=ViewBag.CurrentFilter })
+                    <a asp-action="Index" asp-route-sortOrder="@ViewBag.AtivoSort" asp-route-currentFilter="@ViewBag.CurrentFilter">Ativo</a>
                 </th>
                 <th></th>
             </tr>
@@ -79,9 +79,9 @@
 </div>
 <br />
 <div>
-    <p style="font-size:18px">
-        <span>Página</span> @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) <span>de</span> @Model.PageCount
-    </p>
+    <span>
+        Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
+    </span>
     <p>
         @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }), new PagedListRenderOptions { LiElementClasses = new string[] { "page-item" },PageClasses = new string[] { "page-link" }})
     </p>

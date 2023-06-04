@@ -1,4 +1,7 @@
-﻿@model IEnumerable<RemessaFaccao.DAL.Models.Aviamento>
+﻿@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Web.Common;
+@model X.PagedList.PagedList<RemessaFaccao.DAL.Models.Aviamento>
 
 @{
     ViewData["Title"] = "Lista de Aviamentos";
@@ -14,7 +17,7 @@
     </div>
     <form asp-action="Index" method="get" class="col-md-3">
         <div class="input-group">
-            <input type="text" class="form-control" name="search" value="@ViewData["CurrentFilter"]" placeholder="Pesquisar por Nome" />
+            <input type="text" class="form-control" name="searchString" value="@ViewBag.CurrentFilter" placeholder="Pesquisar por Nome" />
             &nbsp;
             <div class="input-group-btn">
                 <button type="submit" class="btn btn-outline-secondary"><i class="bi bi-search"></i></button>
@@ -28,13 +31,13 @@
         <thead>
             <tr>
                 <th>
-                    &nbsp;&nbsp;&nbsp;&nbsp; @Html.DisplayNameFor(model => model.AviamentoId)
+                    &nbsp;&nbsp;&nbsp;&nbsp; Código
                 </th>
                 <th>
-                    <a asp-action="Index" asp-route-sortOrder="@ViewData["nomeSort"]">@Html.DisplayNameFor(model => model.Nome)</a>
+                    @Html.ActionLink("Nome", "Index", new { sortOrder = ViewBag.NameSort, currentFilter = ViewBag.CurrentFilter })
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Observacoes)
+                    Observações
                 </th>
                 <th></th>
             </tr>
@@ -42,35 +45,44 @@
         <tbody>
             @foreach (var item in Model)
             {
-                    <tr>
-                        <td>
-                            &nbsp;&nbsp;&nbsp;&nbsp; @Html.DisplayFor(modelItem => item.AviamentoId)
-                        </td>
-                        <td>
+                <tr>
+                    <td>
+                        &nbsp;&nbsp;&nbsp;&nbsp; @Html.DisplayFor(modelItem => item.AviamentoId)
+                    </td>
+                    <td>
                         @Html.DisplayFor(modelItem => item.Nome)
-                        </td>
-                        <td>
+                    </td>
+                    <td>
                         @Html.DisplayFor(modelItem => item.Observacoes, new { @disabled = "disable" })
-                        </td>
-                        <td>
-                            <span>
-                                <a href="@Url.Action("Details", new { id=item.AviamentoId })" class="btn btn-secondary">
-                                    <i class="bi-clipboard"></i>
-                                </a>
-                            </span>
-                            <span>
-                                <a href="@Url.Action("Edit", new { id=item.AviamentoId })" class="btn btn-warning">
-                                    <i class="bi-pencil"></i>
-                                </a>
-                            </span>
-                            <span>
-                                <a href="@Url.Action("Delete", new { id=item.AviamentoId })" class="btn btn-danger">
-                                    <i class="bi-trash"></i>
-                                </a>
-                            </span>
-                        </td>
-                    </tr>
+                    </td>
+                    <td>
+                        <span>
+                            <a href="@Url.Action("Details", new { id=item.AviamentoId })" class="btn btn-secondary">
+                                <i class="bi-clipboard"></i>
+                            </a>
+                        </span>
+                        <span>
+                            <a href="@Url.Action("Edit", new { id=item.AviamentoId })" class="btn btn-warning">
+                                <i class="bi-pencil"></i>
+                            </a>
+                        </span>
+                        <span>
+                            <a href="@Url.Action("Delete", new { id=item.AviamentoId })" class="btn btn-danger">
+                                <i class="bi-trash"></i>
+                            </a>
+                        </span>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
+</div>
+<br />
+<div>
+    <span>
+        Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
+    </span>
+    <p>
+        @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }), new PagedListRenderOptions { LiElementClasses = new string[] { "page-item" },PageClasses = new string[] { "page-link" }})
+    </p>
 </div>
