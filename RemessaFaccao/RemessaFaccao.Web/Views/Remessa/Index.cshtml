@@ -8,14 +8,25 @@
 }
 
 <h1>Lista de Remessas</h1>
-<p>
-    Total de Remessas Pendentes: @ViewData["contagem"]&nbsp;
-</p>
+<p>Total de Remessas Pendentes: @ViewData["contagem"]&nbsp;</p>
 <div class="row">
     <div class="col-md-2">
         <a asp-action="Create" class="btn btn-primary">
             <i class="bi-plus"></i>Adicionar
         </a>
+    </div>
+    <div class="dropdown col-md-2">
+        <a class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Resultados por página
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a asp-action="Index" asp-route-pageSize="5" asp-route-sortOrder="@ViewBag.NameSort" asp-route-currentFilter="@ViewBag.CurrentFilter" method="get" class="dropdown-item">5</a>
+            <a asp-action="Index" asp-route-pageSize="10" asp-route-sortOrder="@ViewBag.NameSort" asp-route-currentFilter="@ViewBag.CurrentFilter" method="get" class="dropdown-item">10</a>
+            <a asp-action="Index" asp-route-pageSize="20" asp-route-sortOrder="@ViewBag.NameSort" asp-route-currentFilter="@ViewBag.CurrentFilter" method="get" class="dropdown-item">20</a>
+            <a asp-action="Index" asp-route-pageSize="50" asp-route-sortOrder="@ViewBag.NameSort" asp-route-currentFilter="@ViewBag.CurrentFilter" method="get" class="dropdown-item">50</a>
+        </div>
+    </div>
+    <div class="col-md-1">
     </div>
     <form asp-action="Index" method="get" class="col-md-3">
         <div class="input-group">
@@ -28,75 +39,90 @@
     </form>
 </div>
 <br />
-<div class="col-md-8">
-    <table class="table">
-        <thead>
+@if (Model.Count < 1)
+{
+    <div class="col-md-8">
+        <table class="table">
             <tr>
                 <th>
-                    &nbsp;&nbsp;&nbsp;&nbsp; Código
+                    Nenhum resultado encontrado...
                 </th>
-                <th>
-                    <a asp-action="Index" asp-route-sortOrder="@ViewBag.StatusSort" asp-route-currentFilter="@ViewBag.CurrentFilter">Status</a>
-                </th>
-                <th>
-                    <a asp-action="Index" asp-route-sortOrder="@ViewBag.ReferenciaSort" asp-route-currentFilter="@ViewBag.CurrentFilter">Referência</a>
-                </th>
-                <th>
-                    <a asp-action="Index" asp-route-sortOrder="@ViewBag.QuantidadeSort" asp-route-currentFilter="@ViewBag.CurrentFilter">Quantidade</a>
-                </th>
-                <th>
-                    <a asp-action="Index" asp-route-sortOrder="@ViewBag.ValorSort" ]" asp-route-currentFilter="@ViewBag.CurrentFilter">Valor Total</a>
-                </th>
-                <th></th>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+        </table>
+    </div>
+}
+else
+{
+    <div class="col-md-8">
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>
-                        &nbsp;&nbsp;&nbsp;&nbsp; @Html.DisplayFor(modelItem => item.RemessaId)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.StatusRemessa)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Referencia)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Quantidade)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ValorTotal)
-                    </td>
-                    <td>
-                        <span>
-                            <a href="@Url.Action("Details", new { id=item.RemessaId })" class="btn btn-secondary">
-                                <i class="bi-clipboard"></i>
-                            </a>
-                        </span>
-                        <span>
-                            <a href="@Url.Action("Edit", new { id=item.RemessaId })" class="btn btn-warning">
-                                <i class="bi-pencil"></i>
-                            </a>
-                        </span>
-                        <span>
-                            <a href="@Url.Action("Delete", new { id=item.RemessaId })" class="btn btn-danger">
-                                <i class="bi-trash"></i>
-                            </a>
-                        </span>
-                    </td>
+                    <th style="width:120px">
+                        &nbsp;&nbsp;&nbsp;&nbsp; Código
+                    </th>
+                    <th>
+                        <a asp-action="Index" asp-route-sortOrder="@ViewBag.StatusSort" asp-route-currentFilter="@ViewBag.CurrentFilter" asp-route-pageSize="@ViewBag.PageSize">Status</a>
+                    </th>
+                    <th>
+                        <a asp-action="Index" asp-route-sortOrder="@ViewBag.ReferenciaSort" asp-route-currentFilter="@ViewBag.CurrentFilter" asp-route-pageSize="@ViewBag.PageSize">Referência</a>
+                    </th>
+                    <th>
+                        <a asp-action="Index" asp-route-sortOrder="@ViewBag.QuantidadeSort" asp-route-currentFilter="@ViewBag.CurrentFilter" asp-route-pageSize="@ViewBag.PageSize">Quantidade</a>
+                    </th>
+                    <th>
+                        <a asp-action="Index" asp-route-sortOrder="@ViewBag.ValorSort" asp-route-currentFilter="@ViewBag.CurrentFilter" asp-route-pageSize="@ViewBag.PageSize">Valor Total</a>
+                    </th>
+                    <th style="width:180px"></th>
                 </tr>
-            }
-        </tbody>
-    </table>
-</div>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            &nbsp;&nbsp;&nbsp;&nbsp; @Html.DisplayFor(modelItem => item.RemessaId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StatusRemessa)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Referencia)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Quantidade)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ValorTotal)
+                        </td>
+                        <td>
+                            <span>
+                                <a href="@Url.Action("Details", new { id=item.RemessaId })" class="btn btn-secondary">
+                                    <i class="bi-clipboard"></i>
+                                </a>
+                            </span>
+                            <span>
+                                <a href="@Url.Action("Edit", new { id=item.RemessaId })" class="btn btn-warning">
+                                    <i class="bi-pencil"></i>
+                                </a>
+                            </span>
+                            <span>
+                                <a href="@Url.Action("Delete", new { id=item.RemessaId })" class="btn btn-danger">
+                                    <i class="bi-trash"></i>
+                                </a>
+                            </span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
 <br />
 <div>
     <span>
         Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
     </span>
     <p>
-        @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }), new PagedListRenderOptions { LiElementClasses = new string[] { "page-item" },PageClasses = new string[] { "page-link" }})
+        @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, pageSize = ViewBag.PageSize }), new PagedListRenderOptions { LiElementClasses = new string[] { "page-item" },PageClasses = new string[] { "page-link" }})
     </p>
 </div>

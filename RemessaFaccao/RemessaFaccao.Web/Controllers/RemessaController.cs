@@ -58,6 +58,8 @@ namespace RemessaFaccao.Web.Controllers
                 if (!String.IsNullOrEmpty(searchString))
                     remessas = remessas.Where(s => s.Referencia.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) != -1);
 
+                ViewBag.PageSize = pageSize; 
+
                 return View(remessas.ToList().ToPagedList(page, pageSize));
             }
             catch (Exception e)

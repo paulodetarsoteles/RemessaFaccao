@@ -46,6 +46,8 @@ namespace RemessaFaccao.Web.Controllers
                 if (!String.IsNullOrEmpty(searchString))
                     aviamentos = aviamentos.Where(a => a.Nome.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) != -1);
 
+                ViewBag.PageSize = pageSize;
+
                 return View(aviamentos.ToList().ToPagedList(page, pageSize));
             }
             catch (Exception e)

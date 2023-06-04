@@ -55,6 +55,8 @@ namespace RemessaFaccao.Web.Controllers
                 if (!String.IsNullOrEmpty(searchString))
                     faccoes = faccoes.Where(f => f.Nome.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) != -1);
 
+                ViewBag.PageSize = pageSize;
+
                 return View(faccoes.ToPagedList(page, pageSize));
             }
             catch (Exception e)
