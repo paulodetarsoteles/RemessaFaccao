@@ -19,11 +19,12 @@ namespace RemessaFaccao.Web.Controllers
 
         // GET: AviamentoController
         [HttpGet]
-        public ActionResult Index(string sortOrder, string search, int page = 1)
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             try
             {
-                ViewData["nomeSort"] = String.IsNullOrEmpty(sortOrder) ? "NomeDesc" : "";
+                ViewBag.CurrentSort = sortOrder;
+                ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "NomeDesc" : "";
 
                 IEnumerable<Aviamento> aviamentos = from a in _aviamentoRepository.GetAll() select a;
 
@@ -32,12 +33,19 @@ namespace RemessaFaccao.Web.Controllers
                 else
                     aviamentos = aviamentos.OrderBy(a => a.Nome);
 
-                ViewData["CurrentFilter"] = search;
+                if (searchString != null)
+                    page = 1;
+                else
+                    searchString = currentFilter;
 
-                if (!String.IsNullOrEmpty(search))
-                    aviamentos = aviamentos.Where(a => a.Nome.IndexOf(search, StringComparison.OrdinalIgnoreCase) != -1);
+                ViewBag.CurrentFilter = searchString;
 
-                return View(aviamentos.ToList().ToPagedList(page, 20));
+                int pageNumber = (page ?? 1);
+
+                if (!String.IsNullOrEmpty(searchString))
+                    aviamentos = aviamentos.Where(a => a.Nome.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) != -1);
+
+                return View(aviamentos.ToList().ToPagedList(pageNumber, 20));
             }
             catch (Exception e)
             {

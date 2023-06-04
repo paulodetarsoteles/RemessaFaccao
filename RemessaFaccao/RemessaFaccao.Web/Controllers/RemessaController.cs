@@ -21,17 +21,18 @@ namespace RemessaFaccao.Web.Controllers
 
         // GET: RemessaController
         [HttpGet]
-        public ActionResult Index(string sortOrder, string search, int page = 1)
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             try
             {
                 _remessaRepository.UpdateStatus();
 
                 ViewData["contagem"] = _remessaRepository.CountReceberHoje() + _remessaRepository.CountEnviarParaProducao() + _remessaRepository.CountEmProducao() + _remessaRepository.CountAtrasadas();
-                ViewData["statusSort"] = String.IsNullOrEmpty(sortOrder) ? "StatusDesc" : "";
-                ViewData["referenciaSort"] = sortOrder == "Referencia" ? "ReferenciaDesc" : "Referencia";
-                ViewData["quantidadeSort"] = sortOrder == "Quantidade" ? "QuantidadeDesc" : "Quantidade";
-                ViewData["valorSort"] = sortOrder == "ValorTotal" ? "ValorTotalDesc" : "ValorTotal";
+                
+                ViewBag.StatusSort = String.IsNullOrEmpty(sortOrder) ? "StatusDesc" : "";
+                ViewBag.ReferenciaSort = sortOrder == "Referencia" ? "ReferenciaDesc" : "Referencia";
+                ViewBag.QuantidadeSort = sortOrder == "Quantidade" ? "QuantidadeDesc" : "Quantidade";
+                ViewBag.ValorSort = sortOrder == "ValorTotal" ? "ValorTotalDesc" : "ValorTotal";
 
                 IEnumerable<Remessa> remessas = from r in _remessaRepository.GetAll() select r;
 
@@ -63,12 +64,19 @@ namespace RemessaFaccao.Web.Controllers
                         break;
                 }
 
-                ViewData["CurrentFilter"] = search;
+                if (searchString != null)
+                    page = 1;
+                else
+                    searchString = currentFilter;
 
-                if (!String.IsNullOrEmpty(search))
-                    remessas = remessas.Where(s => s.Referencia.IndexOf(search, StringComparison.OrdinalIgnoreCase) != -1);
+                ViewBag.CurrentFilter = searchString;
 
-                return View(remessas.ToList().ToPagedList(page, 20));
+                int pageNumber = (page ?? 1);
+
+                if (!String.IsNullOrEmpty(searchString))
+                    remessas = remessas.Where(s => s.Referencia.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) != -1);
+
+                return View(remessas.ToList().ToPagedList(pageNumber, 20));
             }
             catch (Exception e)
             {
