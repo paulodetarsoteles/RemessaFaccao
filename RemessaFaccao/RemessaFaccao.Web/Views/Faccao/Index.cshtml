@@ -1,4 +1,6 @@
-﻿@using X.PagedList.Mvc.Core;
+﻿@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Web.Common;
 @model X.PagedList.PagedList<RemessaFaccao.DAL.Models.Faccao>
 
 @{
@@ -76,12 +78,14 @@
     </table>
 </div>
 <br />
-<p style="font-size:18px">
-    Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
-</p>
-<h4>
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
-</h4>
+<div>
+    <p style="font-size:18px">
+        <span>Página</span> @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) <span>de</span> @Model.PageCount
+    </p>
+    <p>
+        @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }), new PagedListRenderOptions { LiElementClasses = new string[] { "page-item" },PageClasses = new string[] { "page-link" }})
+    </p>
+</div>
 
 <script>
     function myFunction() {
