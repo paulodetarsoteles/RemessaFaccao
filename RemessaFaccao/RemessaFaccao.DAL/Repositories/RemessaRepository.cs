@@ -5,6 +5,7 @@ using RemessaFaccao.DAL.Models.ViewModels;
 using RemessaFaccao.DAL.Setting;
 using System.Data;
 using System.Data.SqlClient;
+using System.Threading.Tasks.Dataflow;
 
 namespace RemessaFaccao.DAL.Repositories.Interfaces
 {
@@ -490,8 +491,26 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 command.Parameters.Add("@StatusRemessa", SqlDbType.TinyInt).Value = remessa.StatusRemessa;
                 command.Parameters.Add("@Observacoes", SqlDbType.NVarChar).Value = remessa.Observacoes;
 
-                if (Convert.ToInt32(command.ExecuteNonQuery()) != 0)
+                remessa.RemessaId = (int)command.ExecuteScalar();
+
+                if (remessa.RemessaId != 0)
                     result = true;
+
+                if (remessa.Aviamentos.Count() > 0)
+                {
+                    foreach (Aviamento aviamento in remessa.Aviamentos)
+                    {
+                        SqlCommand command2 = new("dbo.AviamentoRemessaInsert");
+
+                        command2.Connection = new(_connection.SQLString);
+                        command2.Connection.Open();
+                        command2.CommandType = CommandType.StoredProcedure;
+                        command2.Parameters.Add("@RemessaId", SqlDbType.Int).Value = remessa.RemessaId;
+                        command2.Parameters.Add("@AviamentoId", SqlDbType.Int).Value = aviamento.AviamentoId;
+                        command2.ExecuteNonQuery();
+                        command2.Connection.Close();
+                    }
+                }
             }
             catch (Exception e)
             {
@@ -633,6 +652,40 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                         FaccaoId = Convert.ToInt32(reader["FaccaoId"]),
                         Nome = reader["Nome"].ToString(),
                         Ativo = Convert.ToBoolean(reader["Ativo"])
+                    });
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Erro ao acessar informações do banco de dados. " + e.Message);
+            }
+            finally
+            {
+                if (command.Connection.State == ConnectionState.Open)
+                    command.Connection.Close();
+            }
+            return result;
+        }
+
+        public List<Aviamento> GetAviamentosParaRemessa()
+        {
+            List<Aviamento> result = new();
+            SqlCommand command = new("dbo.GetAviamentosParaRemessa");
+
+            try
+            {
+                command.Connection = new(_connection.SQLString);
+                command.Connection.Open();
+                command.CommandType = CommandType.StoredProcedure;
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    result.Add(new Aviamento
+                    {
+                        AviamentoId = Convert.ToInt32(reader["AviamentoId"]),
+                        Nome = reader["Nome"].ToString()
                     });
                 }
             }

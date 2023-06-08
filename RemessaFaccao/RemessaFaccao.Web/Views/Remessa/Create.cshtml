@@ -43,6 +43,18 @@
                     <span asp-validation-for="Descricao" class="text-danger"></span>
                 </div>
                 <div class="form-group">
+                    <label asp-for="Aviamentos" class="control-label"></label>
+                    <div class="row">
+                        <div class="col-md-8">
+                            @Html.DropDownList("AviamentoId", (SelectList)ViewBag.Aviamentos, "Selecione os aviamentos", new { @class = "form-control" })
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-secondary" id="btnAddAviamento">Adicionar</button>
+                        </div>
+                    </div>
+                    <ul id="listAviamentos"></ul>
+                </div>
+                <div class="form-group">
                     <label asp-for="Tamanho1" class="control-label"></label>
                     <input asp-for="Tamanho1" class="form-control" />
                     <span asp-validation-for="Tamanho1" class="text-danger"></span>
@@ -101,12 +113,21 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
     @*Validação do valor com uso da vírgula no campo*@
     <script>
         jQuery.extend(jQuery.validator.methods, {
             number: function (value, element) {
                 return this.optional(element) || /^-?(?:\d+|\d{1,3}(?:\.\d{3})+)(?:,\d+)?$/.test(value);
             }
+        });
+
+        $(document).ready(function () {
+            $("#btnAddAviamento").click(function () {
+                //$("#listAviamentos").append("<li>" + $("#AviamentoId option:selected").text() + "</li>");
+                $("#listAviamentos").append("<li>" + $("#AviamentoId option:selected").text() + " <input type='hidden' name='chkAviamento' id='chkAviamento' class='chkAviamento' value='" + $("#AviamentoId option:selected").val() + "'></li>");
+                //$("#listAviamentos").append("<li>" + $("#AviamentoId option:selected").text() + "<input name='chkAviamento' id='chkAviamento' class='chkAviamento' value='" + $("#AviamentoId option:selected").val() + "'></li>");
+            });
         });
     </script>
 }

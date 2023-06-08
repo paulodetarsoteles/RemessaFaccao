@@ -93,6 +93,7 @@ namespace RemessaFaccao.Web.Controllers
             try
             {
                 ViewBag.Faccoes = new SelectList(_remessaRepository.GetFaccoesAtivas(), "FaccaoId", "Nome");
+                ViewBag.Aviamentos = new SelectList(_remessaRepository.GetAviamentosParaRemessa(), "AviamentoId", "Nome"); 
                 return View();
             }
             catch (Exception e)
@@ -110,10 +111,26 @@ namespace RemessaFaccao.Web.Controllers
         {
             try
             {
+                string aviamentosId = Request.Form["chkAviamento"].ToString(); 
+
+                if (!string.IsNullOrEmpty(aviamentosId))
+                {
+                    int[] splitAviamantos = aviamentosId.Split(',').Select(int.Parse).ToArray();
+
+                    if (splitAviamantos.Length > 0)
+                    {
+                        List<Aviamento> aviamentos = _remessaRepository.GetAviamentosParaRemessa();
+
+                        foreach (int aviamentoId in splitAviamantos)
+                        {
+                            remessa.Aviamentos.Add(aviamentos.First(a => a.AviamentoId == aviamentoId));
+                        }
+                    }
+                }
+
                 if (!ModelState.IsValid || ModelState.IsNullOrEmpty())
                     throw new Exception("Objeto inválido!");
 
-                ViewBag.Faccoes = new SelectList(_remessaRepository.GetFaccoesAtivas(), "FaccaoId", "Nome");
                 DateTime dateTime = DateTime.Now;
 
                 remessa.Quantidade = remessa.Tamanho1 + remessa.Tamanho2 + remessa.Tamanho4 + remessa.Tamanho6 + remessa.Tamanho8 + remessa.Tamanho10 + remessa.Tamanho12;
@@ -160,7 +177,6 @@ namespace RemessaFaccao.Web.Controllers
                 if (!ModelState.IsValid || ModelState.IsNullOrEmpty() || remessa is null)
                     throw new Exception("Objeto inválido!");
 
-                ViewBag.Faccoes = new SelectList(_remessaRepository.GetFaccoesAtivas(), "FaccaoId", "Nome", remessa.FaccaoId);
                 DateTime dateTime = DateTime.Now;
 
                 remessa.RemessaId = id;

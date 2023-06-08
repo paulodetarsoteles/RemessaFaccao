@@ -83,6 +83,6 @@ namespace RemessaFaccao.DAL.Models
         public virtual Faccao Faccao { get; set; }
 
         [NotMapped]
-        public virtual List<Aviamento> Aviamento { get; set; }
+        public virtual List<Aviamento> Aviamentos { get; set; } = new();
     }
 }
