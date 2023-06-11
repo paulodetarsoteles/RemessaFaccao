@@ -58,6 +58,26 @@
         <dd class = "col-sm-9">
             @Html.DisplayFor(model => model.Descricao)
         </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Aviamentos)
+        </dt>
+        <dd class="col-sm-9">
+            @if (Model.Aviamentos.Any())
+            {
+                <ul>
+                    @foreach (var item in Model.Aviamentos)
+                    {
+                        <li>
+                            @Html.DisplayFor(modelIden => item.Nome)
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p>Nenhum aviamento</p>
+            }
+        </dd>
         <dt class = "col-sm-3">
             @Html.DisplayNameFor(model => model.Quantidade)
         </dt>

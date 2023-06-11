@@ -1,11 +1,12 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.CodeAnalysis.Options;
+using Microsoft.Extensions.Options;
 using RemessaFaccao.DAL.Models;
 using RemessaFaccao.DAL.Models.Enums;
 using RemessaFaccao.DAL.Models.ViewModels;
 using RemessaFaccao.DAL.Setting;
 using System.Data;
 using System.Data.SqlClient;
-using System.Threading.Tasks.Dataflow;
+using System.Drawing.Text;
 
 namespace RemessaFaccao.DAL.Repositories.Interfaces
 {
@@ -270,6 +271,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 else
                     result.Tamanho12 = 0;
 
+                //Buscar Facção
                 if (reader["FaccaoId"] != DBNull.Value)
                 {
                     result.FaccaoId = Convert.ToInt32(reader["FaccaoId"]);
@@ -317,6 +319,38 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 else
                     result.FaccaoId = null;
 
+                try
+                {
+                    List<Aviamento> resultAviamentos = new();
+                    Aviamento aviamento = new();
+                    SqlCommand commandAviamento = new("dbo.AviamentoGetByRemessaId");
+
+                    commandAviamento.Connection = new(_connection.SQLString);
+                    commandAviamento.Connection.Open();
+                    commandAviamento.CommandType = CommandType.StoredProcedure;
+                    commandAviamento.Parameters.Add("@RemessaId", SqlDbType.Int).Value = result.RemessaId;
+
+                    SqlDataReader readerA = commandAviamento.ExecuteReader();
+
+                    while (readerA.Read())
+                    {
+                        resultAviamentos.Add(new Aviamento
+                        {
+                            AviamentoId = Convert.ToInt32(readerA["AviamentoId"]),
+                            Nome = readerA["Nome"].ToString()
+                        });
+                    }
+
+                    if (commandAviamento.Connection.State == ConnectionState.Open)
+                        commandAviamento.Connection.Close();
+                    
+                    result.Aviamentos = resultAviamentos; 
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    throw new Exception("Erro ao acessar informações do banco de dados. ");
+                }
             }
             catch (Exception e)
             {

@@ -111,6 +111,9 @@ namespace RemessaFaccao.Web.Controllers
         {
             try
             {
+                ViewBag.Faccoes = new SelectList(_remessaRepository.GetFaccoesAtivas(), "FaccaoId", "Nome");
+                ViewBag.Aviamentos = new SelectList(_remessaRepository.GetAviamentosParaRemessa(), "AviamentoId", "Nome");
+
                 string aviamentosId = Request.Form["chkAviamento"].ToString(); 
 
                 if (!string.IsNullOrEmpty(aviamentosId))
