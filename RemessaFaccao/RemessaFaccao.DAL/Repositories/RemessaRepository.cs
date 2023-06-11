@@ -666,6 +666,30 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             {
                 try
                 {
+                    List<Aviamento> resultAviamentos = new();
+                    Aviamento aviamento = new();
+                    SqlCommand commandAviamento = new("dbo.AviamentoGetByRemessaId");
+
+                    commandAviamento.Connection = new(_connection.SQLString);
+                    commandAviamento.Connection.Open();
+                    commandAviamento.CommandType = CommandType.StoredProcedure;
+                    commandAviamento.Parameters.Add("@RemessaId", SqlDbType.Int).Value = id;
+
+                    if (commandAviamento.ExecuteReader().HasRows)
+                    {
+                        SqlCommand command1 = new("dbo.AviamentoRemessaDeleteByRemessaId");
+
+                        command1.Connection = new(_connection.SQLString);
+                        command1.Connection.Open();
+                        command1.CommandType = CommandType.StoredProcedure;
+                        command1.Parameters.Add("@RemessaId", SqlDbType.Int).Value = id;
+                        command1.ExecuteNonQuery();
+                        command1.Connection.Close();
+                    }
+
+                    if (commandAviamento.Connection.State == ConnectionState.Open)
+                        commandAviamento.Connection.Close();
+
                     command.Connection = new SqlConnection(_connection.SQLString);
                     command.Connection.Open();
                     command.CommandType = CommandType.StoredProcedure;
