@@ -175,7 +175,7 @@ namespace RemessaFaccao.Web.Controllers
             {
                 Console.WriteLine(e.Message);
                 ModelState.AddModelError("", e.Message);
-                return View(aviamento);
+                return View(_aviamentoRepository.GetById(id));
             }
         }
     }

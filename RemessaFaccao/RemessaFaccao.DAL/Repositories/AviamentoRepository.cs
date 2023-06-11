@@ -120,7 +120,8 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             }
             catch (Exception e)
             {
-                throw new Exception("Erro ao acessar informações do banco de dados. " + e.Message);
+                Console.WriteLine(e.Message);
+                throw new Exception("Erro ao excluir aviamento, verifique se este aviamento está vinculado a alguma remessa, por favor. ");
             }
         }
     }
