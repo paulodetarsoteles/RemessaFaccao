@@ -221,7 +221,7 @@ namespace RemessaFaccao.Web.Controllers
             try
             {
                 IdentityUser identity = _userManager.FindByNameAsync(userName).Result ?? throw new Exception("Usuário não encontrado. ");
-                
+
                 LoginViewModel login = new();
                 login.Username = identity.UserName;
                 login.Email = identity.Email;

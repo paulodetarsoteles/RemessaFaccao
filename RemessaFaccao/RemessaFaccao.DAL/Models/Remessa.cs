@@ -73,7 +73,7 @@ namespace RemessaFaccao.DAL.Models
         public DateTime? DataRecebimento { get; set; } = new(2023, 01, 01);
 
         [Display(Name = "Status da Remessa")]
-        public StatusRemessa StatusRemessa { get; set; } = StatusRemessa.Preparada; 
+        public StatusRemessa StatusRemessa { get; set; } = StatusRemessa.Preparada;
 
         [Display(Name = "Observações")]
         public string Observacoes { get; set; }

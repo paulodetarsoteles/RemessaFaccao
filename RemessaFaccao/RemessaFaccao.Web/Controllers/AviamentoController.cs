@@ -3,9 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using RemessaFaccao.DAL.Models;
 using RemessaFaccao.DAL.Repositories.Interfaces;
-using System.Collections.Specialized;
-using System.Configuration;
-using System.Drawing.Printing;
 using X.PagedList;
 
 namespace RemessaFaccao.Web.Controllers

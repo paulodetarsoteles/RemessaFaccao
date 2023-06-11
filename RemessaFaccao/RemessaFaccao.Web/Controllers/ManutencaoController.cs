@@ -9,8 +9,8 @@ namespace RemessaFaccao.Web.Controllers
         public IActionResult Index(string? exc)
         {
             if (exc is not null)
-                return View(exc); 
-            
+                return View(exc);
+
             return View();
         }
     }

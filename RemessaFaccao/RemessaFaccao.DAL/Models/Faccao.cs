@@ -30,7 +30,7 @@ namespace RemessaFaccao.DAL.Models
         [Range(0, 10, ErrorMessage = "Digite uma nota entre 0 a 10 (sem vírgulas)")]
         public int Qualificacao { get; set; }
 
-        public bool Ativo { get; set; } = true; 
+        public bool Ativo { get; set; } = true;
 
         [Display(Name = "Observações")]
         public string Observacoes { get; set; }

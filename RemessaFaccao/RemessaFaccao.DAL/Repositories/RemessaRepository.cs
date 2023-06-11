@@ -1,12 +1,10 @@
-﻿using Microsoft.CodeAnalysis.Options;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using RemessaFaccao.DAL.Models;
 using RemessaFaccao.DAL.Models.Enums;
 using RemessaFaccao.DAL.Models.ViewModels;
 using RemessaFaccao.DAL.Setting;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing.Text;
 
 namespace RemessaFaccao.DAL.Repositories.Interfaces
 {
@@ -343,8 +341,8 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
 
                     if (commandAviamento.Connection.State == ConnectionState.Open)
                         commandAviamento.Connection.Close();
-                    
-                    result.Aviamentos = resultAviamentos; 
+
+                    result.Aviamentos = resultAviamentos;
                 }
                 catch (Exception e)
                 {
@@ -596,6 +594,31 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
 
                 if (Convert.ToInt32(command.ExecuteNonQuery()) != 0)
                     result = true;
+
+                if (remessa.Aviamentos.Count() > 0)
+                {
+                    SqlCommand command1 = new("dbo.AviamentoRemessaDeleteByRemessaId");
+
+                    command1.Connection = new(_connection.SQLString);
+                    command1.Connection.Open();
+                    command1.CommandType = CommandType.StoredProcedure;
+                    command1.Parameters.Add("@RemessaId", SqlDbType.Int).Value = remessa.RemessaId;
+                    command1.ExecuteNonQuery();
+                    command1.Connection.Close();
+
+                    foreach (Aviamento aviamento in remessa.Aviamentos)
+                    {
+                        SqlCommand command2 = new("dbo.AviamentoRemessaInsert");
+
+                        command2.Connection = new(_connection.SQLString);
+                        command2.Connection.Open();
+                        command2.CommandType = CommandType.StoredProcedure;
+                        command2.Parameters.Add("@RemessaId", SqlDbType.Int).Value = remessa.RemessaId;
+                        command2.Parameters.Add("@AviamentoId", SqlDbType.Int).Value = aviamento.AviamentoId;
+                        command2.ExecuteNonQuery();
+                        command2.Connection.Close();
+                    }
+                }
             }
             catch (Exception e)
             {

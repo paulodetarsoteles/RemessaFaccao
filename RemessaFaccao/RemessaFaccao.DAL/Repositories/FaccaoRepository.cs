@@ -226,6 +226,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 }
                 catch (Exception e)
                 {
+                    Console.WriteLine("Erro ao excluir a facção " + e.Message);
                     throw new Exception("Erro ao excluir a facção, verifique se ela está vinculada a alguma remessa, por favor. ");
                 }
                 finally

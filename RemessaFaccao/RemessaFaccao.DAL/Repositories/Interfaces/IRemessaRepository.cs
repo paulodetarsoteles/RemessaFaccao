@@ -8,19 +8,19 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
         List<Remessa> GetAll();
         List<Remessa> GetNaoEnviadaParaProducao();
         List<RemessaFaccaoViewModel> GetAtrasadas();
-        List<RemessaFaccaoViewModel> GetEmProducao(); 
+        List<RemessaFaccaoViewModel> GetEmProducao();
         List<RemessaFaccaoViewModel> GetReceberHoje();
         Remessa GetById(int id);
         int Count();
         int CountEnviarParaProducao();
-        int CountEmProducao(); 
+        int CountEmProducao();
         int CountAtrasadas();
         int CountReceberHoje();
         bool Insert(Remessa remessa);
         bool Update(int id, Remessa remessa);
-        void UpdateStatus(); 
+        void UpdateStatus();
         bool Delete(int id);
         public List<Faccao> GetFaccoesAtivas();
-        public List<Aviamento> GetAviamentosParaRemessa(); 
+        public List<Aviamento> GetAviamentosParaRemessa();
     }
 }

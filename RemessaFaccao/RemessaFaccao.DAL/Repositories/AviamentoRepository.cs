@@ -68,7 +68,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
 
                 if (_connectionEf.SaveChanges() != 0)
                     result = true;
-            
+
                 return result;
             }
             catch (Exception e)
@@ -88,7 +88,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
 
                 if (_connectionEf.SaveChanges() != 0)
                     result = true;
-            
+
                 return result;
             }
             catch (Exception e)
@@ -114,7 +114,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
 
                     if (_connectionEf.SaveChanges() != 0)
                         result = true;
-            
+
                     return result;
                 }
             }

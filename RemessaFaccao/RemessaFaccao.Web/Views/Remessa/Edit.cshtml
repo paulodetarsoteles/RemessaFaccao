@@ -47,6 +47,23 @@
                     <span asp-validation-for="Descricao" class="text-danger"></span>
                 </div>
                 <div class="form-group">
+                    <label asp-for="Aviamentos" class="control-label"></label>
+                    <div class="row">
+                        <div class="col-md-8">
+                            @Html.DropDownList("AviamentoId", (SelectList)ViewBag.Aviamentos, "Selecione os aviamentos", new { @class = "form-control" })
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-secondary" id="btnAddAviamento">Adicionar</button>
+                        </div>
+                    </div>
+                    <ul id="listAviamentos">
+                        @foreach (var item in Model.Aviamentos)
+                        {
+                            <li>@Html.DisplayFor(itemModel => item.Nome)</li>
+                        }
+                    </ul>
+                </div>
+                <div class="form-group">
                     <label asp-for="Tamanho1" class="control-label"></label>
                     <input asp-for="Tamanho1" class="form-control" />
                     <span asp-validation-for="Tamanho1" class="text-danger"></span>
@@ -120,12 +137,47 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-    @*Validação do valor com uso da vírgula no campo*@
     <script>
+        //Validação do valor com uso da vírgula no campo
         jQuery.extend(jQuery.validator.methods, {
             number: function (value, element) {
                 return this.optional(element) || /^-?(?:\d+|\d{1,3}(?:\.\d{3})+)(?:,\d+)?$/.test(value);
             }
+        });
+
+        //Adição dos aviamentos na remessa
+        $(document).ready(function () {
+            $("#btnAddAviamento").click(function () {
+                var chkRptAviamento = false;
+                var currentValue = $("#AviamentoId option:selected").text().trim();
+
+                if (currentValue == "Selecione os aviamentos") {
+                    return false;
+                }
+
+                $('#listAviamentos li').each(function () {
+                    var current = $(this).text().trim();
+
+                    if (current == $("#AviamentoId option:selected").text().trim()) {
+                        chkRptAviamento = true;
+                    }
+                });
+
+                if (!chkRptAviamento) {
+                    $("#listAviamentos").append("<li>" +
+                        $("#AviamentoId option:selected").text() +
+                        " <input type='hidden' name='chkAviamento' id='chkAviamento' class='chkAviamento' value='" +
+                        $("#AviamentoId option:selected").val() +
+                        "'></li>");
+                } else {
+                    alert("Aviamento já adicionado!");
+                }
+            });
+
+            $('#listAviamentos').on('click', "li", function () {
+                $(this).remove();
+                return false;
+            });
         });
     </script>
 }

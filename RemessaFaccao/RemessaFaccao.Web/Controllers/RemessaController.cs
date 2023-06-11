@@ -58,7 +58,7 @@ namespace RemessaFaccao.Web.Controllers
                 if (!String.IsNullOrEmpty(searchString))
                     remessas = remessas.Where(s => s.Referencia.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) != -1);
 
-                ViewBag.PageSize = pageSize; 
+                ViewBag.PageSize = pageSize;
 
                 return View(remessas.ToList().ToPagedList(page, pageSize));
             }
@@ -93,7 +93,7 @@ namespace RemessaFaccao.Web.Controllers
             try
             {
                 ViewBag.Faccoes = new SelectList(_remessaRepository.GetFaccoesAtivas(), "FaccaoId", "Nome");
-                ViewBag.Aviamentos = new SelectList(_remessaRepository.GetAviamentosParaRemessa(), "AviamentoId", "Nome"); 
+                ViewBag.Aviamentos = new SelectList(_remessaRepository.GetAviamentosParaRemessa(), "AviamentoId", "Nome");
                 return View();
             }
             catch (Exception e)
@@ -114,7 +114,7 @@ namespace RemessaFaccao.Web.Controllers
                 ViewBag.Faccoes = new SelectList(_remessaRepository.GetFaccoesAtivas(), "FaccaoId", "Nome");
                 ViewBag.Aviamentos = new SelectList(_remessaRepository.GetAviamentosParaRemessa(), "AviamentoId", "Nome");
 
-                string aviamentosId = Request.Form["chkAviamento"].ToString(); 
+                string aviamentosId = Request.Form["chkAviamento"].ToString();
 
                 if (!string.IsNullOrEmpty(aviamentosId))
                 {
@@ -160,6 +160,8 @@ namespace RemessaFaccao.Web.Controllers
             try
             {
                 ViewBag.Faccoes = new SelectList(_remessaRepository.GetFaccoesAtivas(), "FaccaoId", "Nome");
+                ViewBag.Aviamentos = new SelectList(_remessaRepository.GetAviamentosParaRemessa(), "AviamentoId", "Nome");
+
                 return View(_remessaRepository.GetById(id));
             }
             catch (Exception e)
@@ -177,6 +179,26 @@ namespace RemessaFaccao.Web.Controllers
         {
             try
             {
+                ViewBag.Faccoes = new SelectList(_remessaRepository.GetFaccoesAtivas(), "FaccaoId", "Nome");
+                ViewBag.Aviamentos = new SelectList(_remessaRepository.GetAviamentosParaRemessa(), "AviamentoId", "Nome");
+
+                string aviamentosId = Request.Form["chkAviamento"].ToString();
+
+                if (!string.IsNullOrEmpty(aviamentosId))
+                {
+                    int[] splitAviamantos = aviamentosId.Split(',').Select(int.Parse).ToArray();
+
+                    if (splitAviamantos.Length > 0)
+                    {
+                        List<Aviamento> aviamentos = _remessaRepository.GetAviamentosParaRemessa();
+
+                        foreach (int aviamentoId in splitAviamantos)
+                        {
+                            remessa.Aviamentos.Add(aviamentos.First(a => a.AviamentoId == aviamentoId));
+                        }
+                    }
+                }
+
                 if (!ModelState.IsValid || ModelState.IsNullOrEmpty() || remessa is null)
                     throw new Exception("Objeto inválido!");
 
