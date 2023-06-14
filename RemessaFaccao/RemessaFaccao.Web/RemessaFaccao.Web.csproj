@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\imgs\teste.jpg" />
     <Content Remove="wwwroot\lib\bootstrap\dist\css\bootstrap - Copy.css" />
     <Content Remove="wwwroot\lib\bootstrap\dist\css\bootstrap - Copy.css.map" />
     <Content Remove="wwwroot\lib\bootstrap\dist\css\bootstrap - Copy.min.css" />

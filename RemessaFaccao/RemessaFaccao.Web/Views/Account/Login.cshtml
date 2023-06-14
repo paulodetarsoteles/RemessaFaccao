@@ -1,37 +1,47 @@
 ﻿@model RemessaFaccao.DAL.Models.ViewModels.LoginViewModel
 
+@{
+    Layout = null;
+}
+
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/lib/bootstrap-icons/bootstrap-icons.css" />
+<link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/RemessaFaccao.Web.styles.css" asp-append-version="true" />
+
 <div class="containerHome">
-    <div class="internalLogin">
-        <div class="row">
-            <div class="col-12 col-md-12 col-lg-12">
-                <h4><i class="bi bi-people-fill"></i> LOGIN</h4>
-                <form asp-controller="Account" asp-action="Login" method="post" role="form" class="form-horizontal">
-                    <hr />
-                    <div asp-validation-summary="All" class="text-danger"></div>
-                    <input type="hidden" asp-for="ReturnUrl" />
-                    <div class="form-group">
-                        <label asp-for="Username" class="col-md-2 control-label"></label>
-                        <div class="col-md-12">
-                            <input asp-for="Username" class="form-control" placeholder="Digite o usuário" />
-                            <span asp-validation-for="Username" class="text-danger"></span>
-                        </div>
+    <div id="loginEsquerdo" class="col-md-6 d-flex justify-content-center align-items-center d-none d-md-flex">
+        <img src="~/imgs/blimblom.jpg" class="img-fluid" width="450" />
+    </div>
+    <div id="loginDireito" class="col-md-6 d-flex justify-content-left align-items-center">
+        <div class="internalLogin">
+            <h4><i class="bi bi-people-fill"></i> LOGIN</h4>
+            <form asp-controller="Account" asp-action="Login" method="post" role="form" class="form-horizontal">
+                <hr />
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <input type="hidden" asp-for="ReturnUrl" />
+                <div class="form-group">
+                    <label asp-for="Username" class="col-md-2 control-label"></label>
+                    <div class="col-md-12">
+                        <input asp-for="Username" class="form-control" placeholder="Digite o usuário" />
+                        <span asp-validation-for="Username" class="text-danger"></span>
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label asp-for="Password" class="form-group"></label>
+                    <div class="col-md-12">
+                        <input asp-for="Password" class="form-control" placeholder="Digite a senha" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
                     <br />
-                    <div class="form-group">
-                        <label asp-for="Password" class="form-group"></label>
-                        <div class="col-md-12">
-                            <input asp-for="Password" class="form-control" placeholder="Digite a senha" />
-                            <span asp-validation-for="Password" class="text-danger"></span>
-                        </div>
-                        <br />
-                    </div>
-                    <div class="input-group justify-content-end">
-                        <span>
-                            <button class="btn btn-success">Entrar <i class="bi bi-check-circle"></i></button>
-                        </span>
-                    </div>
-                </form>
-            </div>
+                </div>
+                <div class="input-group justify-content-end">
+                    <span>
+                        <button class="btn btn-success">Entrar <i class="bi bi-check-circle"></i></button>
+                    </span>
+                </div>
+            </form>
         </div>
     </div>
 </div>

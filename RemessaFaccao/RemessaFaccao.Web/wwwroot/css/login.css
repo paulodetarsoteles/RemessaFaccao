@@ -1,0 +1,35 @@
+html {
+    font-size: 17px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 17px;
+    }
+}
+
+.internalLogin {
+    background-color: #f3e1e9;
+    max-width: 400px;
+    min-width: 360px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    box-shadow: 1px 1px 10px 3px #e5e5e5;
+    padding: 20px;
+    display: block;
+}
+.containerHome {
+    width: 100%;
+    height: 65vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row; 
+}
+
+.boxhome {
+    width: 600px;
+    height: 400px;
+}
