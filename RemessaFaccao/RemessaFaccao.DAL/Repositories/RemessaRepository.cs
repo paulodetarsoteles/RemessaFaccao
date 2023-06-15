@@ -212,10 +212,10 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 command.Connection = new SqlConnection(_connection.SQLString);
                 command.Connection.Open();
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add("@FaccaoId", SqlDbType.Int).Value = faccaoId; 
+                command.Parameters.Add("@FaccaoId", SqlDbType.Int).Value = faccaoId;
                 command.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = fromDate;
                 command.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = toDate;
-                command.Parameters.Add("@Status", SqlDbType.Int).Value = StatusRemessa.Recebida; 
+                command.Parameters.Add("@Status", SqlDbType.Int).Value = StatusRemessa.Recebida;
 
                 SqlDataReader reader = command.ExecuteReader();
 

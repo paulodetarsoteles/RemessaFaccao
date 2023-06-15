@@ -87,7 +87,7 @@ namespace RemessaFaccao.Web.Controllers
         public IActionResult RelatorioRecebidas(DateTime fromDate, DateTime toDate, int? faccaoId = null)
         {
             ViewBag.Faccoes = new SelectList(_remessaRepository.GetFaccoes(), "FaccaoId", "Nome");
-            List<Remessa> result = new(_remessaRepository.GetRecebidas(fromDate, toDate, faccaoId)); 
+            List<Remessa> result = new(_remessaRepository.GetRecebidas(fromDate, toDate, faccaoId));
 
             return RedirectToAction(nameof(Recebidas), result);
         }
@@ -95,7 +95,7 @@ namespace RemessaFaccao.Web.Controllers
         // GET: Recebidas
         public IActionResult Recebidas(List<Remessa> remessas)
         {
-            return View(remessas); 
+            return View(remessas);
         }
 
         // GET: RelatorioPersonalizado
