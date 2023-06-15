@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using RemessaFaccao.DAL.Models;
 using RemessaFaccao.DAL.Repositories.Interfaces;
 
 namespace RemessaFaccao.Web.Controllers
@@ -72,6 +74,28 @@ namespace RemessaFaccao.Web.Controllers
                 ModelState.AddModelError("", e.Message);
                 return View();
             }
+        }
+
+        // GET: RelatorioRecebidas
+        public IActionResult RelatorioRecebidas()
+        {
+            ViewBag.Faccoes = new SelectList(_remessaRepository.GetFaccoes(), "FaccaoId", "Nome");
+            return View();
+        }
+
+        // POST: RelatorioRecebidas
+        public IActionResult RelatorioRecebidas(DateTime fromDate, DateTime toDate, int? faccaoId = null)
+        {
+            ViewBag.Faccoes = new SelectList(_remessaRepository.GetFaccoes(), "FaccaoId", "Nome");
+            List<Remessa> result = new(_remessaRepository.GetRecebidas(fromDate, toDate, faccaoId)); 
+
+            return RedirectToAction(nameof(Recebidas), result);
+        }
+
+        // GET: Recebidas
+        public IActionResult Recebidas(List<Remessa> remessas)
+        {
+            return View(remessas); 
         }
 
         // GET: RelatorioPersonalizado

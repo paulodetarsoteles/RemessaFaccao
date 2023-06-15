@@ -10,6 +10,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
         List<RemessaFaccaoViewModel> GetAtrasadas();
         List<RemessaFaccaoViewModel> GetEmProducao();
         List<RemessaFaccaoViewModel> GetReceberHoje();
+        List<Remessa> GetRecebidas(DateTime fromDate, DateTime toDate, int? faccaoId); 
         Remessa GetById(int id);
         int Count();
         int CountEnviarParaProducao();
@@ -20,6 +21,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
         bool Update(int id, Remessa remessa);
         void UpdateStatus();
         bool Delete(int id);
+        public List<Faccao> GetFaccoes(); 
         public List<Faccao> GetFaccoesAtivas();
         public List<Aviamento> GetAviamentosParaRemessa();
     }

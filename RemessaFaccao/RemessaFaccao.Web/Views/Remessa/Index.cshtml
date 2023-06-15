@@ -82,9 +82,18 @@ else
                         <td>
                             &nbsp;&nbsp;&nbsp;&nbsp; @Html.DisplayFor(modelItem => item.RemessaId)
                         </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.StatusRemessa)
-                        </td>
+                        @if (item.StatusRemessa == RemessaFaccao.DAL.Models.Enums.StatusRemessa.Atrasada)
+                        {
+                            <td class="text-danger fw-bold">
+                                @Html.DisplayFor(modelItem => item.StatusRemessa)
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => item.StatusRemessa)
+                            </td>
+                        }
                         <td>
                             @Html.DisplayFor(modelItem => item.Referencia)
                         </td>

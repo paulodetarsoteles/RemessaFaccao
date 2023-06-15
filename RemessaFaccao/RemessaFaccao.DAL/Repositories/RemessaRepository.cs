@@ -202,6 +202,50 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             return result;
         }
 
+        public List<Remessa> GetRecebidas(DateTime fromDate, DateTime toDate, int? faccaoId)
+        {
+            List<Remessa> result = new();
+            SqlCommand command = new("dbo.RemessaGetRecebidasByDate");
+
+            try
+            {
+                command.Connection = new SqlConnection(_connection.SQLString);
+                command.Connection.Open();
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add("@FaccaoId", SqlDbType.Int).Value = faccaoId; 
+                command.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = fromDate;
+                command.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = toDate;
+                command.Parameters.Add("@Status", SqlDbType.Int).Value = StatusRemessa.Recebida; 
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                if (!reader.HasRows)
+                    throw new Exception("Nenhum objeto não encontrado. ");
+
+                while (reader.Read())
+                {
+                    result.Add(new Remessa
+                    {
+                        RemessaId = Convert.ToInt32(reader["RemessaId"]),
+                        Referencia = reader["Referencia"].ToString(),
+                        DataRecebimento = Convert.ToDateTime(reader["DataRecebimento"]),
+                        Quantidade = Convert.ToInt32(reader["Quantidade"]),
+                        ValorTotal = Convert.ToDecimal(reader["ValorTotal"])
+                    });
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                if (command.Connection.State == ConnectionState.Open)
+                    command.Connection.Close();
+            }
+            return result;
+        }
+
         public Remessa GetById(int id)
         {
             Remessa result = new();
@@ -709,6 +753,42 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 }
                 return result;
             }
+        }
+
+        public List<Faccao> GetFaccoes()
+        {
+            List<Faccao> result = new();
+            SqlCommand command = new("SELECT FaccaoId, Nome " +
+                                     "FROM dbo.Faccao (NOLOCK) " +
+                                     "ORDER BY Faccao.Nome; ");
+
+            try
+            {
+                command.Connection = new(_connection.SQLString);
+                command.Connection.Open();
+                command.CommandType = CommandType.Text;
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    result.Add(new Faccao
+                    {
+                        FaccaoId = Convert.ToInt32(reader["FaccaoId"]),
+                        Nome = reader["Nome"].ToString()
+                    });
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Erro ao acessar informações do banco de dados. " + e.Message);
+            }
+            finally
+            {
+                if (command.Connection.State == ConnectionState.Open)
+                    command.Connection.Close();
+            }
+            return result;
         }
 
         public List<Faccao> GetFaccoesAtivas()
