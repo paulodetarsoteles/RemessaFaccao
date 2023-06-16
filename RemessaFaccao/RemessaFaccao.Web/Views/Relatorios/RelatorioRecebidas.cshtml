@@ -1,0 +1,110 @@
+﻿@model IEnumerable<RemessaFaccao.DAL.Models.Remessa>
+
+@{
+    ViewData["Title"] = "Relatório de Remessas Recebidas";
+}
+
+<h1>Remessas Recebidas</h1>
+
+<form asp-action="RelatorioRecebidas" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row">
+        <div class="form-group col-md-2">
+            @Html.DropDownList("FaccaoId", (SelectList)ViewBag.Faccoes, "Selecione uma facção", new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-2">
+            <div class="row">
+                <div class="col-md-2">
+                    De:
+                </div>
+                <div class="col-md-10">
+                    <input id="fromDate" name="fromDate" class="form-control" type="date" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-md-2">
+            <div class="row">
+                <div class="col-md-2">
+                    Até:
+                </div>
+                <div class="col-md-9">
+                    <input value="Até: " id="toDate" name="toDate" class="form-control" type="date" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-md-1">
+            <input type="submit" value="Buscar" class="btn btn-primary" />
+        </div>
+    </div>
+</form>
+<br />
+@if (Model.Count() < 1)
+{
+    <div class="col-md-8">
+        <table class="table">
+            <tr>
+                <th>
+                    Nenhum resultado encontrado...
+                </th>
+            </tr>
+        </table>
+    </div>
+}
+else
+{
+    <div class="col-md-8">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        &nbsp;&nbsp;&nbsp;&nbsp; @Html.DisplayNameFor(model => model.RemessaId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Referencia)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DataRecebimento)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Quantidade)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ValorTotal)
+                    </th>
+                    <th>
+                        Detalhes
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            &nbsp;&nbsp;&nbsp;&nbsp; @Html.DisplayFor(modelItem => item.RemessaId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Referencia)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DataRecebimento)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Quantidade)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ValorTotal)
+                        </td>
+                        <td>
+                            <span>
+                                <a href="@Url.Action("RecebidaDetails", new { id=item.RemessaId })" class="btn btn-secondary">
+                                    <i class="bi-clipboard"></i>
+                                </a>
+                            </span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

@@ -110,17 +110,17 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="DataDeEntrega" class="control-label"></label>
-                    <input asp-for="DataDeEntrega" class="form-control" />
+                    <input asp-for="DataDeEntrega" type="date" class="form-control" />
                     <span asp-validation-for="DataDeEntrega" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="DataPrazo" class="control-label"></label>
-                    <input asp-for="DataPrazo" class="form-control" />
+                    <input asp-for="DataPrazo" type="date" class="form-control" />
                     <span asp-validation-for="DataPrazo" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="DataRecebimento" class="control-label"></label>
-                    <input asp-for="DataRecebimento" class="form-control" />
+                    <input asp-for="DataRecebimento" type="date" class="form-control" />
                     <span asp-validation-for="DataRecebimento" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -171,8 +171,8 @@
                 if (!chkRptAviamento) {
                     $("#listAviamentos").append(
                         "<li>" +
-                            $("#AviamentoId option:selected").text() +
-                            "<input type='hidden' name='chkAviamento' id='chkAviamento' class='chkAviamento' value='" + $("#AviamentoId option:selected").val() + "'>" + 
+                        $("#AviamentoId option:selected").text() +
+                        "<input type='hidden' name='chkAviamento' id='chkAviamento' class='chkAviamento' value='" + $("#AviamentoId option:selected").val() + "'>" +
                         "</li>");
                 } else {
                     alert("Aviamento já adicionado!");

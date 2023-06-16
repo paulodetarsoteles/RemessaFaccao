@@ -220,7 +220,11 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 SqlDataReader reader = command.ExecuteReader();
 
                 if (!reader.HasRows)
-                    throw new Exception("Nenhum objeto não encontrado. ");
+                {
+                    if (command.Connection.State == ConnectionState.Open)
+                        command.Connection.Close();
+                    return result;
+                }
 
                 while (reader.Read())
                 {
@@ -236,7 +240,8 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             }
             catch (Exception e)
             {
-                throw new Exception(e.Message);
+                Console.WriteLine(e.Message);
+                throw new Exception("Filtro incorreto ou erro ao acessar informações do banco de dados. ");
             }
             finally
             {

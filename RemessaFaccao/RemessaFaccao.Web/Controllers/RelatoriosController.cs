@@ -80,22 +80,48 @@ namespace RemessaFaccao.Web.Controllers
         public IActionResult RelatorioRecebidas()
         {
             ViewBag.Faccoes = new SelectList(_remessaRepository.GetFaccoes(), "FaccaoId", "Nome");
-            return View();
+
+            DateTime fromDate = DateTime.Now.AddDays(-7);
+            DateTime toDate = DateTime.Now;
+
+            return View(_remessaRepository.GetRecebidas(fromDate, toDate, null));
         }
 
         // POST: RelatorioRecebidas
-        public IActionResult RelatorioRecebidas(DateTime fromDate, DateTime toDate, int? faccaoId = null)
+        [HttpPost]
+        public IActionResult RelatorioRecebidas(DateTime fromDate , DateTime toDate, int? faccaoId = null)
         {
-            ViewBag.Faccoes = new SelectList(_remessaRepository.GetFaccoes(), "FaccaoId", "Nome");
-            List<Remessa> result = new(_remessaRepository.GetRecebidas(fromDate, toDate, faccaoId));
+            try
+            {
+                ViewBag.Faccoes = new SelectList(_remessaRepository.GetFaccoes(), "FaccaoId", "Nome");
 
-            return RedirectToAction(nameof(Recebidas), result);
+                return View(_remessaRepository.GetRecebidas(fromDate, toDate, faccaoId));
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("", e.Message);
+                return View(_remessaRepository.GetRecebidas(DateTime.Now.AddDays(-7), DateTime.Now, null));
+            }
         }
 
         // GET: Recebidas
         public IActionResult Recebidas(List<Remessa> remessas)
         {
             return View(remessas);
+        }
+
+        public IActionResult RecebidaDetails(int id)
+        {
+            try
+            {
+                return View(_remessaRepository.GetById(id));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ModelState.AddModelError("", e.Message);
+                return RedirectToAction("Index", "Manutencao", e.Message);
+            }
         }
 
         // GET: RelatorioPersonalizado
