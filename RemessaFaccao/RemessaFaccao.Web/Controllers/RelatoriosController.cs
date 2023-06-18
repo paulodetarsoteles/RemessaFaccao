@@ -16,7 +16,6 @@ namespace RemessaFaccao.Web.Controllers
             _remessaRepository = remessaRepository;
         }
 
-        // GET: RelatorioEnviarParaProducao
         public IActionResult RelatorioEnviarParaProducao()
         {
             try
@@ -31,7 +30,6 @@ namespace RemessaFaccao.Web.Controllers
             }
         }
 
-        // GET: RelatorioEmProducao
         public IActionResult RelatorioEmProducao()
         {
             try
@@ -46,7 +44,6 @@ namespace RemessaFaccao.Web.Controllers
             }
         }
 
-        // GET: RelatorioAtrasadas
         public IActionResult RelatorioAtrasadas()
         {
             try
@@ -61,7 +58,6 @@ namespace RemessaFaccao.Web.Controllers
             }
         }
 
-        // GET: RelatorioReceberHoje
         public IActionResult RelatorioReceberHoje()
         {
             try
@@ -76,7 +72,6 @@ namespace RemessaFaccao.Web.Controllers
             }
         }
 
-        // GET: RelatorioRecebidas
         public IActionResult RelatorioRecebidas()
         {
             ViewBag.Faccoes = new SelectList(_remessaRepository.GetFaccoes(), "FaccaoId", "Nome");
@@ -87,7 +82,6 @@ namespace RemessaFaccao.Web.Controllers
             return View(_remessaRepository.GetRecebidas(fromDate, toDate, null));
         }
 
-        // POST: RelatorioRecebidas
         [HttpPost]
         public IActionResult RelatorioRecebidas(DateTime fromDate , DateTime toDate, int? faccaoId = null)
         {
@@ -104,7 +98,6 @@ namespace RemessaFaccao.Web.Controllers
             }
         }
 
-        // GET: Recebidas
         public IActionResult Recebidas(List<Remessa> remessas)
         {
             return View(remessas);
@@ -124,7 +117,6 @@ namespace RemessaFaccao.Web.Controllers
             }
         }
 
-        // GET: RelatorioPersonalizado
         public IActionResult RelatorioPersonalizado()
         {
             try
@@ -139,7 +131,6 @@ namespace RemessaFaccao.Web.Controllers
             }
         }
 
-        // POST: RelatorioPersonalizado
         [HttpPost]
         public IActionResult RelatorioPersonalizado(object model)
         {

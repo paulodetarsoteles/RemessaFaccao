@@ -1,0 +1,170 @@
+﻿@model RemessaFaccao.DAL.Models.Remessa
+
+@{
+    ViewData["Title"] = "Detalhes";
+}
+
+<h1>Detalhes</h1>
+
+<div class="internal">
+    <h4>Remessa</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.StatusRemessa)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.StatusRemessa)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.RemessaId)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.RemessaId)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.Faccao)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Faccao.Nome)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.Referencia)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Referencia)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.Piloto)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Piloto)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.Modelo)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Modelo)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.Tecido)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Tecido)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.Descricao)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Descricao)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Aviamentos)
+        </dt>
+        <dd class="col-sm-9">
+            @if (Model.Aviamentos.Any())
+            {
+                <ul>
+                    @foreach (var item in Model.Aviamentos)
+                    {
+                        <li>
+                            @Html.DisplayFor(modelIden => item.Nome)
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p>Nenhum aviamento</p>
+            }
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.Quantidade)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Quantidade)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.Tamanho1)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Tamanho1)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.Tamanho2)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Tamanho2)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.Tamanho4)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Tamanho4)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.Tamanho6)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Tamanho6)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.Tamanho8)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Tamanho8)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.Tamanho10)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Tamanho10)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.Tamanho12)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Tamanho12)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.ValorUnitario)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.ValorUnitario)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.ValorTotal)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.ValorTotal)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.DataDeEntrega)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.DataDeEntrega)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.DataPrazo)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.DataPrazo)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.DataRecebimento)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.DataRecebimento)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.Observacoes)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Observacoes)
+        </dd>
+    </dl>
+</div>
+<br />
+<div>
+    <a asp-action="RelatorioRecebidas" asp-controller="Relatorios" class="btn btn-secondary">Voltar</a>
+</div>

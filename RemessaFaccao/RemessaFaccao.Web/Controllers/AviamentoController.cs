@@ -19,7 +19,7 @@ namespace RemessaFaccao.Web.Controllers
 
         // GET: AviamentoController
         [HttpGet]
-        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int page = 1, int pageSize = 10)
+        public IActionResult Index(string sortOrder, string currentFilter, string searchString, int page = 1, int pageSize = 10)
         {
             try
             {
@@ -57,7 +57,7 @@ namespace RemessaFaccao.Web.Controllers
 
         // GET: AviamentoController/Details/5
         [HttpGet]
-        public ActionResult Details(int id)
+        public IActionResult Details(int id)
         {
             try
             {
@@ -73,15 +73,12 @@ namespace RemessaFaccao.Web.Controllers
 
         // GET: AviamentoController/Create
         [HttpGet]
-        public ActionResult Create()
-        {
-            return View();
-        }
+        public IActionResult Create() => View(); 
 
         // POST: AviamentoController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Aviamento aviamento)
+        public IActionResult Create(Aviamento aviamento)
         {
             try
             {
@@ -104,7 +101,7 @@ namespace RemessaFaccao.Web.Controllers
 
         // GET: AviamentoController/Edit/5
         [HttpGet]
-        public ActionResult Edit(int id)
+        public IActionResult Edit(int id)
         {
             try
             {
@@ -121,7 +118,7 @@ namespace RemessaFaccao.Web.Controllers
         // POST: AviamentoController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, Aviamento aviamento)
+        public IActionResult Edit(int id, Aviamento aviamento)
         {
             try
             {
@@ -144,7 +141,7 @@ namespace RemessaFaccao.Web.Controllers
 
         // GET: AviamentoController/Delete/5
         [HttpGet]
-        public ActionResult Delete(int id)
+        public IActionResult Delete(int id)
         {
             try
             {
@@ -161,7 +158,7 @@ namespace RemessaFaccao.Web.Controllers
         // POST: AviamentoController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, Aviamento aviamento)
+        public IActionResult Delete(int id, Aviamento aviamento)
         {
             try
             {

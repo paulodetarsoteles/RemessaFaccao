@@ -19,7 +19,7 @@ namespace RemessaFaccao.Web.Controllers
 
         // GET: FaccaoController
         [HttpGet]
-        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int page = 1, int pageSize = 10)
+        public IActionResult Index(string sortOrder, string currentFilter, string searchString, int page = 1, int pageSize = 10)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace RemessaFaccao.Web.Controllers
 
         // GET: FaccaoController/Details/5
         [HttpGet]
-        public ActionResult Details(int id)
+        public IActionResult Details(int id)
         {
             try
             {
@@ -85,15 +85,12 @@ namespace RemessaFaccao.Web.Controllers
 
         // GET: FaccaoController/Create
         [HttpGet]
-        public ActionResult Create()
-        {
-            return View();
-        }
+        public IActionResult Create() => View();
 
         // POST: FaccaoController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Faccao faccao)
+        public IActionResult Create(Faccao faccao)
         {
             try
             {
@@ -116,7 +113,7 @@ namespace RemessaFaccao.Web.Controllers
 
         // GET: FaccaoController/Edit/5
         [HttpGet]
-        public ActionResult Edit(int id)
+        public IActionResult Edit(int id)
         {
             try
             {
@@ -133,7 +130,7 @@ namespace RemessaFaccao.Web.Controllers
         // POST: FaccaoController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, Faccao faccao)
+        public IActionResult Edit(int id, Faccao faccao)
         {
             try
             {
@@ -156,7 +153,7 @@ namespace RemessaFaccao.Web.Controllers
 
         // GET: FaccaoController/Delete/5
         [HttpGet]
-        public ActionResult Delete(int id)
+        public IActionResult Delete(int id)
         {
             try
             {
@@ -173,7 +170,7 @@ namespace RemessaFaccao.Web.Controllers
         // POST: FaccaoController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, Faccao faccao)
+        public IActionResult Delete(int id, Faccao faccao)
         {
             try
             {

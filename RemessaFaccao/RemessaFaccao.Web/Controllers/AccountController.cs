@@ -31,22 +31,26 @@ namespace RemessaFaccao.Web.Controllers
             {
                 if (!_roleManager.RoleExistsAsync("Admin").Result)
                 {
-                    IdentityRole role = new IdentityRole();
-                    role.Name = "Admin";
-                    role.NormalizedName = "ADMIN";
+                    IdentityRole role = new()
+                    {
+                        Name = "Admin",
+                        NormalizedName = "ADMIN"
+                    };
                     IdentityResult roleResult = _roleManager.CreateAsync(role).Result;
                 }
 
                 if (_userManager.FindByEmailAsync("admin@localhost").Result is null)
                 {
-                    IdentityUser user = new();
-                    user.UserName = "admin";
-                    user.Email = "admin@localhost";
-                    user.NormalizedUserName = "ADMIN";
-                    user.NormalizedEmail = "ADMIN@LOCALHOST";
-                    user.EmailConfirmed = true;
-                    user.LockoutEnabled = false;
-                    user.SecurityStamp = Guid.NewGuid().ToString();
+                    IdentityUser user = new()
+                    {
+                        UserName = "admin",
+                        Email = "admin@localhost",
+                        NormalizedUserName = "ADMIN",
+                        NormalizedEmail = "ADMIN@LOCALHOST",
+                        EmailConfirmed = true,
+                        LockoutEnabled = false,
+                        SecurityStamp = Guid.NewGuid().ToString()
+                    };
 
                     if (_userManager.CreateAsync(user, "admin123").Result.Succeeded)
                         _userManager.AddToRoleAsync(user, "Admin").Wait();
@@ -99,10 +103,7 @@ namespace RemessaFaccao.Web.Controllers
 
         [HttpGet]
         [Authorize(Policy = "Admin")]
-        public IActionResult Register()
-        {
-            return View();
-        }
+        public IActionResult Register() => View();
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -119,9 +120,11 @@ namespace RemessaFaccao.Web.Controllers
                 if (!ModelState.IsValid)
                     throw new Exception("Usuário inválido.");
 
-                IdentityUser user = new();
-                user.UserName = userRegister.Username;
-                user.Email = userRegister.Email;
+                IdentityUser user = new()
+                {
+                    UserName = userRegister.Username,
+                    Email = userRegister.Email
+                };
 
                 IdentityResult result = await _userManager.CreateAsync(user, userRegister.Password);
 
@@ -176,9 +179,10 @@ namespace RemessaFaccao.Web.Controllers
 
                 foreach (IdentityUser identity in identities)
                 {
-                    LoginViewModel login = new();
-
-                    login.Username = identity.UserName;
+                    LoginViewModel login = new()
+                    {
+                        Username = identity.UserName
+                    };
                     logins.Add(login);
                 }
 
@@ -194,15 +198,16 @@ namespace RemessaFaccao.Web.Controllers
 
         // GET: AccountController/Details/admin
         [HttpGet]
-        public ActionResult Details(string userName)
+        public IActionResult Details(string userName)
         {
             try
             {
                 IdentityUser identity = _userManager.FindByNameAsync(userName).Result ?? throw new Exception("Usuário não encontrado. ");
-                LoginViewModel login = new();
-
-                login.Username = identity.UserName;
-                login.Email = identity.Email;
+                LoginViewModel login = new()
+                {
+                    Username = identity.UserName,
+                    Email = identity.Email
+                };
 
                 return View(login);
             }
@@ -216,15 +221,17 @@ namespace RemessaFaccao.Web.Controllers
 
         // GET: AccountController/Edit/admin
         [HttpGet]
-        public ActionResult Edit(string userName)
+        public IActionResult Edit(string userName)
         {
             try
             {
                 IdentityUser identity = _userManager.FindByNameAsync(userName).Result ?? throw new Exception("Usuário não encontrado. ");
 
-                LoginViewModel login = new();
-                login.Username = identity.UserName;
-                login.Email = identity.Email;
+                LoginViewModel login = new()
+                {
+                    Username = identity.UserName,
+                    Email = identity.Email
+                };
 
                 return View(login);
             }
@@ -239,7 +246,7 @@ namespace RemessaFaccao.Web.Controllers
         // POST: AccountController/Edit/admin
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(string userName, LoginViewModel user)
+        public IActionResult Edit(string userName, LoginViewModel user)
         {
             DateTime dateTime = DateTime.Now;
 

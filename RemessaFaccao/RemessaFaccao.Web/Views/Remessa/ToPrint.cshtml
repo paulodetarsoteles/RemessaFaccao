@@ -1,156 +1,178 @@
 ﻿@model RemessaFaccao.DAL.Models.Remessa
 
 @{
-    Layout = null; 
+    Layout = null;
     ViewData["Title"] = "Remessa";
 }
 
 <!DOCTYPE html>
 <html>
-
 <head>
     <style>
         .titulo {
             text-align: center;
             margin-top: 5px;
             margin-bottom: 5px;
-            margin-left: 5px; 
-            margin-right: 5px; 
+            margin-left: 5px;
+            margin-right: 5px;
         }
     </style>
 </head>
-
 <body>
-    <font face="Verdana">
-    <br />
-    <header>
-        <h1 class="titulo">BLIM BLOM | Ficha - Número: @Html.DisplayFor(model => model.RemessaId)</h1>
-    </header>
-    <br />
-    <table align="center" width="80%" border="1" style="border-collapse: collapse">
-        <tr height="45">
-            <td>
-                @Html.DisplayNameFor(model => model.Faccao) : @Html.DisplayFor(model => model.FaccaoId)
-            </td>
-            <td>
-                @Html.DisplayNameFor(model => model.Referencia) : @Html.DisplayFor(model => model.Referencia)
-            </td>
-        </tr>
-        <tr height="45">
-            <td>
-                @Html.DisplayNameFor(model => model.Piloto): @Html.DisplayFor(model => model.Piloto)
-            </td>
-            <td>
-                @Html.DisplayNameFor(model => model.Modelo): @Html.DisplayFor(model => model.Modelo)
-            </td>
-        </tr>
-            <tr height="45">
-            <td>
-                @Html.DisplayNameFor(model => model.Tecido): @Html.DisplayFor(model => model.Tecido)
-            </td>
-            <td>
-                @Html.DisplayNameFor(model => model.Quantidade): @Html.DisplayFor(model => model.Quantidade)
-            </td>
-        </tr>
-        <tr height="45">
-            <td rowspan="8" valign="top">
-                @Html.DisplayNameFor(model => model.Descricao): @Html.DisplayFor(model => model.Descricao)
-            </td>
-            <td>
-                @Html.DisplayNameFor(model => model.Tamanho1): @Html.DisplayFor(model => model.Tamanho1)
-            </td>
-        </tr>
-            <tr height="45">
-                <td>
-                    Aviamentos: 
-                    @if (Model.Aviamentos.Any())
-                    {
-                        @foreach (var item in Model.Aviamentos)
+    <div id="printFicha">
+        <font face="Calibri" size="3">
+            <br />
+            <header>
+                <h1 class="titulo">BLIM BLOM | Ficha - Número: @Html.DisplayFor(model => model.RemessaId)</h1>
+            </header>
+            <br />
+            <table align="center" width="80%" border="1" style="border-collapse: collapse">
+                <tr height="45">
+                    <td width="50%">
+                        @Html.DisplayNameFor(model => model.Faccao) : @Html.DisplayFor(model => model.FaccaoId)
+                    </td>
+                    <td>
+                        @Html.DisplayNameFor(model => model.Referencia) : @Html.DisplayFor(model => model.Referencia)
+                    </td>
+                </tr>
+                <tr height="45">
+                    <td>
+                        @Html.DisplayNameFor(model => model.Piloto): @Html.DisplayFor(model => model.Piloto)
+                    </td>
+                    <td>
+                        @Html.DisplayNameFor(model => model.Modelo): @Html.DisplayFor(model => model.Modelo)
+                    </td>
+                </tr>
+                <tr height="45">
+                    <td>
+                        @Html.DisplayNameFor(model => model.Tecido): @Html.DisplayFor(model => model.Tecido)
+                    </td>
+                    <td>
+                        @Html.DisplayNameFor(model => model.Quantidade): @Html.DisplayFor(model => model.Quantidade)
+                    </td>
+                </tr>
+                <tr height="45">
+                    <td rowspan="8" valign="top">
+                        @Html.DisplayNameFor(model => model.Descricao): @Html.DisplayFor(model => model.Descricao)
+                    </td>
+                    <td>
+                        @Html.DisplayNameFor(model => model.Tamanho1): @Html.DisplayFor(model => model.Tamanho1)
+                    </td>
+                </tr>
+                <tr height="45">
+                    <td>
+                        Aviamentos:
+                        @if (Model.Aviamentos.Any())
                         {
-                            <span>@Html.DisplayFor(modelIden => item.Nome)</span>
+                            @foreach (var item in Model.Aviamentos)
+                            {
+                                <span>@Html.DisplayFor(modelIden => item.Nome)</span>
+                            }
                         }
-                    }
-                    else
-                    {
-                        <span>Nenhum aviamento</span>
-                    }
-                </td>
-            </tr>
-        <tr height="45">
-            <td>
-                @Html.DisplayNameFor(model => model.Tamanho2): @Html.DisplayFor(model => model.Tamanho2)
-            </td>
-        </tr>
-        <tr height="45">
-            <td>
-                @Html.DisplayNameFor(model => model.Tamanho4): @Html.DisplayFor(model => model.Tamanho4)
-            </td>
-        </tr>
-        <tr height="45">
-            <td>
-                @Html.DisplayNameFor(model => model.Tamanho6): @Html.DisplayFor(model => model.Tamanho6)
-            </td>
-        </tr>
-        <tr height="45">
-            <td>
-                @Html.DisplayNameFor(model => model.Tamanho8): @Html.DisplayFor(model => model.Tamanho8)
-            </td>
-        </tr>
-        <tr height="45">
-            <td>
-                @Html.DisplayNameFor(model => model.Tamanho10): @Html.DisplayFor(model => model.Tamanho10)
-            </td>
-        </tr>
-        <tr height="45">
-            <td>
-                @Html.DisplayNameFor(model => model.Tamanho12): @Html.DisplayFor(model => model.Tamanho12)
-            </td>
-        </tr>
-        <tr height="45">
-            <td>
-                @Html.DisplayNameFor(model => model.ValorUnitario): @Html.DisplayFor(model => model.ValorUnitario)
-            </td>
-            <td>
-                @Html.DisplayNameFor(model => model.ValorTotal): @Html.DisplayFor(model => model.ValorTotal)
-            </td>
-        </tr>
-        <tr height="45">
-            <td>
-                @Html.DisplayNameFor(model => model.DataDeEntrega): @Html.DisplayFor(model => model.DataDeEntrega)
-            </td>
-            <td>
-                @Html.DisplayNameFor(model => model.DataPrazo): @Html.DisplayFor(model => model.DataPrazo)
-            </td>
-        </tr>
-        <tr height="45">
-            <td>
-                @Html.DisplayNameFor(model => model.DataRecebimento): @Html.DisplayFor(model => model.DataRecebimento)
-            </td>
-            <td rowspan="5" valign="top">
-                @Html.DisplayNameFor(model => model.Observacoes): @Html.DisplayFor(model => model.Observacoes)
-            </td>
-        </tr>
-        <tr height="45">
-            <td>
-                Ass. BlimBlom (Entrega) : 
-            </td>
-        </tr>
-        <tr height="45">
-            <td>
-                Ass. Facção (Entrega):
-            </td>
-        </tr>
-        <tr height="45">
-            <td>
-                Ass. BlimBlom (Recebimento):
-            </td>
-        </tr>
-        <tr height="45">
-            <td>
-                Ass. Facção (Recebimento):
-            </td>
-        </tr>
-    </table>
-</font>
+                        else
+                        {
+                            <span>Nenhum aviamento</span>
+                        }
+                    </td>
+                </tr>
+                <tr height="45">
+                    <td>
+                        @Html.DisplayNameFor(model => model.Tamanho2): @Html.DisplayFor(model => model.Tamanho2)
+                    </td>
+                </tr>
+                <tr height="45">
+                    <td>
+                        @Html.DisplayNameFor(model => model.Tamanho4): @Html.DisplayFor(model => model.Tamanho4)
+                    </td>
+                </tr>
+                <tr height="45">
+                    <td>
+                        @Html.DisplayNameFor(model => model.Tamanho6): @Html.DisplayFor(model => model.Tamanho6)
+                    </td>
+                </tr>
+                <tr height="45">
+                    <td>
+                        @Html.DisplayNameFor(model => model.Tamanho8): @Html.DisplayFor(model => model.Tamanho8)
+                    </td>
+                </tr>
+                <tr height="45">
+                    <td>
+                        @Html.DisplayNameFor(model => model.Tamanho10): @Html.DisplayFor(model => model.Tamanho10)
+                    </td>
+                </tr>
+                <tr height="45">
+                    <td>
+                        @Html.DisplayNameFor(model => model.Tamanho12): @Html.DisplayFor(model => model.Tamanho12)
+                    </td>
+                </tr>
+                <tr height="45">
+                    <td>
+                        @Html.DisplayNameFor(model => model.ValorUnitario): @Html.DisplayFor(model => model.ValorUnitario)
+                    </td>
+                    <td>
+                        @Html.DisplayNameFor(model => model.ValorTotal): @Html.DisplayFor(model => model.ValorTotal)
+                    </td>
+                </tr>
+                <tr height="45">
+                    <td>
+                        @Html.DisplayNameFor(model => model.DataDeEntrega): @Html.DisplayFor(model => model.DataDeEntrega)
+                    </td>
+                    <td>
+                        @Html.DisplayNameFor(model => model.DataPrazo): @Html.DisplayFor(model => model.DataPrazo)
+                    </td>
+                </tr>
+                <tr height="45">
+                    <td>
+                        @Html.DisplayNameFor(model => model.DataRecebimento): @Html.DisplayFor(model => model.DataRecebimento)
+                    </td>
+                    <td rowspan="5" valign="top">
+                        @Html.DisplayNameFor(model => model.Observacoes): @Html.DisplayFor(model => model.Observacoes)
+                    </td>
+                </tr>
+                <tr height="55">
+                    <td>
+                        Ass. BlimBlom (Entrega) :
+                    </td>
+                </tr>
+                <tr height="55">
+                    <td>
+                        Ass. Facção (Entrega):
+                    </td>
+                </tr>
+                <tr height="55">
+                    <td>
+                        Ass. BlimBlom (Recebimento):
+                    </td>
+                </tr>
+                <tr height="55">
+                    <td>
+                        Ass. Facção (Recebimento):
+                    </td>
+                </tr>
+            </table>
+        </font>
+    </div>
+    <br />
+    <div align="center">
+        <button id="print">Imprimir</button>
+    </div>
 </body>
 </html>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        let printLink = document.getElementById("print");
+        let printFicha = document.getElementById("printFicha");
+
+        printLink.addEventListener("click", event => {
+            event.preventDefault();
+            printLink.style.display = "none";
+            window.print();
+        }, false);
+
+        printFicha.addEventListener("click", event => {
+            printLink.style.display = "flex";
+        }, false);
+
+    }, false);
+</script>

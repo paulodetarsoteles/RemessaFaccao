@@ -21,7 +21,7 @@ namespace RemessaFaccao.Web.Controllers
 
         // GET: RemessaController
         [HttpGet]
-        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int page = 1, int pageSize = 10)
+        public IActionResult Index(string sortOrder, string currentFilter, string searchString, int page = 1, int pageSize = 10)
         {
             try
             {
@@ -72,7 +72,23 @@ namespace RemessaFaccao.Web.Controllers
 
         // GET: RemessaController/Details/5
         [HttpGet]
-        public ActionResult Details(int id)
+        public IActionResult Details(int id)
+        {
+            try
+            {
+                return View(_remessaRepository.GetById(id));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ModelState.AddModelError("", e.Message);
+                return RedirectToAction("Index", "Manutencao", e.Message);
+            }
+        }
+
+        // GET: RemessaController/RecebidaDetails/5
+        [HttpGet]
+        public IActionResult RecebidaDetails(int id)
         {
             try
             {
@@ -88,7 +104,7 @@ namespace RemessaFaccao.Web.Controllers
 
         // GET: RemessaController/Create
         [HttpGet]
-        public ActionResult Create()
+        public IActionResult Create()
         {
             try
             {
@@ -107,7 +123,7 @@ namespace RemessaFaccao.Web.Controllers
         // POST: RemessaController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Remessa remessa)
+        public IActionResult Create(Remessa remessa)
         {
             try
             {
@@ -155,7 +171,7 @@ namespace RemessaFaccao.Web.Controllers
 
         // GET: RemessaController/Edit/5
         [HttpGet]
-        public ActionResult Edit(int id)
+        public IActionResult Edit(int id)
         {
             try
             {
@@ -175,7 +191,7 @@ namespace RemessaFaccao.Web.Controllers
         // POST: RemessaController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, Remessa remessa)
+        public IActionResult Edit(int id, Remessa remessa)
         {
             try
             {
@@ -223,7 +239,7 @@ namespace RemessaFaccao.Web.Controllers
 
         // GET: RemessaController/Delete/5
         [HttpGet]
-        public ActionResult Delete(int id)
+        public IActionResult Delete(int id)
         {
             try
             {
@@ -240,7 +256,7 @@ namespace RemessaFaccao.Web.Controllers
         // POST: RemessaController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, Remessa remessa)
+        public IActionResult Delete(int id, Remessa remessa)
         {
             try
             {
@@ -260,7 +276,7 @@ namespace RemessaFaccao.Web.Controllers
 
         // GET: RemessaController/ToPrint/5
         [HttpGet]
-        public ActionResult ToPrint(int id)
+        public IActionResult ToPrint(int id)
         {
             try
             {
