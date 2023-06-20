@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using RemessaFaccao.DAL.Models.ViewModels;
+using RemessaFaccao.DAL.Setting;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace RemessaFaccao.Web.Controllers
@@ -81,11 +82,11 @@ namespace RemessaFaccao.Web.Controllers
                 if (!result.Succeeded)
                     throw new Exception("Falha ao realizar login!");
 
-                if (!string.IsNullOrEmpty(login.ReturnUrl))
-                    return Redirect(login.ReturnUrl);
-
                 DateTime dateTime = DateTime.Now;
-                Console.WriteLine("Usuário {0} logado com sucesso. {1}", user.UserName, dateTime.ToString());
+
+                string path = ConfigHelper.PathOutLogLogin();
+                string ultimaLinha = ConfigHelper.LerArquivo(path);
+                ConfigHelper.EscreverProxLinha(path, ultimaLinha, string.Format("Usuário {0} logado com sucesso. {1}", user.UserName, dateTime.ToString())); 
 
                 return RedirectToAction("Index", "Home");
             }
