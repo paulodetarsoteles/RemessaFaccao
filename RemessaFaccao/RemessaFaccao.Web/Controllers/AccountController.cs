@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using RemessaFaccao.DAL.Models.ViewModels;
 using RemessaFaccao.DAL.Setting;
+using System;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace RemessaFaccao.Web.Controllers
@@ -80,20 +81,23 @@ namespace RemessaFaccao.Web.Controllers
                 SignInResult result = await _signInManager.PasswordSignInAsync(user, login.Password, false, false);
 
                 if (!result.Succeeded)
-                    throw new Exception("Falha ao realizar login!");
+                    throw new Exception("Senha incorreta");
 
                 DateTime dateTime = DateTime.Now;
 
                 string path = ConfigHelper.PathOutLogLogin();
-                string ultimaLinha = ConfigHelper.LerArquivo(path);
-                ConfigHelper.EscreverProxLinha(path, ultimaLinha, string.Format("Usuário {0} logado com sucesso. {1}", user.UserName, dateTime.ToString())); 
+                ConfigHelper.LerArquivo(path);
+                ConfigHelper.EscreverProxLinha(path, string.Format("Usuário {0} logado com sucesso. {1}", user.UserName, dateTime.ToString())); 
 
                 return RedirectToAction("Index", "Home");
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
-                ModelState.AddModelError("", e.Message);
+                string path = ConfigHelper.PathOutLogLogin();
+                ConfigHelper.LerArquivo(path);
+                ConfigHelper.EscreverProxLinha(path, String.Format("Erro ao efetuar login - {0}", e.Message));
+
+                ModelState.AddModelError("", "Erro ao efetuar login - " + e.Message);
                 return View(login);
             }
         }
@@ -160,7 +164,10 @@ namespace RemessaFaccao.Web.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                string path = ConfigHelper.PathOutLogLogin();
+                ConfigHelper.LerArquivo(path);
+                ConfigHelper.EscreverProxLinha(path, String.Format("Erro ao efetuar logoff - {0}", e.Message));
+
                 return RedirectToAction("Login", "Account");
             }
         }
