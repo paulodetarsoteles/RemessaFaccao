@@ -72,6 +72,8 @@ namespace RemessaFaccao.Web.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginViewModel login)
         {
+            DateTime dateTime = DateTime.Now;
+
             try
             {
                 if (!ModelState.IsValid)
@@ -83,21 +85,15 @@ namespace RemessaFaccao.Web.Controllers
                 if (!result.Succeeded)
                     throw new Exception("Senha incorreta");
 
-                DateTime dateTime = DateTime.Now;
-
-                string path = ConfigHelper.PathOutLogLogin();
-                ConfigHelper.LerArquivo(path);
-                ConfigHelper.EscreverProxLinha(path, string.Format("Usuário {0} logado com sucesso. {1}", user.UserName, dateTime.ToString())); 
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("Login"), string.Format("Usuário {0} logado com sucesso. {1}", user.UserName, dateTime.ToString())); 
 
                 return RedirectToAction("Index", "Home");
             }
             catch (Exception e)
             {
-                string path = ConfigHelper.PathOutLogLogin();
-                ConfigHelper.LerArquivo(path);
-                ConfigHelper.EscreverProxLinha(path, String.Format("Erro ao efetuar login - {0}", e.Message));
-
                 ModelState.AddModelError("", "Erro ao efetuar login - " + e.Message);
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("Login"), String.Format("Erro ao efetuar login - {0} {1}", e.Message, dateTime.ToString()));
+
                 return View(login);
             }
         }
@@ -136,13 +132,15 @@ namespace RemessaFaccao.Web.Controllers
                 if (!result.Succeeded)
                     throw new Exception("Erro ao registrar usuário.");
 
-                Console.WriteLine("Usuário {0} registrado com sucesso. {1}", userRegister.Username, dateTime.ToString());
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("Register"), string.Format("Usuário {0} registrado com sucesso. {1}", user.UserName, dateTime.ToString()));
+
                 return RedirectToAction("Index", "Home");
             }
             catch (Exception e)
             {
-                Console.WriteLine("Erro ao registrar usuário {0}. {1} " + e.Message, userRegister.Username, dateTime.ToString());
                 this.ModelState.AddModelError("Registro", e.Message);
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("Register"), string.Format("Erro ao registrar usuário {0}. {1} {2}", e.Message, userRegister.Username, dateTime.ToString()));
+
                 return View(userRegister);
             }
         }
@@ -160,13 +158,12 @@ namespace RemessaFaccao.Web.Controllers
             {
                 HttpContext.Session.Clear();
                 await _signInManager.SignOutAsync();
+
                 return RedirectToAction("Login", "Account");
             }
             catch (Exception e)
             {
-                string path = ConfigHelper.PathOutLogLogin();
-                ConfigHelper.LerArquivo(path);
-                ConfigHelper.EscreverProxLinha(path, String.Format("Erro ao efetuar logoff - {0}", e.Message));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("Register"), string.Format("Erro ao efetuar logoff. {0} {1}", DateTime.Now, e.Message));
 
                 return RedirectToAction("Login", "Account");
             }

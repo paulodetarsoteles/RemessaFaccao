@@ -6,7 +6,7 @@ namespace RemessaFaccao.DAL.Setting
     {
         public static IConfiguration configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json", optional: false, reloadOnChange: true).Build();
 
-        public static string LerArquivo(string path)
+        public static string ReadLog(string path)
         {
             string ultimaLinha = "";
             string linha;
@@ -39,44 +39,29 @@ namespace RemessaFaccao.DAL.Setting
             }
         }
 
-        public static void EscreverProxLinha(string path, string novaLinha)
+        public static void WriteLog(string path, string novaLinha)
         {
             string conteudo = File.ReadAllText(path);
             string novoConteudo = conteudo + Environment.NewLine + novaLinha;
             File.WriteAllText(path, novoConteudo);
         }
 
-        public static string PathOutLogLogin()
+        public static string PathOutLog(string key)
         {
             if (!Directory.Exists(configuration["PathOutLog"]))
                 Directory.CreateDirectory(configuration["PathOutLog"]);
 
             DateTime date = DateTime.Now;
             string formatDate = String.Format("{0:s}", date).Substring(0, 10);
-            string path = configuration["PathOutLog"] + "\\Login_" + formatDate + ".txt";
+            string path = configuration["PathOutLog"] + "\\" + key + "_" + formatDate + ".txt";
 
             if (!File.Exists(path))
             {
                 StreamWriter sw = new(path);
                 sw.Close();
             }
-            return path;
-        }
 
-        public static string PathOutLogLogout()
-        {
-            if (!Directory.Exists(configuration["PathOutLog"]))
-                Directory.CreateDirectory(configuration["PathOutLog"]);
-
-            DateTime date = DateTime.Now;
-            string formatDate = String.Format("{0:s}", date).Substring(0, 10);
-            string path = configuration["PathOutLog"] + "\\Logout_" + formatDate + ".txt";
-
-            if (!File.Exists(path))
-            {
-                StreamWriter sw = new(path);
-                sw.Close();
-            }
+            ConfigHelper.ReadLog(path);
             return path;
         }
     }
