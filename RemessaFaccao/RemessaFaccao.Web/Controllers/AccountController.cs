@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using RemessaFaccao.DAL.Models.ViewModels;
 using RemessaFaccao.DAL.Setting;
-using System;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace RemessaFaccao.Web.Controllers
@@ -85,7 +84,7 @@ namespace RemessaFaccao.Web.Controllers
                 if (!result.Succeeded)
                     throw new Exception("Senha incorreta");
 
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("Login"), string.Format("Usuário {0} logado com sucesso. {1}", user.UserName, dateTime.ToString())); 
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("Login"), string.Format("Usuário {0} logado com sucesso. {1}", user.UserName, dateTime.ToString()));
 
                 return RedirectToAction("Index", "Home");
             }
