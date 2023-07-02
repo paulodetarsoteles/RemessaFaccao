@@ -91,7 +91,7 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", "Erro ao efetuar login - " + e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("Login"), String.Format("Erro ao efetuar login - {0} {1}", e.Message, dateTime.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("Login"), String.Format("Erro ao efetuar login {0} - {1} {2}", login.Username ,e.Message, dateTime.ToString()));
 
                 return View(login);
             }
@@ -138,7 +138,7 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 this.ModelState.AddModelError("Registro", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("Register"), string.Format("Erro ao registrar usuário {0}. {1} {2}", e.Message, userRegister.Username, dateTime.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("Register"), string.Format("Erro ao registrar usuário {0}. {1} - {2}", userRegister.Username, e.Message, dateTime.ToString()));
 
                 return View(userRegister);
             }
@@ -162,7 +162,7 @@ namespace RemessaFaccao.Web.Controllers
             }
             catch (Exception e)
             {
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("Register"), string.Format("Erro ao efetuar logoff. {0} {1}", DateTime.Now, e.Message));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("Register"), string.Format("Erro ao efetuar logoff. {0} {1}", e.Message, DateTime.Now.ToString()));
 
                 return RedirectToAction("Login", "Account");
             }
@@ -285,7 +285,7 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountEdit"), string.Format("Erro ao atualizar usuário {0}. {1}", user.Username, dateTime.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountEdit"), string.Format("Erro ao atualizar usuário {0}. {1} - {2}", user.Username, e.Message, dateTime.ToString()));
                 return View(user);
             }
         }

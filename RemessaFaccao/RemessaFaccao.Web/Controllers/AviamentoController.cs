@@ -51,7 +51,7 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoIndex"), string.Format("Erro ao acessar Aviamento Index. {0}", DateTime.Now.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoIndex"), string.Format("Erro ao acessar Aviamento Index. {0} - {1}", e.Message, DateTime.Now.ToString()));
                 return View();
             }
         }
@@ -67,7 +67,7 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoDetails"), string.Format("Erro ao acessar Aviamento Details. {0}", DateTime.Now.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoDetails"), string.Format("Erro ao acessar Aviamento Details. {0} - {1}", e.Message, DateTime.Now.ToString()));
                 return View();
             }
         }
@@ -94,7 +94,7 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoCreate"), string.Format("Erro ao adicionar Aviamento {0}. {1}", aviamento.Nome, DateTime.Now.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoCreate"), string.Format("Erro ao adicionar Aviamento {0}. {1} - {2}", aviamento.Nome, e.Message, DateTime.Now.ToString()));
                 return View(aviamento);
             }
         }
@@ -110,7 +110,7 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoEdit"), string.Format("Erro ao acessar Aviamento Edit. {0}", DateTime.Now.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoEdit"), string.Format("Erro ao acessar Aviamento Edit. {0} - {1}", e.Message, DateTime.Now.ToString()));
                 return View();
             }
         }
@@ -133,7 +133,7 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoEdit"), string.Format("Erro ao atualizar Aviamento {0}. {1}", id, DateTime.Now.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoEdit"), string.Format("Erro ao atualizar Aviamento {0}. {1} - {2}", id, e.Message, DateTime.Now.ToString()));
                 return View(aviamento);
             }
         }
@@ -149,7 +149,7 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoDelete"), string.Format("Erro ao acessar Aviamento Delete. {0}", DateTime.Now.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoDelete"), string.Format("Erro ao acessar Aviamento Delete. {0} - {1}", e.Message, DateTime.Now.ToString()));
                 return View();
             }
         }
@@ -169,7 +169,7 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoDelete"), string.Format("Erro ao excluir Aviamento {0}. {1}", id, DateTime.Now.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoDelete"), string.Format("Erro ao excluir Aviamento {0}. {1} - {2}", id, e.Message, DateTime.Now.ToString()));
                 return View(_aviamentoRepository.GetById(id));
             }
         }
