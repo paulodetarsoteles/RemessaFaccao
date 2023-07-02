@@ -22,7 +22,9 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             List<Remessa> result = new();
             SqlCommand command = new("SELECT TOP 100 RemessaId, Referencia, StatusRemessa ,Quantidade, ValorTotal " +
                                      "FROM Remessa (NOLOCK) " +
-                                     "WHERE StatusRemessa <> 4;");
+                                     "WHERE StatusRemessa <> 4 " +
+                                     "ORDER BY 1 DESC " +
+                                     "OPTION (MAXDOP 2);");
 
             try
             {
@@ -413,7 +415,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
         public int Count()
         {
             int result = 0;
-            SqlCommand command = new("SELECT COUNT(RemessaId) result FROM Remessa");
+            SqlCommand command = new("SELECT COUNT(RemessaId) result FROM Remessa (NOLOCK) OPTION (MAXDOP 2);");
 
             try
             {
@@ -438,8 +440,9 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
         {
             int result = 0;
             SqlCommand command = new("SELECT COUNT(RemessaID) " +
-                                     "FROM Remessa " +
-                                     "WHERE StatusRemessa = 1; ");
+                                     "FROM Remessa (NOLOCK) " +
+                                     "WHERE StatusRemessa = 1 " +
+                                     "OPTION (MAXDOP 2);");
 
             try
             {
@@ -464,8 +467,9 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
         {
             int result = 0;
             SqlCommand command = new("SELECT COUNT(RemessaID) " +
-                                     "FROM Remessa " +
-                                     "WHERE StatusRemessa = 2; ");
+                                     "FROM Remessa (NOLOCK) " +
+                                     "WHERE StatusRemessa = 2 " +
+                                     "OPTION (MAXDOP 2);");
 
             try
             {
@@ -491,8 +495,9 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
         {
             int result = 0;
             SqlCommand command = new("SELECT COUNT(RemessaID) result " +
-                                     "FROM Remessa " +
-                                     "WHERE StatusRemessa = 3; ");
+                                     "FROM Remessa (NOLOCK)" +
+                                     "WHERE StatusRemessa = 3 " +
+                                     "OPTION (MAXDOP 2);");
 
             try
             {
@@ -517,9 +522,9 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
         {
             int result = 0;
             SqlCommand command = new("SELECT COUNT(RemessaID) result " +
-                                     "FROM Remessa " +
-                                     "WHERE StatusRemessa = 2 " +
-                                     "AND DataDeEntrega = GETDATE(); ");
+                                     "FROM Remessa (NOLOCK) " +
+                                     "WHERE CONVERT(date, DataPrazo) = CONVERT(date, GETDATE()) " +
+                                     "OPTION (MAXDOP 2);");
 
             try
             {
@@ -765,7 +770,8 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             List<Faccao> result = new();
             SqlCommand command = new("SELECT FaccaoId, Nome " +
                                      "FROM dbo.Faccao (NOLOCK) " +
-                                     "ORDER BY Faccao.Nome; ");
+                                     "ORDER BY Faccao.Nome " +
+                                     "OPTION (MAXDOP 2);");
 
             try
             {
@@ -801,7 +807,8 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             List<Faccao> result = new();
             SqlCommand command = new("SELECT FaccaoId, Nome, Ativo " +
                                      "FROM dbo.Faccao (NOLOCK) " +
-                                     "WHERE Faccao.Ativo = 1; ");
+                                     "WHERE Faccao.Ativo = 1 " +
+                                     "OPTION (MAXDOP 2);");
 
             try
             {

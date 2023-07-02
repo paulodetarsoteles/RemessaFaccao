@@ -62,15 +62,15 @@ namespace RemessaFaccao.DAL.Models
 
         [Display(Name = "Envio p/ Facção")]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}")]
-        public DateTime? DataDeEntrega { get; set; } = new(2023, 01, 01);
+        public DateTime? DataDeEntrega { get; set; } = DateTime.Now.AddDays(2);
 
         [Display(Name = "Dia do Prazo")]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}")]
-        public DateTime? DataPrazo { get; set; } = new(2023, 01, 01);
+        public DateTime? DataPrazo { get; set; } = DateTime.Now.AddMonths(1);
 
         [Display(Name = "Recebimento")]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}")]
-        public DateTime? DataRecebimento { get; set; } = new(2023, 01, 01);
+        public DateTime? DataRecebimento { get; set; } = DateTime.Now;
 
         [Display(Name = "Status da Remessa")]
         public StatusRemessa StatusRemessa { get; set; } = StatusRemessa.Preparada;

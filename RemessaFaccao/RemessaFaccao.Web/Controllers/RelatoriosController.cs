@@ -93,7 +93,7 @@ namespace RemessaFaccao.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult RelatorioRecebidas(DateTime fromDate , DateTime toDate, int? faccaoId = null)
+        public IActionResult RelatorioRecebidas(DateTime fromDate, DateTime toDate, int? faccaoId = null)
         {
             try
             {
@@ -109,7 +109,7 @@ namespace RemessaFaccao.Web.Controllers
             }
         }
 
-        public IActionResult Recebidas(List<Remessa> remessas) => View(remessas); 
+        public IActionResult Recebidas(List<Remessa> remessas) => View(remessas);
 
         public IActionResult RecebidaDetails(int id)
         {

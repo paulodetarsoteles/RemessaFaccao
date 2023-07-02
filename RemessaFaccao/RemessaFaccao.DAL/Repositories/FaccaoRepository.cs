@@ -19,7 +19,8 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
         {
             List<Faccao> result = new();
             SqlCommand command = new("SELECT FaccaoId, Nome, Ativo " +
-                                     "FROM dbo.Faccao (NOLOCK); ");
+                                     "FROM dbo.Faccao (NOLOCK) " +
+                                     "OPTION (MAXDOP 2);");
 
             try
             {
@@ -97,7 +98,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
         public int Count()
         {
             int result;
-            SqlCommand command = new("SELECT COUNT(FaccaoId) result FROM Faccao; ");
+            SqlCommand command = new("SELECT COUNT(FaccaoId) result FROM Faccao (NOLOCK) OPTION (MAXDOP 2); ");
 
             try
             {
