@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using RemessaFaccao.DAL.Models;
 using RemessaFaccao.DAL.Repositories.Interfaces;
+using RemessaFaccao.DAL.Setting;
 using X.PagedList;
 
 namespace RemessaFaccao.Web.Controllers
@@ -61,8 +62,8 @@ namespace RemessaFaccao.Web.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
                 ModelState.AddModelError("", e.Message);
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoIndex"), string.Format("Erro ao acessar Faccao Index. {0}", DateTime.Now.ToString()));
                 return View();
             }
         }
@@ -77,8 +78,8 @@ namespace RemessaFaccao.Web.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
                 ModelState.AddModelError("", e.Message);
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoDetails"), string.Format("Erro ao acessar Faccao Details. {0}", DateTime.Now.ToString()));
                 return View();
             }
         }
@@ -97,16 +98,15 @@ namespace RemessaFaccao.Web.Controllers
                 if (!ModelState.IsValid || ModelState.IsNullOrEmpty())
                     throw new("Objeto inválido!");
 
-                DateTime dateTime = DateTime.Now;
                 _facaoRepository.Insert(faccao);
 
-                Console.WriteLine("Faccao {0} adicionada com sucesso. {0}", faccao.Nome, dateTime);
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoCreate"), string.Format("Faccao {0} adicionada com sucesso. ", faccao.Nome, DateTime.Now.ToString()));
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
                 ModelState.AddModelError("", e.Message);
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoCreate"), string.Format("Erro ao adicionar Faccao {0}. {1}", faccao.Nome, DateTime.Now.ToString()));
                 return View();
             }
         }
@@ -121,8 +121,8 @@ namespace RemessaFaccao.Web.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
                 ModelState.AddModelError("", e.Message);
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoEdit"), string.Format("Erro ao acessar Faccao Edit. {0}", DateTime.Now.ToString()));
                 return View();
             }
         }
@@ -138,15 +138,14 @@ namespace RemessaFaccao.Web.Controllers
                     throw new Exception("Objeto inválido!");
 
                 _facaoRepository.Update(id, faccao);
-                DateTime dateTime = DateTime.Now;
 
-                Console.WriteLine("Facção {0} adicionada com sucesso. {1}", id, dateTime);
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoEdit"), string.Format("Erro ao atualizar Faccao {0}. {1}", id, DateTime.Now.ToString()));
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
                 ModelState.AddModelError("", e.Message);
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoEdit"), string.Format("Erro ao atualizar Faccao {0}. {1}", id, DateTime.Now.ToString()));
                 return View();
             }
         }
@@ -161,8 +160,8 @@ namespace RemessaFaccao.Web.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
                 ModelState.AddModelError("", e.Message);
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoDelete"), string.Format("Erro ao excluir Faccao {0}. {1}", id, DateTime.Now.ToString()));
                 return View();
             }
         }
@@ -174,16 +173,15 @@ namespace RemessaFaccao.Web.Controllers
         {
             try
             {
-                DateTime dateTime = DateTime.Now;
                 _facaoRepository.Delete(id);
 
-                Console.WriteLine("Facção {0} excluída com sucesso. {1}", id, dateTime);
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoDelete"), string.Format("Erro ao excluir Faccao {0}. {1}", id, DateTime.Now.ToString()));
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
                 ModelState.AddModelError("", e.Message);
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoDelete"), string.Format("Erro ao excluir Faccao {0}. {1}", id, DateTime.Now.ToString()));
                 return View(_facaoRepository.GetById(id));
             }
         }
