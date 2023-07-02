@@ -278,6 +278,8 @@ namespace RemessaFaccao.Web.Controllers
                 if (_userManager.UpdateAsync(result) is null)
                     throw new Exception("Falha ao tentar atualizar usuário!");
 
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountEdit"), string.Format("O usuário {0} foi atualizado. {1}", user.Username, dateTime.ToString()));
+
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception e)
