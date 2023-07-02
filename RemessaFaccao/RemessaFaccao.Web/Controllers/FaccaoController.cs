@@ -100,7 +100,7 @@ namespace RemessaFaccao.Web.Controllers
 
                 _facaoRepository.Insert(faccao);
 
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoCreate"), string.Format("Faccao {0} adicionada com sucesso. ", faccao.Nome, DateTime.Now.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoCreate"), string.Format("Faccao {0} adicionada com sucesso. {1}", faccao.Nome, DateTime.Now.ToString()));
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception e)
