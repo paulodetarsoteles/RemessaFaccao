@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RemessaFaccao.DAL.Repositories.Interfaces;
+using RemessaFaccao.DAL.Setting;
 
 namespace RemessaFaccao.Web.Controllers
 {
@@ -29,8 +30,8 @@ namespace RemessaFaccao.Web.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
                 ModelState.AddModelError("", e.Message);
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("HomeIndex"), string.Format("Erro ao acessar Home Index. {0}", DateTime.Now.ToString()));
                 return View();
             }
         }
