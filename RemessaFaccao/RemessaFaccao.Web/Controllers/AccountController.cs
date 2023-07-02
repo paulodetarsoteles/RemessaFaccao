@@ -194,8 +194,8 @@ namespace RemessaFaccao.Web.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
                 ModelState.AddModelError("", e.Message);
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountIndex"), String.Format("Erro ao acessar Index - {0} {1}", e.Message, DateTime.Now.ToString()));
                 return View();
             }
         }
@@ -217,8 +217,8 @@ namespace RemessaFaccao.Web.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
                 ModelState.AddModelError("", e.Message);
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountDetails"), String.Format("Erro ao acessar Index - {0} {1}", e.Message, DateTime.Now.ToString()));
                 return View();
             }
         }
@@ -241,8 +241,8 @@ namespace RemessaFaccao.Web.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
                 ModelState.AddModelError("", e.Message);
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountEdit"), String.Format("Erro ao acessar Index - {0} {1}", e.Message, DateTime.Now.ToString()));
                 return View();
             }
         }
@@ -282,8 +282,8 @@ namespace RemessaFaccao.Web.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine("Erro ao atualizar user {0}. {1}" + e.Message, user.Username, dateTime);
                 ModelState.AddModelError("", e.Message);
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountEdit"), string.Format("Erro ao atualizar usuário {0}. {1}", user.Username, dateTime.ToString()));
                 return View(user);
             }
         }
