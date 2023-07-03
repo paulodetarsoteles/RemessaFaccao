@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using RemessaFaccao.DAL.Models;
 using RemessaFaccao.DAL.Setting;
+using System.Reflection;
 
 namespace RemessaFaccao.DAL.Repositories.Interfaces
 {
@@ -23,7 +24,8 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             }
             catch (Exception e)
             {
-                throw new Exception("Erro ao acessar informações do banco de dados. " + e.Message);
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoRepository" + MethodBase.GetCurrentMethod().Name), string.Format("Falha no repositório. {0} - {1}", e.Message, DateTime.Now.ToString()));
+                throw new Exception("Erro ao acessar informações do banco de dados.");
             }
         }
 
@@ -42,7 +44,8 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             }
             catch (Exception e)
             {
-                throw new Exception("Erro ao acessar informações do banco de dados. " + e.Message);
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoRepository" + MethodBase.GetCurrentMethod().Name), string.Format("Falha no repositório. {0} - {1}", e.Message, DateTime.Now.ToString()));
+                throw new Exception("Erro ao acessar informações do banco de dados.");
             }
         }
 
@@ -54,7 +57,8 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             }
             catch (Exception e)
             {
-                throw new Exception("Erro ao acessar informações do banco de dados. " + e.Message);
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoRepository" + MethodBase.GetCurrentMethod().Name), string.Format("Falha no repositório. {0} - {1}", e.Message, DateTime.Now.ToString()));
+                throw new Exception("Erro ao acessar informações do banco de dados.");
             }
         }
 
@@ -73,7 +77,8 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             }
             catch (Exception e)
             {
-                throw new Exception("Erro ao acessar informações do banco de dados. " + e.Message);
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoRepository" + MethodBase.GetCurrentMethod().Name), string.Format("Falha no repositório. {0} - {1}", e.Message, DateTime.Now.ToString()));
+                throw new Exception("Erro ao acessar informações do banco de dados.");
             }
         }
 
@@ -93,7 +98,8 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             }
             catch (Exception e)
             {
-                throw new Exception("Erro ao acessar informações do banco de dados. " + e.Message);
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoRepository" + MethodBase.GetCurrentMethod().Name), string.Format("Falha no repositório. {0} - {1}", e.Message, DateTime.Now.ToString()));
+                throw new Exception("Erro ao acessar informações do banco de dados.");
             }
         }
 
@@ -120,8 +126,8 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
-                throw new Exception("Erro ao excluir aviamento, verifique se este aviamento está vinculado a alguma remessa, por favor. ");
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoRepository" + MethodBase.GetCurrentMethod().Name), string.Format("Falha no repositório. {0} - {1}", e.Message, DateTime.Now.ToString()));
+                throw new Exception("Erro ao excluir aviamento, verifique se este aviamento está vinculado a alguma remessa, por favor.");
             }
         }
     }
