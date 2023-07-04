@@ -65,21 +65,21 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
         public bool Insert(Aviamento aviamento)
         {
             bool result = false;
-
             try
             {
                 _connectionEf.Add(aviamento);
 
-                if (_connectionEf.SaveChanges() != 0)
-                    result = true;
+                if (_connectionEf.SaveChanges() == 0)
+                    throw new Exception("Falha ao salvar no banco de dados");
 
-                return result;
+                result = true;
             }
             catch (Exception e)
             {
                 ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoRepository" + MethodBase.GetCurrentMethod().Name), string.Format("Falha no repositório. {0} - {1}", e.Message, DateTime.Now.ToString()));
                 throw new Exception("Erro ao acessar informações do banco de dados.");
             }
+            return result;
         }
 
         public bool Update(int id, Aviamento aviamento)
@@ -88,19 +88,21 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
 
             try
             {
+                _ = GetById(id) ?? throw new Exception("Id não encontrado");
+
                 aviamento.AviamentoId = id;
+
                 _connectionEf.Update(aviamento);
 
-                if (_connectionEf.SaveChanges() != 0)
-                    result = true;
-
-                return result;
+                if (_connectionEf.SaveChanges() == 0)
+                    throw new Exception("Falha ao salvar no banco de dados");
             }
             catch (Exception e)
             {
                 ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoRepository" + MethodBase.GetCurrentMethod().Name), string.Format("Falha no repositório. {0} - {1}", e.Message, DateTime.Now.ToString()));
                 throw new Exception("Erro ao acessar informações do banco de dados.");
             }
+            return result;
         }
 
         public bool Delete(int id)
@@ -109,26 +111,21 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
 
             try
             {
-                Aviamento aviamento = GetById(id);
+                Aviamento aviamento = GetById(id) ?? throw new Exception("Id não encontrado");
 
-                if (aviamento is null)
-                    throw new Exception("Id não encontrado. ");
+                _connectionEf.Aviamento.Remove(aviamento);
 
-                else
-                {
-                    _connectionEf.Aviamento.Remove(aviamento);
+                if (_connectionEf.SaveChanges() == 0)
+                    throw new Exception("Erro ao excluir aviamento, verifique se este aviamento está vinculado a alguma remessa, por favor.");
 
-                    if (_connectionEf.SaveChanges() != 0)
-                        result = true;
-
-                    return result;
-                }
+                result = true;
             }
             catch (Exception e)
             {
                 ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoRepository" + MethodBase.GetCurrentMethod().Name), string.Format("Falha no repositório. {0} - {1}", e.Message, DateTime.Now.ToString()));
-                throw new Exception("Erro ao excluir aviamento, verifique se este aviamento está vinculado a alguma remessa, por favor.");
+                throw new Exception("Erro ao acessar informações do banco de dados.");
             }
+            return result;
         }
     }
 }
