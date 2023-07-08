@@ -131,6 +131,12 @@ namespace RemessaFaccao.Web.Controllers
                 ViewBag.Faccoes = new SelectList(_remessaRepository.GetFaccoesAtivas(), "FaccaoId", "Nome");
                 ViewBag.Aviamentos = new SelectList(_remessaRepository.GetAviamentosParaRemessa(), "AviamentoId", "Nome");
 
+                if (_remessaRepository.ValidateReferencia(remessa.Referencia))
+                    throw new Exception("Já existe uma referência com este nome.");
+
+                if (remessa.Tamanho1 < 0 || remessa.Tamanho2 < 0 || remessa.Tamanho4 < 0 || remessa.Tamanho6 < 0 || remessa.Tamanho8 < 0 || remessa.Tamanho10 < 0 || remessa.Tamanho12 < 0)
+                    throw new Exception("Nenhum tamanho pode ter um número menor que zero.");
+
                 string aviamentosId = Request.Form["chkAviamento"].ToString();
 
                 if (!string.IsNullOrEmpty(aviamentosId))
@@ -152,6 +158,13 @@ namespace RemessaFaccao.Web.Controllers
                     throw new Exception("Objeto inválido!");
 
                 remessa.Quantidade = remessa.Tamanho1 + remessa.Tamanho2 + remessa.Tamanho4 + remessa.Tamanho6 + remessa.Tamanho8 + remessa.Tamanho10 + remessa.Tamanho12;
+
+                if (remessa.Quantidade == 0)
+                    throw new Exception("Quantidade não pode ser igual a zero.");
+
+                if (remessa.ValorUnitario <= 0)
+                    throw new Exception("Valor não pode ser menor ou igual a zero.");
+
                 remessa.ValorTotal = remessa.ValorUnitario * remessa.Quantidade;
                 remessa.StatusRemessa = StatusRemessa.Preparada;
 

@@ -21,8 +21,9 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
         bool Update(int id, Remessa remessa);
         void UpdateStatus();
         bool Delete(int id);
-        public List<Faccao> GetFaccoes(); 
-        public List<Faccao> GetFaccoesAtivas();
-        public List<Aviamento> GetAviamentosParaRemessa();
+        List<Faccao> GetFaccoes(); 
+        List<Faccao> GetFaccoesAtivas();
+        List<Aviamento> GetAviamentosParaRemessa();
+        bool ValidateReferencia(string referencia);
     }
 }

@@ -21,11 +21,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
         public List<Remessa> GetAll()
         {
             List<Remessa> result = new();
-            SqlCommand command = new("SELECT TOP 100 RemessaId, Referencia, StatusRemessa ,Quantidade, ValorTotal " +
-                                     "FROM Remessa (NOLOCK) " +
-                                     "WHERE StatusRemessa <> 4 " +
-                                     "ORDER BY 1 DESC " +
-                                     "OPTION (MAXDOP 2);");
+            SqlCommand command = new("SELECT TOP 500 RemessaId, Referencia, StatusRemessa ,Quantidade, ValorTotal FROM Remessa (NOLOCK) WHERE StatusRemessa <> 4 ORDER BY 1 DESC OPTION (MAXDOP 2);");
 
             try
             {
@@ -269,12 +265,15 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 command.Connection = new SqlConnection(_connection.SQLString);
                 command.Connection.Open();
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add("@RemessaID", SqlDbType.Int).Value = id;
+                command.Parameters.Add("@RemessaId", SqlDbType.Int).Value = id;
 
                 SqlDataReader reader = command.ExecuteReader();
 
                 if (!reader.Read())
+                {
+                    command.Connection.Close();
                     throw new Exception("Objeto não encontrado. ");
+                }
 
                 result.RemessaId = Convert.ToInt32(reader["RemessaId"]);
                 result.Referencia = reader["Referencia"].ToString();
@@ -290,41 +289,13 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 result.DataRecebimento = Convert.ToDateTime(reader["DataRecebimento"]);
                 result.StatusRemessa = (StatusRemessa)Convert.ToInt16(reader["StatusRemessa"]);
                 result.Observacoes = reader["Observacoes"].ToString();
-
-                if (reader["Tamanho1"] != DBNull.Value)
-                    result.Tamanho1 = Convert.ToInt32(reader["Tamanho1"]);
-                else
-                    result.Tamanho1 = 0;
-
-                if (reader["Tamanho2"] != DBNull.Value)
-                    result.Tamanho2 = Convert.ToInt32(reader["Tamanho2"]);
-                else
-                    result.Tamanho2 = 0;
-
-                if (reader["Tamanho4"] != DBNull.Value)
-                    result.Tamanho4 = Convert.ToInt32(reader["Tamanho4"]);
-                else
-                    result.Tamanho4 = 0;
-
-                if (reader["Tamanho6"] != DBNull.Value)
-                    result.Tamanho6 = Convert.ToInt32(reader["Tamanho6"]);
-                else
-                    result.Tamanho6 = 0;
-
-                if (reader["Tamanho8"] != DBNull.Value)
-                    result.Tamanho8 = Convert.ToInt32(reader["Tamanho8"]);
-                else
-                    result.Tamanho8 = 0;
-
-                if (reader["Tamanho10"] != DBNull.Value)
-                    result.Tamanho10 = Convert.ToInt32(reader["Tamanho10"]);
-                else
-                    result.Tamanho10 = 0;
-
-                if (reader["Tamanho12"] != DBNull.Value)
-                    result.Tamanho12 = Convert.ToInt32(reader["Tamanho12"]);
-                else
-                    result.Tamanho12 = 0;
+                result.Tamanho1 = Convert.ToInt32(reader["Tamanho1"]);
+                result.Tamanho2 = Convert.ToInt32(reader["Tamanho2"]);
+                result.Tamanho4 = Convert.ToInt32(reader["Tamanho4"]);
+                result.Tamanho6 = Convert.ToInt32(reader["Tamanho6"]);
+                result.Tamanho8 = Convert.ToInt32(reader["Tamanho8"]);
+                result.Tamanho10 = Convert.ToInt32(reader["Tamanho10"]);
+                result.Tamanho12 = Convert.ToInt32(reader["Tamanho12"]);
 
                 //Buscar Facção
                 if (reader["FaccaoId"] != DBNull.Value)
@@ -378,11 +349,13 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 {
                     List<Aviamento> resultAviamentos = new();
                     Aviamento aviamento = new();
-                    SqlCommand commandAviamento = new("dbo.AviamentoGetByRemessaId");
+                    SqlCommand commandAviamento = new("dbo.AviamentoGetByRemessaId")
+                    {
+                        Connection = new(_connection.SQLString),
+                        CommandType = CommandType.StoredProcedure
+                    };
 
-                    commandAviamento.Connection = new(_connection.SQLString);
                     commandAviamento.Connection.Open();
-                    commandAviamento.CommandType = CommandType.StoredProcedure;
                     commandAviamento.Parameters.Add("@RemessaId", SqlDbType.Int).Value = result.RemessaId;
 
                     SqlDataReader readerA = commandAviamento.ExecuteReader();
@@ -446,10 +419,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
         public int CountEnviarParaProducao()
         {
             int result = 0;
-            SqlCommand command = new("SELECT COUNT(RemessaID) " +
-                                     "FROM Remessa (NOLOCK) " +
-                                     "WHERE StatusRemessa = 1 " +
-                                     "OPTION (MAXDOP 2);");
+            SqlCommand command = new("SELECT COUNT(RemessaID) FROM Remessa (NOLOCK) WHERE StatusRemessa = 1 OPTION (MAXDOP 2);");
 
             try
             {
@@ -474,10 +444,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
         public int CountEmProducao()
         {
             int result = 0;
-            SqlCommand command = new("SELECT COUNT(RemessaID) " +
-                                     "FROM Remessa (NOLOCK) " +
-                                     "WHERE StatusRemessa = 2 " +
-                                     "OPTION (MAXDOP 2);");
+            SqlCommand command = new("SELECT COUNT(RemessaID) FROM Remessa (NOLOCK) WHERE StatusRemessa = 2 OPTION (MAXDOP 2);");
 
             try
             {
@@ -503,10 +470,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
         public int CountAtrasadas()
         {
             int result = 0;
-            SqlCommand command = new("SELECT COUNT(RemessaID) result " +
-                                     "FROM Remessa (NOLOCK)" +
-                                     "WHERE StatusRemessa = 3 " +
-                                     "OPTION (MAXDOP 2);");
+            SqlCommand command = new("SELECT COUNT(RemessaID) result FROM Remessa (NOLOCK) WHERE StatusRemessa = 3 OPTION (MAXDOP 2);");
 
             try
             {
@@ -531,10 +495,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
         public int CountReceberHoje()
         {
             int result = 0;
-            SqlCommand command = new("SELECT COUNT(RemessaID) result " +
-                                     "FROM Remessa (NOLOCK) " +
-                                     "WHERE CONVERT(date, DataPrazo) = CONVERT(date, GETDATE()) " +
-                                     "OPTION (MAXDOP 2);");
+            SqlCommand command = new("SELECT COUNT(RemessaID) result FROM Remessa (NOLOCK) WHERE CONVERT(date, DataPrazo) = CONVERT(date, GETDATE()) OPTION (MAXDOP 2);");
 
             try
             {
@@ -593,15 +554,17 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 if (remessa.RemessaId != 0)
                     result = true;
 
-                if (remessa.Aviamentos.Count() > 0)
+                if (remessa.Aviamentos.Count > 0)
                 {
                     foreach (Aviamento aviamento in remessa.Aviamentos)
                     {
-                        SqlCommand commandInsertAviamentos = new("dbo.AviamentoRemessaInsert");
+                        SqlCommand commandInsertAviamentos = new("dbo.AviamentoRemessaInsert")
+                        {
+                            Connection = new(_connection.SQLString),
+                            CommandType = CommandType.StoredProcedure
+                        };
 
-                        commandInsertAviamentos.Connection = new(_connection.SQLString);
                         commandInsertAviamentos.Connection.Open();
-                        commandInsertAviamentos.CommandType = CommandType.StoredProcedure;
                         commandInsertAviamentos.Parameters.Add("@RemessaId", SqlDbType.Int).Value = remessa.RemessaId;
                         commandInsertAviamentos.Parameters.Add("@AviamentoId", SqlDbType.Int).Value = aviamento.AviamentoId;
                         commandInsertAviamentos.ExecuteNonQuery();
@@ -661,11 +624,13 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 if (Convert.ToInt32(command.ExecuteNonQuery()) != 0)
                     result = true;
 
-                SqlCommand commandDeleteAviamentos = new("dbo.AviamentoRemessaDeleteByRemessaId");
+                SqlCommand commandDeleteAviamentos = new("dbo.AviamentoRemessaDeleteByRemessaId")
+                {
+                    Connection = new(_connection.SQLString),
+                    CommandType = CommandType.StoredProcedure
+                };
 
-                commandDeleteAviamentos.Connection = new(_connection.SQLString);
                 commandDeleteAviamentos.Connection.Open();
-                commandDeleteAviamentos.CommandType = CommandType.StoredProcedure;
                 commandDeleteAviamentos.Parameters.Add("@RemessaId", SqlDbType.Int).Value = remessa.RemessaId;
                 commandDeleteAviamentos.ExecuteNonQuery();
                 commandDeleteAviamentos.Connection.Close();
@@ -674,11 +639,13 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 {
                     foreach (Aviamento aviamento in remessa.Aviamentos)
                     {
-                        SqlCommand commandInsertAviamentos = new("dbo.AviamentoRemessaInsert");
+                        SqlCommand commandInsertAviamentos = new("dbo.AviamentoRemessaInsert")
+                        {
+                            Connection = new(_connection.SQLString),
+                            CommandType = CommandType.StoredProcedure
+                        };
 
-                        commandInsertAviamentos.Connection = new(_connection.SQLString);
                         commandInsertAviamentos.Connection.Open();
-                        commandInsertAviamentos.CommandType = CommandType.StoredProcedure;
                         commandInsertAviamentos.Parameters.Add("@RemessaId", SqlDbType.Int).Value = remessa.RemessaId;
                         commandInsertAviamentos.Parameters.Add("@AviamentoId", SqlDbType.Int).Value = aviamento.AviamentoId;
                         commandInsertAviamentos.ExecuteNonQuery();
@@ -725,31 +692,36 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
         public bool Delete(int id)
         {
             bool result = false;
-            SqlCommand command = new("dbo.RemessaDelete");
 
             if (GetById(id) is null)
                 throw new Exception("Id da remessa não encontrado no banco de dados. ");
 
             else
             {
+                SqlCommand command = new("dbo.RemessaDelete");
+
                 try
                 {
                     List<Aviamento> resultAviamentos = new();
                     Aviamento aviamento = new();
-                    SqlCommand commandAviamento = new("dbo.AviamentoGetByRemessaId");
+                    SqlCommand commandAviamento = new("dbo.AviamentoGetByRemessaId")
+                    {
+                        Connection = new(_connection.SQLString),
+                        CommandType = CommandType.StoredProcedure
+                    };
 
-                    commandAviamento.Connection = new(_connection.SQLString);
                     commandAviamento.Connection.Open();
-                    commandAviamento.CommandType = CommandType.StoredProcedure;
                     commandAviamento.Parameters.Add("@RemessaId", SqlDbType.Int).Value = id;
 
                     if (commandAviamento.ExecuteReader().HasRows)
                     {
-                        SqlCommand command1 = new("dbo.AviamentoRemessaDeleteByRemessaId");
+                        SqlCommand command1 = new("dbo.AviamentoRemessaDeleteByRemessaId")
+                        {
+                            Connection = new(_connection.SQLString),
+                            CommandType = CommandType.StoredProcedure
+                        };
 
-                        command1.Connection = new(_connection.SQLString);
                         command1.Connection.Open();
-                        command1.CommandType = CommandType.StoredProcedure;
                         command1.Parameters.Add("@RemessaId", SqlDbType.Int).Value = id;
                         command1.ExecuteNonQuery();
                         command1.Connection.Close();
@@ -783,10 +755,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
         public List<Faccao> GetFaccoes()
         {
             List<Faccao> result = new();
-            SqlCommand command = new("SELECT FaccaoId, Nome " +
-                                     "FROM dbo.Faccao (NOLOCK) " +
-                                     "ORDER BY Faccao.Nome " +
-                                     "OPTION (MAXDOP 2);");
+            SqlCommand command = new("SELECT FaccaoId, Nome FROM dbo.Faccao (NOLOCK) ORDER BY Faccao.Nome OPTION (MAXDOP 2);");
 
             try
             {
@@ -821,10 +790,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
         public List<Faccao> GetFaccoesAtivas()
         {
             List<Faccao> result = new();
-            SqlCommand command = new("SELECT FaccaoId, Nome, Ativo " +
-                                     "FROM dbo.Faccao (NOLOCK) " +
-                                     "WHERE Faccao.Ativo = 1 " +
-                                     "OPTION (MAXDOP 2);");
+            SqlCommand command = new("SELECT FaccaoId, Nome, Ativo FROM dbo.Faccao (NOLOCK) WHERE Faccao.Ativo = 1 OPTION (MAXDOP 2);");
 
             try
             {
@@ -878,6 +844,46 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                         Nome = reader["Nome"].ToString()
                     });
                 }
+            }
+            catch (Exception e)
+            {
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), string.Format("Falha no repositório. {0} - {1}", e.Message, DateTime.Now.ToString()));
+                throw new Exception("Erro ao acessar informações do banco de dados.");
+            }
+            finally
+            {
+                if (command.Connection.State == ConnectionState.Open)
+                    command.Connection.Close();
+            }
+            return result;
+        }
+
+        public bool ValidateReferencia(string referencia)
+        {
+            bool result = false;
+
+            List<RemessaReferenciaViewModel> remessaReferencias = new();
+            SqlCommand command = new("dbo.RemessaGetReferenciasAtivas");
+
+            try
+            {
+                command.Connection = new(_connection.SQLString);
+                command.Connection.Open();
+                command.CommandType = CommandType.StoredProcedure;
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    remessaReferencias.Add(new RemessaReferenciaViewModel
+                    {
+                        RemessaId = Convert.ToInt32(reader["RemessaId"]),
+                        Referencia = reader["Referencia"].ToString()
+                    });
+                }
+
+                if (remessaReferencias.Any(r => r.Referencia.ToLower().Trim() == referencia.ToLower().Trim()))
+                    result = true;
             }
             catch (Exception e)
             {
