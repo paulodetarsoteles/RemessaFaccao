@@ -31,11 +31,11 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("HomeIndex"), string.Format("Erro ao acessar Home Index. {0} - {1}", e.Message, DateTime.Now.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("HomeIndex"), $"Erro ao acessar Home Index. {e.StackTrace} - {DateTime.Now}");
                 return View();
             }
         }
 
-        public IActionResult Contatos() => View(); 
+        public IActionResult Contatos() => View();
     }
 }

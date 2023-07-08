@@ -62,7 +62,7 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", "Falha ao realizar comunicação com o banco de dados!");
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountAccessDataBase"), String.Format("Falha ao realizar comunicação com o banco de dados! {0} - {1}", e.Message, DateTime.Now.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountAccessDataBase"), $"Falha ao realizar comunicação com o banco de dados! {e.StackTrace} - {DateTime.Now}");
                 return View();
             }
         }
@@ -71,8 +71,6 @@ namespace RemessaFaccao.Web.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginViewModel login)
         {
-            DateTime dateTime = DateTime.Now;
-
             try
             {
                 if (!ModelState.IsValid)
@@ -84,14 +82,14 @@ namespace RemessaFaccao.Web.Controllers
                 if (!result.Succeeded)
                     throw new Exception("Senha incorreta");
 
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountLogin"), string.Format("Usuário {0} logado com sucesso. {1}", user.UserName, dateTime.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountLogin"), $"Usuário {user.UserName} logado com sucesso. {DateTime.Now}");
 
                 return RedirectToAction("Index", "Home");
             }
             catch (Exception e)
             {
                 ModelState.AddModelError("", "Erro ao efetuar login - " + e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountLogin"), String.Format("Erro ao efetuar login {0} - {1} {2}", login.Username, e.Message, dateTime.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountLogin"), $"Erro ao efetuar login {login.Username} - {e.StackTrace} {DateTime.Now}");
 
                 return View(login);
             }
@@ -131,14 +129,14 @@ namespace RemessaFaccao.Web.Controllers
                 if (!result.Succeeded)
                     throw new Exception("Erro ao registrar usuário.");
 
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountRegister"), string.Format("Usuário {0} registrado com sucesso. {1}", user.UserName, dateTime.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountRegister"), $"Usuário {user.UserName} registrado com sucesso. {DateTime.Now}");
 
                 return RedirectToAction("Index", "Home");
             }
             catch (Exception e)
             {
                 this.ModelState.AddModelError("Registro", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountRegister"), string.Format("Erro ao registrar usuário {0}. {1} - {2}", userRegister.Username, e.Message, dateTime.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountRegister"), $"Erro ao registrar usuário {userRegister.Username}. {e.StackTrace} - {DateTime.Now}");
 
                 return View(userRegister);
             }
@@ -162,7 +160,7 @@ namespace RemessaFaccao.Web.Controllers
             }
             catch (Exception e)
             {
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountLogoff"), string.Format("Erro ao efetuar logoff. {0} {1}", e.Message, DateTime.Now.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountLogoff"), $"Erro ao efetuar logoff. {e.StackTrace} {DateTime.Now}");
 
                 return RedirectToAction("Login", "Account");
             }
@@ -195,7 +193,7 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountIndex"), String.Format("Erro ao acessar Index - {0} {1}", e.Message, DateTime.Now.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountIndex"), $"Erro ao acessar Index - {e.StackTrace} {DateTime.Now}");
                 return View();
             }
         }
@@ -218,7 +216,7 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountDetails"), String.Format("Erro ao acessar Index - {0} {1}", e.Message, DateTime.Now.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountDetails"), $"Erro ao acessar Index - {e.StackTrace} {DateTime.Now}");
                 return View();
             }
         }
@@ -242,7 +240,7 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountEdit"), String.Format("Erro ao acessar Index - {0} {1}", e.Message, DateTime.Now.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountEdit"), $"Erro ao acessar Index - {e.StackTrace} {DateTime.Now}");
                 return View();
             }
         }
@@ -278,14 +276,14 @@ namespace RemessaFaccao.Web.Controllers
                 if (_userManager.UpdateAsync(result) is null)
                     throw new Exception("Falha ao tentar atualizar usuário!");
 
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountEdit"), string.Format("O usuário {0} foi atualizado. {1}", user.Username, dateTime.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountEdit"), $"O usuário {user.Username} foi atualizado. {DateTime.Now}");
 
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountEdit"), string.Format("Erro ao atualizar usuário {0}. {1} - {2}", user.Username, e.Message, dateTime.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountEdit"), $"Erro ao atualizar usuário {user.Username}. {e.StackTrace} - {DateTime.Now}");
                 return View(user);
             }
         }

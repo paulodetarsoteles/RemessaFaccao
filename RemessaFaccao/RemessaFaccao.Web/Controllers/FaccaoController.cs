@@ -30,21 +30,13 @@ namespace RemessaFaccao.Web.Controllers
 
                 IEnumerable<Faccao> faccoes = from f in _facaoRepository.GetAll() select f;
 
-                switch (sortOrder)
+                faccoes = sortOrder switch
                 {
-                    case "NomeDesc":
-                        faccoes = faccoes.OrderByDescending(f => f.Nome);
-                        break;
-                    case "Ativo":
-                        faccoes = faccoes.OrderBy(f => f.Ativo);
-                        break;
-                    case "AtivoDesc":
-                        faccoes = faccoes.OrderByDescending(f => f.Ativo);
-                        break;
-                    default:
-                        faccoes = faccoes.OrderBy(f => f.Nome);
-                        break;
-                }
+                    "NomeDesc" => faccoes.OrderByDescending(f => f.Nome),
+                    "Ativo" => faccoes.OrderBy(f => f.Ativo),
+                    "AtivoDesc" => faccoes.OrderByDescending(f => f.Ativo),
+                    _ => faccoes.OrderBy(f => f.Nome),
+                };
 
                 if (searchString != null)
                     page = 1;
@@ -63,7 +55,7 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoIndex"), string.Format("Erro ao acessar Faccao Index. {0} - {1}", e.Message, DateTime.Now.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoIndex"), $"Erro ao acessar Faccao Index. {e.StackTrace} - {DateTime.Now}");
                 return View();
             }
         }
@@ -79,7 +71,7 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoDetails"), string.Format("Erro ao acessar Faccao Details. {0} - {1}", e.Message, DateTime.Now.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoDetails"), $"Erro ao acessar Faccao Details. {e.StackTrace} - {DateTime.Now}");
                 return View();
             }
         }
@@ -100,13 +92,13 @@ namespace RemessaFaccao.Web.Controllers
 
                 _facaoRepository.Insert(faccao);
 
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoCreate"), string.Format("Faccao {0} adicionada com sucesso. {1}", faccao.Nome, DateTime.Now.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoCreate"), $"Faccao {faccao.FaccaoId} adicionada com sucesso. {DateTime.Now}");
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoCreate"), string.Format("Erro ao adicionar Faccao {0}. {1} - {2}", faccao.Nome, e.Message, DateTime.Now.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoCreate"), $"Erro ao adicionar Faccao {faccao.FaccaoId}. {e.StackTrace} - {DateTime.Now}");
                 return View();
             }
         }
@@ -122,7 +114,7 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoEdit"), string.Format("Erro ao acessar Faccao {0}. {1} - {2}", id, e.Message, DateTime.Now.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoEdit"), $"Erro ao acessar Faccao {id}. {e.StackTrace} - {DateTime.Now}");
                 return View();
             }
         }
@@ -139,13 +131,13 @@ namespace RemessaFaccao.Web.Controllers
 
                 _facaoRepository.Update(id, faccao);
 
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoEdit"), string.Format("Faccao {0} atualizada com sucesso. {1}", id, DateTime.Now.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoEdit"), $"Faccao {id} atualizada com sucesso. {DateTime.Now}");
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoEdit"), string.Format("Erro ao atualizar Faccao {0}. {1} - {2}", id, e.Message, DateTime.Now.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoEdit"), $"Erro ao atualizar Faccao {id}. {e.StackTrace} - {DateTime.Now}");
                 return View();
             }
         }
@@ -161,7 +153,7 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoDelete"), string.Format("Erro ao acessar Faccao {0}. {1} - {2}", id, e.Message, DateTime.Now.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoDelete"), $"Erro ao acessar Faccao {id}. {e.StackTrace} - {DateTime.Now}");
                 return View();
             }
         }
@@ -175,13 +167,13 @@ namespace RemessaFaccao.Web.Controllers
             {
                 _facaoRepository.Delete(id);
 
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoDelete"), string.Format("Faccao {0} excluída com sucesso. {1}", id, DateTime.Now.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoDelete"), $"Faccao {id} excluída com sucesso. {DateTime.Now}");
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoDelete"), string.Format("Erro ao excluir Faccao {0}. {1} - {2}", id, e.Message, DateTime.Now.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoDelete"), $"Erro ao excluir Faccao {id}. {e.StackTrace} - {DateTime.Now}");
                 return View(_facaoRepository.GetById(id));
             }
         }

@@ -66,7 +66,7 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaIndex"), string.Format("Erro ao acessar Remessa Index. {0} - {1}", e.Message, DateTime.Now.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaIndex"), $"Erro ao acessar Remessa Index. {e.StackTrace} - {DateTime.Now}");
                 return View();
             }
         }
@@ -82,7 +82,7 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaDetails"), string.Format("Erro ao acessar Remessa Details. {0} - {1}", e.Message, DateTime.Now.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaDetails"), $"Erro ao acessar Remessa Details. {e.StackTrace} - {DateTime.Now}");
                 return RedirectToAction("Index", "Manutencao", e.Message);
             }
         }
@@ -98,7 +98,7 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRecebidaDetails"), string.Format("Erro ao acessar Remessa Recebida Details. {0} - {1}", e.Message, DateTime.Now.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRecebidaDetails"), $"Erro ao acessar Remessa RecebidaDetails. {e.StackTrace} - {DateTime.Now}");
                 return RedirectToAction("Index", "Manutencao", e.Message);
             }
         }
@@ -116,7 +116,7 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaCreate"), string.Format("Erro ao acessar Remessa Create. {0} - {1}", e.Message, DateTime.Now.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaCreate"), $"Erro ao acessar Remessa Create. {e.StackTrace} - {DateTime.Now}");
                 return View();
             }
         }
@@ -168,13 +168,13 @@ namespace RemessaFaccao.Web.Controllers
 
                 _remessaRepository.Insert(remessa);
 
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaCreate"), string.Format("Remessa {0} adicionada com sucesso. {1}", remessa.Referencia, DateTime.Now.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaCreate"), $"Remessa {remessa.RemessaId} adicionada com sucesso.");
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaCreate"), string.Format("Erro ao adicionar Remessa {0}. {1} - {2}", remessa.Referencia, e.Message, DateTime.Now.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaCreate"), $"Erro ao adicionar Remessa {remessa.RemessaId}. {e.StackTrace} - {DateTime.Now}");
                 return View();
             }
         }
@@ -193,7 +193,7 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaEdit"), string.Format("Erro ao acessar Remessa Edit. {0} - {1}", e.Message, DateTime.Now.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaEdit"), $"Erro ao acessar Remessa Edit. {e.StackTrace} - {DateTime.Now}");
                 return View();
             }
         }
@@ -234,13 +234,13 @@ namespace RemessaFaccao.Web.Controllers
 
                 _remessaRepository.Update(id, remessa);
 
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaEdit"), string.Format("Remessa {0} atualizada com sucesso. {1}", remessa.Referencia, DateTime.Now.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaEdit"), $"Remessa {remessa.RemessaId} atualizada com sucesso. {DateTime.Now}");
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaEdit"), string.Format("Erro ao atualizar Remessa {0}. {1} - {2}", id, e.Message, DateTime.Now.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaEdit"), $"Erro ao atualizar Remessa {id}. {e.StackTrace} - {DateTime.Now}");
                 return View();
             }
         }
@@ -256,7 +256,7 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaDelete"), string.Format("Erro ao acessar Remessa {0}. {1} - {2}", id, e.Message, DateTime.Now.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaDelete"), $"Erro ao acessar Remessa {id}. {e.StackTrace} - {DateTime.Now}");
                 return View();
             }
         }
@@ -270,13 +270,13 @@ namespace RemessaFaccao.Web.Controllers
             {
                 _remessaRepository.Delete(id);
 
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaDelete"), string.Format("Remessa {0} excluída com sucesso. {1}", id, DateTime.Now.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaDelete"), $"Remessa {id} excluída com sucesso. {DateTime.Now}");
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaDelete"), string.Format("Erro ao Exlcuir Remessa {0}. {1} - {2}", id, e.Message, DateTime.Now.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaDelete"), $"Erro ao Exlcuir Remessa {id}. {e.StackTrace} - {DateTime.Now}");
                 return View();
             }
         }
@@ -292,7 +292,7 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaToPrint"), string.Format("Erro ao acessar ToPrint da Remessa {0}. {1} - {2}", id, e.Message, DateTime.Now.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaToPrint"), $"Erro ao acessar ToPrint da Remessa {id}. {e.StackTrace} - {DateTime.Now}");
                 return View();
             }
         }
