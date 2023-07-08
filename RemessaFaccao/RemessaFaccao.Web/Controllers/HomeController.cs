@@ -32,7 +32,7 @@ namespace RemessaFaccao.Web.Controllers
             {
                 ModelState.AddModelError("", e.Message);
                 ConfigHelper.WriteLog(ConfigHelper.PathOutLog("HomeIndex"), $"Erro ao acessar Home Index. {e.StackTrace} - {DateTime.Now}");
-                return View();
+                return RedirectToAction("Index", "Manutencao");
             }
         }
 

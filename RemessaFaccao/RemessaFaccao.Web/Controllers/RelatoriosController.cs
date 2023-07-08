@@ -135,7 +135,7 @@ namespace RemessaFaccao.Web.Controllers
             {
                 ModelState.AddModelError("", e.Message);
                 ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RelatorioPersonalizado"), $"Erro ao acessar RelatorioPersonalizado. {e.StackTrace} - {DateTime.Now}");
-                return View();
+                return RedirectToAction("Index", "Manutencao");
             }
         }
 
@@ -150,7 +150,7 @@ namespace RemessaFaccao.Web.Controllers
             {
                 ModelState.AddModelError("", e.Message);
                 ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RelatorioPersonalizado"), $"Erro ao acessar RelatorioPersonalizado. {e.StackTrace} - {DateTime.Now}");
-                return View();
+                return RedirectToAction("Index", "Manutencao");
             }
         }
     }

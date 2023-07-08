@@ -216,8 +216,8 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountDetails"), $"Erro ao acessar Index - {e.StackTrace} {DateTime.Now}");
-                return View();
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountDetails"), $"Erro ao acessar Details - {e.StackTrace} {DateTime.Now}");
+                return RedirectToAction("Index", "Manutencao");
             }
         }
 
@@ -240,8 +240,8 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountEdit"), $"Erro ao acessar Index - {e.StackTrace} {DateTime.Now}");
-                return View();
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountEdit"), $"Erro ao acessar Edit - {e.StackTrace} {DateTime.Now}");
+                return RedirectToAction("Index", "Manutencao");
             }
         }
 

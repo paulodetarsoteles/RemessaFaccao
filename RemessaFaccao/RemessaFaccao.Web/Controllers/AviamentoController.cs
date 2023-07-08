@@ -52,7 +52,7 @@ namespace RemessaFaccao.Web.Controllers
             {
                 ModelState.AddModelError("", e.Message);
                 ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoIndex"), $"Erro ao acessar Aviamento Index. {e.StackTrace} - {DateTime.Now}");
-                return View();
+                return RedirectToAction("Index", "Manutencao");
             }
         }
 
@@ -68,7 +68,7 @@ namespace RemessaFaccao.Web.Controllers
             {
                 ModelState.AddModelError("", e.Message);
                 ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoDetails"), $"Erro ao acessar Aviamento Details. {e.StackTrace} - {DateTime.Now}");
-                return View();
+                return RedirectToAction("Index", "Manutencao");
             }
         }
 
@@ -111,7 +111,7 @@ namespace RemessaFaccao.Web.Controllers
             {
                 ModelState.AddModelError("", e.Message);
                 ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoEdit"), $"Erro ao acessar Aviamento Edit. {e.StackTrace} - {DateTime.Now}");
-                return View();
+                return RedirectToAction("Index", "Manutencao");
             }
         }
 

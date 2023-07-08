@@ -72,7 +72,7 @@ namespace RemessaFaccao.Web.Controllers
             {
                 ModelState.AddModelError("", e.Message);
                 ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoDetails"), $"Erro ao acessar Faccao Details. {e.StackTrace} - {DateTime.Now}");
-                return View();
+                return RedirectToAction("Index", "Manutencao");
             }
         }
 
@@ -115,7 +115,7 @@ namespace RemessaFaccao.Web.Controllers
             {
                 ModelState.AddModelError("", e.Message);
                 ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoEdit"), $"Erro ao acessar Faccao {id}. {e.StackTrace} - {DateTime.Now}");
-                return View();
+                return RedirectToAction("Index", "Manutencao");
             }
         }
 

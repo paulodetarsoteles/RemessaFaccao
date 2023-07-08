@@ -31,16 +31,9 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
 
         public Aviamento GetById(int id)
         {
-            Aviamento result = new();
-
             try
             {
-                result = _connectionEf.Aviamento.FirstOrDefault(x => x.AviamentoId == id);
-
-                if (result is null)
-                    return null;
-
-                return result;
+                return _connectionEf.Aviamento.First(x => x.AviamentoId == id);
             }
             catch (Exception e)
             {
@@ -88,8 +81,6 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
 
             try
             {
-                _ = GetById(id) ?? throw new Exception("Id não encontrado");
-
                 aviamento.AviamentoId = id;
 
                 _connectionEf.Update(aviamento);
@@ -116,16 +107,14 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 Aviamento aviamento = GetById(id) ?? throw new Exception("Id não encontrado");
 
                 _connectionEf.Aviamento.Remove(aviamento);
-
-                if (_connectionEf.SaveChanges() == 0)
-                    throw new Exception("Erro ao excluir aviamento, verifique se este aviamento está vinculado a alguma remessa, por favor.");
+                _connectionEf.SaveChanges();
 
                 result = true;
             }
             catch (Exception e)
             {
                 ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
-                throw new Exception("Erro ao acessar informações do banco de dados.");
+                throw new Exception("Erro ao excluir aviamento, verifique se este aviamento está vinculado a alguma remessa, por favor.");
             }
             return result;
         }

@@ -83,7 +83,7 @@ namespace RemessaFaccao.Web.Controllers
             {
                 ModelState.AddModelError("", e.Message);
                 ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaDetails"), $"Erro ao acessar Remessa Details. {e.StackTrace} - {DateTime.Now}");
-                return RedirectToAction("Index", "Manutencao", e.Message);
+                return RedirectToAction("Index", "Manutencao");
             }
         }
 
@@ -99,7 +99,7 @@ namespace RemessaFaccao.Web.Controllers
             {
                 ModelState.AddModelError("", e.Message);
                 ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRecebidaDetails"), $"Erro ao acessar Remessa RecebidaDetails. {e.StackTrace} - {DateTime.Now}");
-                return RedirectToAction("Index", "Manutencao", e.Message);
+                return RedirectToAction("Index", "Manutencao");
             }
         }
 
@@ -117,7 +117,7 @@ namespace RemessaFaccao.Web.Controllers
             {
                 ModelState.AddModelError("", e.Message);
                 ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaCreate"), $"Erro ao acessar Remessa Create. {e.StackTrace} - {DateTime.Now}");
-                return View();
+                return RedirectToAction("Index", "Manutencao");
             }
         }
 
@@ -194,7 +194,7 @@ namespace RemessaFaccao.Web.Controllers
             {
                 ModelState.AddModelError("", e.Message);
                 ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaEdit"), $"Erro ao acessar Remessa Edit. {e.StackTrace} - {DateTime.Now}");
-                return View();
+                return RedirectToAction("Index", "Manutencao");
             }
         }
 
