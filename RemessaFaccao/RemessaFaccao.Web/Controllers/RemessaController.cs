@@ -148,9 +148,7 @@ namespace RemessaFaccao.Web.Controllers
                         List<Aviamento> aviamentos = _remessaRepository.GetAviamentosParaRemessa();
 
                         foreach (int aviamentoId in splitAviamantos)
-                        {
                             remessa.Aviamentos.Add(aviamentos.First(a => a.AviamentoId == aviamentoId));
-                        }
                     }
                 }
 
