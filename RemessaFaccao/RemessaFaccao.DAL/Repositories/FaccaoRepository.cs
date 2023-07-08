@@ -19,9 +19,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
         public List<Faccao> GetAll()
         {
             List<Faccao> result = new();
-            SqlCommand command = new("SELECT FaccaoId, Nome, Ativo " +
-                                     "FROM dbo.Faccao (NOLOCK) " +
-                                     "OPTION (MAXDOP 2);");
+            SqlCommand command = new("SELECT FaccaoId, Nome, Ativo FROM dbo.Faccao (NOLOCK) OPTION (MAXDOP 2);");
 
             try
             {
@@ -46,7 +44,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             }
             catch (Exception e)
             {
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoRepository" + MethodBase.GetCurrentMethod().Name), string.Format("Falha no repositório. {0} - {1}", e.Message, DateTime.Now.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
                 throw new Exception("Erro ao acessar informações do banco de dados.");
             }
             finally
@@ -87,7 +85,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             }
             catch (Exception e)
             {
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoRepository" + MethodBase.GetCurrentMethod().Name), string.Format("Falha no repositório. {0} - {1}", e.Message, DateTime.Now.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
                 throw new Exception("Erro ao acessar informações do banco de dados.");
             }
             finally
@@ -116,7 +114,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             }
             catch (Exception e)
             {
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoRepository" + MethodBase.GetCurrentMethod().Name), string.Format("Falha no repositório. {0} - {1}", e.Message, DateTime.Now.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
                 throw new Exception("Erro ao acessar informações do banco de dados.");
             }
             finally
@@ -153,7 +151,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             }
             catch (Exception e)
             {
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoRepository" + MethodBase.GetCurrentMethod().Name), string.Format("Falha no repositório. {0} - {1}", e.Message, DateTime.Now.ToString()));
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
                 throw new Exception("Erro ao acessar informações do banco de dados.");
             }
             finally
@@ -197,7 +195,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 }
                 catch (Exception e)
                 {
-                    ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoRepository" + MethodBase.GetCurrentMethod().Name), string.Format("Falha no repositório. {0} - {1}", e.Message, DateTime.Now.ToString()));
+                    ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
                     throw new Exception("Erro ao acessar informaçções do banco de dados.");
                 }
                 finally
@@ -233,7 +231,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 }
                 catch (Exception e)
                 {
-                    ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoRepository" + MethodBase.GetCurrentMethod().Name), string.Format("Falha no repositório. {0} - {1}", e.Message, DateTime.Now.ToString()));
+                    ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
                     throw new Exception("Erro ao excluir a facção, verifique se ela está vinculada a alguma remessa, por favor.");
                 }
                 finally
