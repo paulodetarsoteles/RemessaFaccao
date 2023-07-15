@@ -3,3 +3,55 @@
 }
 
 <link rel="stylesheet" href="~/css/imagens.css" asp-append-version="true" />
+
+<h1>Gerenciamento de Imagens</h1>
+<div class="container-fluid">
+    <div class="container">
+        @if (ViewData["Erro"] is not null)
+        {
+            <div class="internal" style="width:480px">
+                <span>
+                    <b>
+                        Ops! Infelizmente algo aconteceu de errado...
+                    </b>
+                </span>
+                <br />
+                <img src="~/imgs/error.png" width="200px" class="img-fluid">
+                <hr />
+                <span>@ViewData["Erro"]</span>
+                <br />
+                <br />
+                <div class="form-group">
+                    <a asp-action="Index" class="btn btn-secondary">&nbsp;&nbsp;Ok&nbsp;&nbsp;</a>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="container">
+        @if (ViewData["Resultado"] is not null)
+        {
+            <div class="internal" style="width:480px">
+                <span>
+                    <b>
+                        Suas imagens foram salvas com sucesso!
+                    </b>
+                </span>
+                <br />
+                <img src="~/imgs/success.png" width="200px" class="img-fluid">
+                <hr />
+                <h4>@ViewData["Resultado"]</h4>
+                <br />
+                @foreach (string arquivo in ViewBag.Arquivos)
+                {
+                    <ul>
+                        @arquivo
+                    </ul>
+                }
+                <br />
+                <div class="form-group">
+                    <a asp-action="Index" class="btn btn-success">&nbsp;&nbsp;Ok&nbsp;&nbsp;</a>
+                </div>
+            </div>
+        }
+    </div>
+</div>

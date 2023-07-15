@@ -21,7 +21,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
         public List<Remessa> GetAll()
         {
             List<Remessa> result = new();
-            SqlCommand command = new("SELECT TOP 500 RemessaId, Referencia, StatusRemessa ,Quantidade, ValorTotal FROM Remessa (NOLOCK) WHERE StatusRemessa <> 4 ORDER BY 1 DESC OPTION (MAXDOP 2);");
+            SqlCommand command = new("SELECT TOP 500 RemessaId, Referencia, StatusRemessa, Quantidade, ValorTotal FROM Remessa (NOLOCK) WHERE StatusRemessa <> 4 ORDER BY 1 DESC OPTION (MAXDOP 2);");
 
             try
             {
@@ -289,6 +289,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 result.DataRecebimento = Convert.ToDateTime(reader["DataRecebimento"]);
                 result.StatusRemessa = (StatusRemessa)Convert.ToInt16(reader["StatusRemessa"]);
                 result.Observacoes = reader["Observacoes"].ToString();
+                result.Desenho = reader["Desenho"].ToString();
                 result.Tamanho1 = Convert.ToInt32(reader["Tamanho1"]);
                 result.Tamanho2 = Convert.ToInt32(reader["Tamanho2"]);
                 result.Tamanho4 = Convert.ToInt32(reader["Tamanho4"]);
@@ -548,6 +549,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 command.Parameters.Add("@DataRecebimento", SqlDbType.DateTime).Value = remessa.DataRecebimento;
                 command.Parameters.Add("@StatusRemessa", SqlDbType.TinyInt).Value = remessa.StatusRemessa;
                 command.Parameters.Add("@Observacoes", SqlDbType.NVarChar).Value = remessa.Observacoes;
+                command.Parameters.Add("@Desenho", SqlDbType.NVarChar).Value = remessa.Desenho;
 
                 remessa.RemessaId = (int)command.ExecuteScalar();
 
@@ -620,6 +622,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 command.Parameters.Add("@DataRecebimento", SqlDbType.DateTime).Value = remessa.DataRecebimento;
                 command.Parameters.Add("@StatusRemessa", SqlDbType.TinyInt).Value = remessa.StatusRemessa;
                 command.Parameters.Add("@Observacoes", SqlDbType.NVarChar).Value = remessa.Observacoes;
+                command.Parameters.Add("@Desenho", SqlDbType.NVarChar).Value = remessa.Desenho;
 
                 if (Convert.ToInt32(command.ExecuteNonQuery()) != 0)
                     result = true;

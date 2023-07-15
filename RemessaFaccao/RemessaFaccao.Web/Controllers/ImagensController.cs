@@ -10,11 +10,9 @@ namespace RemessaFaccao.Web.Controllers
     public class ImagensController : Controller
     {
         private readonly PathFiles _pathFiles;
-        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public ImagensController(IWebHostEnvironment webHostEnvironment, IOptions<PathFiles> pathFiles)
+        public ImagensController(IOptions<PathFiles> pathFiles)
         {
-            _webHostEnvironment = webHostEnvironment;
             _pathFiles = pathFiles.Value;
         }
 
@@ -22,8 +20,8 @@ namespace RemessaFaccao.Web.Controllers
         [HttpGet]
         public IActionResult Index() => View();
 
-        //GET: ImagensController/UploadImagens
-        [HttpGet]
+        //POST: ImagensController/UploadImagens
+        [HttpPost]
         public async Task<IActionResult> UploadImagens(List<IFormFile> files)
         {
             try
@@ -48,11 +46,16 @@ namespace RemessaFaccao.Web.Controllers
 
                 List<string> filePathsName = new();
 
+                string pathImagens = _pathFiles.PathImagesUpload;
+
+                if (!Directory.Exists(pathImagens))
+                    Directory.CreateDirectory(pathImagens);
+
                 foreach (IFormFile file in files)
                 {
                     if (file.FileName.Contains(".jpg") || file.FileName.Contains(".jpeg") || file.FileName.Contains(".gif") || file.FileName.Contains(".png") || file.FileName.Contains(".bmp"))
                     {
-                        string fileNameWithPath = $"{_pathFiles}\\{file.FileName}";
+                        string fileNameWithPath = $"{pathImagens}\\{file.FileName}";
 
                         filePathsName.Add(fileNameWithPath);
 
@@ -61,8 +64,10 @@ namespace RemessaFaccao.Web.Controllers
                         await file.CopyToAsync(stream);
                     }
                 }
-
-                ViewData["Resultado"] = $"{files.Count} imagens enviadas.";
+                if (files.Count == 1)
+                    ViewData["Resultado"] = $"Imagem enviada.";
+                else
+                    ViewData["Resultado"] = $"{files.Count} imagens enviadas.";
 
                 ViewBag.Arquivos = filePathsName;
 
@@ -72,7 +77,7 @@ namespace RemessaFaccao.Web.Controllers
             {
                 ModelState.AddModelError("", "Erro inesperado ao enviar imagens!");
                 ConfigHelper.WriteLog(ConfigHelper.PathOutLog("ImagemController"), $"Erro ao acessar {MethodBase.GetCurrentMethod()}. {e.StackTrace} - {DateTime.Now}");
-                return View();
+                return View(ViewData["Erro"] = "Um erro inesperado ocorreu ao enviar as imagens.");
             }
         }
     }

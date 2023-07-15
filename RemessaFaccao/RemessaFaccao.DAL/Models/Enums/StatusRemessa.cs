@@ -2,6 +2,7 @@
 {
     public enum StatusRemessa
     {
+        Corte = 0,
         Preparada = 1,
         Costura = 2,
         Atrasada = 3,

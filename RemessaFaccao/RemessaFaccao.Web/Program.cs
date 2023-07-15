@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RemessaFaccao.DAL.Repositories.Interfaces;
 using RemessaFaccao.DAL.Setting;
+using System.Configuration;
 
 internal class Program
 {
@@ -19,7 +20,7 @@ internal class Program
 
         builder.Services.AddAuthorization(options => options.AddPolicy("Admin", p => p.RequireRole("Admin")));
 
-        builder.Services.Configure<PathFiles>(builder.Configuration.GetSection("PathImagesUpload"));
+        builder.Services.Configure<PathFiles>(builder.Configuration.GetSection("FilePathManager"));
 
         builder.Services.Configure<ConnectionSetting>(builder.Configuration.GetSection("ConnectionString"));
 

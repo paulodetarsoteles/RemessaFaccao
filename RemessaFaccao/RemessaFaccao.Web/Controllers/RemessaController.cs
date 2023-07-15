@@ -164,7 +164,7 @@ namespace RemessaFaccao.Web.Controllers
                     throw new Exception("Valor não pode ser menor ou igual a zero.");
 
                 remessa.ValorTotal = remessa.ValorUnitario * remessa.Quantidade;
-                remessa.StatusRemessa = StatusRemessa.Preparada;
+                remessa.StatusRemessa = StatusRemessa.Corte;
 
                 _remessaRepository.Insert(remessa);
 
