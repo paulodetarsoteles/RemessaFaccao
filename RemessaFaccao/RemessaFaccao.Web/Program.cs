@@ -19,6 +19,8 @@ internal class Program
 
         builder.Services.AddAuthorization(options => options.AddPolicy("Admin", p => p.RequireRole("Admin")));
 
+        builder.Services.Configure<PathFiles>(builder.Configuration.GetSection("PathImagesUpload"));
+
         builder.Services.Configure<ConnectionSetting>(builder.Configuration.GetSection("ConnectionString"));
 
         builder.Services.AddDbContext<ConnectionDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("SQLString")));

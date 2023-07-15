@@ -51,8 +51,7 @@ namespace RemessaFaccao.DAL.Setting
             if (!Directory.Exists(configuration["PathOutLog"]))
                 Directory.CreateDirectory(configuration["PathOutLog"]);
 
-            DateTime date = DateTime.Now;
-            string formatDate = String.Format("{0:s}", date).Substring(0, 10);
+            string formatDate = String.Format("{0:s}", DateTime.Now).Substring(0, 10);
             string path = configuration["PathOutLog"] + "\\" + key + "_" + formatDate + ".txt";
 
             if (!File.Exists(path))
