@@ -22,8 +22,8 @@ namespace RemessaFaccao.Web.Controllers
         [HttpGet]
         public IActionResult Index() => View();
 
-        //POST: ImagensController/UploadImagens
-        [HttpPost]
+        //GET: ImagensController/UploadImagens
+        [HttpGet]
         public async Task<IActionResult> UploadImagens(List<IFormFile> files)
         {
             try

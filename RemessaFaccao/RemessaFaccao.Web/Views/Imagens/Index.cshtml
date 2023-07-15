@@ -1,56 +1,63 @@
-﻿<link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
+﻿@{
+    ViewData["Title"] = "Imagens";
+}
 
-<div class="row-cols-1 internal" style="width:480px">
-    <div>
-        <span>
-            <b>
-                Selecione uma ou mais imagens:
-            </b>
-        </span>
+<link rel="stylesheet" href="~/css/imagens.css" asp-append-version="true" />
+
+<h1>Gerenciamento de Imagens</h1>
+<div class="row d-flex">
+    <div class="internal" style="width:420px">
+        <div>
+            <span>
+                <b>
+                    Selecione uma ou mais imagens:
+                </b>
+            </span>
+        </div>
+        <hr />
+        <div>
+            <form method="post" enctype="multipart/form-data" asp-controller="Imagens" asp-action="UploadImagens">
+                <img src="~/imgs/upload.png" class="img-fluid" width="180" />
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <input class="input-group-text" type="file" name="files" multiple />
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <input type="submit" value="Enviar Imagens" class="btn btn-secondary" />
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-    <div>
-        <form method="post" enctype="multipart/form-data" asp-controller="Imagens" asp-action="UploadImagens">
-            <img src="~/imgs/upload.png" class="img-fluid" width="250" />
-            <div class="form-group">
-                <div class="col-md-10">
-                    <input type="file" name="files" multiple />
+    <div class="internal" style="width:420px">
+        <div>
+            <span>
+                <b>
+                    Visualizar imagens :
+                </b>
+            </span>
+        </div>
+        <hr />
+        <div>
+            <form method="post" enctype="multipart/form-data" asp-controller="Imagens" asp-action="GetImagens">
+                <img src="~/imgs/search.png" class="img-fluid" width="180" />
+                <div class="form-group">
+                    <div class="col-md-10">
+                    </div>
                 </div>
-            </div>
-            <hr />
-            <div class="form-group">
-                <div class="col-md-10">
-                    <input type="submit" value="Enviar Imagens" class="btn btn-secondary" />
+                <br />
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <input type="submit" value="Visualizar Imagens" class="btn btn-secondary" />
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 </div>
-<br />
-<div class="row-cols-1 internal" style="width:480px">
-    <div>
-        <span>
-            <b>
-                Visualizar imagens :
-            </b>
-        </span>
-    </div>
-    <div>
-        <form method="post" enctype="multipart/form-data" asp-controller="Imagens" asp-action="GetImagens">
-            <img src="~/imgs/search.png" class="img-fluid" width="250" />
-            <div class="form-group">
-                <div class="col-md-10">
-                </div>
-            </div>
-            <hr />
-            <div class="form-group">
-                <div class="col-md-10">
-                    <input type="submit" value="Visualizar Imagens" class="btn btn-secondary" />
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-
 <div class="container">
     @if (ViewData["Deletado"] is not null)
     {
