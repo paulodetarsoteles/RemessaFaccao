@@ -8,6 +8,13 @@
 </div>
 <div class="containerHomeCards">
     <div class="boxHome">
+        <a class="text-decoration-none" href="@Url.Action("RelatorioEmFaseDeCorte", "Relatorios")">
+            <div class="internalRet">
+                <h5 class="text-center text-primary">Remessas em fase de corte: @ViewData["EmFaseDeCorte"]</h5>
+            </div>
+        </a>
+    </div>
+    <div class="boxHome">
         <a class="text-decoration-none" href="@Url.Action("RelatorioEnviarParaProducao", "Relatorios")">
             <div class="internalRet">
                 <h5 class="text-center text-warning">Remessas para enviar para produção: @ViewData["EnviarParaProducao"]</h5>

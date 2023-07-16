@@ -59,9 +59,45 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             return result;
         }
 
-        public List<Remessa> GetNaoEnviadaParaProducao()
+        public List<RemessaFaccaoViewModel> GetEmFaseDeCorte()
         {
-            List<Remessa> result = new();
+            List<RemessaFaccaoViewModel> result = new();
+            SqlCommand command = new("dbo.RemessaGetEmFaseDeCorte");
+
+            try
+            {
+                command.Connection = new SqlConnection(_connection.SQLString);
+                command.Connection.Open();
+                command.CommandType = CommandType.Text;
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    result.Add(new RemessaFaccaoViewModel
+                    {
+                        RemessaId = Convert.ToInt32(reader["RemessaId"]),
+                        Referencia = reader["Referencia"].ToString(),
+                        Quantidade = Convert.ToInt32(reader["Quantidade"])
+                    });
+                }
+            }
+            catch (Exception e)
+            {
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
+                throw new Exception("Erro ao acessar as informações do banco de dados.");
+            }
+            finally
+            {
+                if (command.Connection.State == ConnectionState.Open)
+                    command.Connection.Close();
+            }
+            return result;
+        }
+
+        public List<RemessaFaccaoViewModel> GetNaoEnviadaParaProducao()
+        {
+            List<RemessaFaccaoViewModel> result = new();
             SqlCommand command = new("dbo.RemessaGetNaoEnviadaParaProducao");
 
             try
@@ -74,7 +110,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
 
                 while (reader.Read())
                 {
-                    result.Add(new Remessa
+                    result.Add(new RemessaFaccaoViewModel
                     {
                         RemessaId = Convert.ToInt32(reader["RemessaId"]),
                         Referencia = reader["Referencia"].ToString(),
@@ -396,6 +432,31 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
         {
             int result = 0;
             SqlCommand command = new("SELECT COUNT(RemessaId) result FROM Remessa (NOLOCK) OPTION (MAXDOP 2);");
+
+            try
+            {
+                command.Connection = new SqlConnection(_connection.SQLString);
+                command.Connection.Open();
+                command.CommandType = CommandType.Text;
+                result = (int)command.ExecuteScalar();
+            }
+            catch (Exception e)
+            {
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
+                throw new Exception("Erro ao acessar informações do banco de dados.");
+            }
+            finally
+            {
+                if (command.Connection.State == ConnectionState.Open)
+                    command.Connection.Close();
+            }
+            return result;
+        }
+
+        public int CountEmFaseDeCorte()
+        {
+            int result = 0;
+            SqlCommand command = new SqlCommand("SELECT COUNT(RemessaID) FROM Remessa (NOLOCK) WHERE StatusRemessa = 0 OPTION (MAXDOP 2);");
 
             try
             {

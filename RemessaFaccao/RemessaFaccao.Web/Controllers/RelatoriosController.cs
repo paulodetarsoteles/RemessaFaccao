@@ -17,6 +17,20 @@ namespace RemessaFaccao.Web.Controllers
             _remessaRepository = remessaRepository;
         }
 
+        public IActionResult RelatorioEmFaseDeCorte()
+        {
+            try
+            {
+                return View(_remessaRepository.GetEmFaseDeCorte());
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("", e.Message);
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RelatorioEmFaseDeCorte"), $"Erro ao acessar RelatorioEmFaseDeCorte. {e.StackTrace} - {DateTime.Now}");
+                return View();
+            }
+        }
+
         public IActionResult RelatorioEnviarParaProducao()
         {
             try

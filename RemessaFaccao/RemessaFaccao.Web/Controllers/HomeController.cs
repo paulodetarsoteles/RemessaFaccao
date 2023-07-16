@@ -21,6 +21,7 @@ namespace RemessaFaccao.Web.Controllers
             {
                 _remessaRepository.UpdateStatus();
 
+                ViewData["EmFaseDeCorte"] = _remessaRepository.CountEmFaseDeCorte();
                 ViewData["EnviarParaProducao"] = _remessaRepository.CountEnviarParaProducao();
                 ViewData["EmProducao"] = _remessaRepository.CountEmProducao();
                 ViewData["Atrasadas"] = _remessaRepository.CountAtrasadas();

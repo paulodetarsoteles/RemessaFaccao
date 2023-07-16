@@ -15,11 +15,12 @@
     <header>
         <nav class="headInternal text-light navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand text-light" asp-area="" asp-controller="Home" asp-action="Index">Blim Blom </a>
+                <a class="navbar-brand text-light" asp-area="" asp-controller="Home" asp-action="Index">
+                    Blim Blom
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon text-light"></span>
                 </button>
-
                 @using Microsoft.AspNetCore.Identity
                 @inject SignInManager<IdentityUser> user
                 @if (user.IsSignedIn(User) && User.Identity is not null && User.Identity.Name is not null)
@@ -27,39 +28,81 @@
                     <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between text-light">
                         <ul class="nav navbar-nav">
                             <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Faccao" asp-action="Index">Facção</a>
+                                <a class="nav-link text-light" asp-area="" asp-controller="Faccao" asp-action="Index">
+                                    Facção
+                                </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Remessa" asp-action="Index">Remessa</a>
+                                <a class="nav-link text-light" asp-area="" asp-controller="Remessa" asp-action="Index">
+                                    Remessa
+                                </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Aviamento" asp-action="Index">Aviamento</a>
+                                <a class="nav-link text-light" asp-area="" asp-controller="Aviamento" asp-action="Index">
+                                    Aviamento
+                                </a>
                             </li>
                             <li>
-                                <a class="nav-link text-light" asp-area="" asp-controller="Imagens" asp-action="Index">Imagens</a>
+                                <a class="nav-link text-light" asp-area="" asp-controller="Imagens" asp-action="Index">
+                                    Imagens
+                                </a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-light" data-bs-toggle="dropdown" href="#" id="navbarDropdown1" role="button" aria-expanded="false">
                                     Relatórios
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Relatorios" asp-action="RelatorioEnviarParaProducao">Remessas para enviar para produção</a></li>
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Relatorios" asp-action="RelatorioEmProducao">Remessas em produção nesse momento</a></li>
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Relatorios" asp-action="RelatorioAtrasadas">Remessas atrasadas</a></li>
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Relatorios" asp-action="RelatorioReceberHoje">Remessas p/ Receber Hoje</a></li>
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Relatorios" asp-action="RelatorioRecebidas">Remessas recebidas</a></li>
-                                    <li class="nav-divider"></li>
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Relatorios" asp-action="RelatorioPersonalizado">Relatório Personalizado</a></li>
+                                    <li>
+                                        <a class="dropdown-item" asp-area="" asp-controller="Relatorios" asp-action="RelatorioEmFaseDeCorte">
+                                            Remessas em fase de corte
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-area="" asp-controller="Relatorios" asp-action="RelatorioEnviarParaProducao">
+                                            Remessas para enviar para produção
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-area="" asp-controller="Relatorios" asp-action="RelatorioEmProducao">
+                                            Remessas em produção nesse momento
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-area="" asp-controller="Relatorios" asp-action="RelatorioAtrasadas">
+                                            Remessas atrasadas
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-area="" asp-controller="Relatorios" asp-action="RelatorioReceberHoje">
+                                            Remessas p/ Receber Hoje
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-area="" asp-controller="Relatorios" asp-action="RelatorioRecebidas">
+                                            Remessas recebidas
+                                        </a>
+                                    </li>
+                                    <li class="nav-divider">
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-area="" asp-controller="Relatorios" asp-action="RelatorioPersonalizado">
+                                            Relatório Personalizado
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
                             @if (User.IsInRole("Admin"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="Index">Usuários</a>
+                                    <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="Index">
+                                        Usuários
+                                    </a>
                                 </li>
                             }
                             <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Contatos">Contatos</a>
+                                <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Contatos">
+                                    Contatos
+                                </a>
                             </li>
                         </ul>
                         <form asp-area="" asp-controller="Account" asp-action="Logout" id="logform" method="post" class="navbar-left">
@@ -80,16 +123,16 @@
             </div>
         </nav>
     </header>
-
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
-
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2023 - RemessaFaccao.Web - <a asp-area="" asp-controller="Home" asp-action="Contatos">Contatos</a>
+            &copy; 2023 - RemessaFaccao.Web - <a asp-area="" asp-controller="Home" asp-action="Contatos">
+                Contatos
+            </a>
         </div>
     </footer>
 
