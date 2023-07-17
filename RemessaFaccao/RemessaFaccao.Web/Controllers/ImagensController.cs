@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using RemessaFaccao.DAL.Models.ViewModels;
 using RemessaFaccao.DAL.Setting;
 using System.Reflection;
 
@@ -79,6 +80,52 @@ namespace RemessaFaccao.Web.Controllers
                 ConfigHelper.WriteLog(ConfigHelper.PathOutLog("ImagemController"), $"Erro ao acessar {MethodBase.GetCurrentMethod()}. {e.StackTrace} - {DateTime.Now}");
                 return View(ViewData["Erro"] = "Um erro inesperado ocorreu ao enviar as imagens.");
             }
+        }
+
+        public IActionResult GetImagens()
+        {
+            try
+            {
+                ManagerImagesViewModel model = new();
+
+                string path = _pathFiles.PathImagesUpload;
+
+                DirectoryInfo directory = new(path);
+
+                FileInfo[] files = directory.GetFiles();
+
+                model.PathImages = _pathFiles.PathImagesUpload;
+
+                if (files.Length == 0 || files is null)
+                    throw new Exception("Nenhum arquivo encontrado.");
+
+                model.Files = files;
+
+                return View(model);
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("", "Erro inesperado ao buscar imagens!");
+                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("ImagemController"), $"Erro ao acessar {MethodBase.GetCurrentMethod()}. {e.StackTrace} - {DateTime.Now}");
+                return View(ViewData["Erro"] = "Um erro inesperado ocorreu ao enviar as imagens.");
+            }
+        }
+
+        public IActionResult DeleteFile(string imgName)
+        {
+            string pathCompleteImg = Path.Combine(_pathFiles.PathImagesUpload + "\\", imgName);
+
+            if (!System.IO.File.Exists(pathCompleteImg))
+            {
+                ViewData["Erro"] = $"Imagem {imgName} não encontrada!";
+
+                return View(ViewData);
+            }
+
+            System.IO.File.Delete(pathCompleteImg);
+            ViewData["Deletado"] = $"Imagem {imgName} deletada!";
+
+            return View("Index");
         }
     }
 }

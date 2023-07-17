@@ -1,0 +1,47 @@
+﻿@model RemessaFaccao.DAL.Models.ViewModels.ManagerImagesViewModel;
+
+@{
+    ViewBag.Title = "Arquivadas";
+}
+
+<h1>Resultado</h1>
+@if (ViewData["Erro"] is not null)
+{
+    <div class="internal" style="width:480px">
+        <span>
+            <b>
+                Ops! Infelizmente algo aconteceu de errado...
+            </b>
+        </span>
+        <br />
+        <img src="~/imgs/error.png" width="200px" class="img-fluid">
+        <hr />
+        <span>@ViewData["Erro"]</span>
+        <br />
+        <br />
+        <div class="form-group">
+            <a asp-action="Index" class="btn btn-secondary">&nbsp;&nbsp;Ok&nbsp;&nbsp;</a>
+        </div>
+    </div>
+}
+else if (Model.Files is null)
+{
+
+}
+else
+{
+    <h4>Imagens: </h4>
+    <hr />
+    string diretorio = Model.PathImages; 
+    <div class="row">
+        @foreach (FileInfo img in Model.Files)
+        {
+            <div class="flex-column">
+                <img src="@diretorio/@img.Name" width="200" >
+                <div style="padding:10px;text-align:left">
+                    <a href="@Url.Action("DeleteFile","Imagens",new { imgName = img.Name })">Deletar</a>
+                </div>
+            </div>
+        }
+    </div>
+}
