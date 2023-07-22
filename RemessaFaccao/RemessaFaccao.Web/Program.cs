@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RemessaFaccao.DAL.Repositories.Interfaces;
 using RemessaFaccao.DAL.Setting;
-using System.Configuration;
 
 internal class Program
 {

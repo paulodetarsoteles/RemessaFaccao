@@ -41,12 +41,9 @@
                 <hr />
                 <h4>@ViewData["Resultado"]</h4>
                 <br />
-                @foreach (string arquivo in ViewBag.Arquivos)
-                {
-                    <ul>
-                        @arquivo
-                    </ul>
-                }
+                <ul>
+                    @ViewBag.Arquivo
+                </ul>
                 <br />
                 <div class="form-group">
                     <a asp-action="Index" class="btn btn-success">&nbsp;&nbsp;Ok&nbsp;&nbsp;</a>

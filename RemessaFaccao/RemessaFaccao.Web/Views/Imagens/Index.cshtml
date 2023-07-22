@@ -20,7 +20,7 @@
                 <img src="~/imgs/upload.png" class="img-fluid" width="180" />
                 <div class="form-group">
                     <div class="col-md-10">
-                        <input class="input-group-text" type="file" name="files" multiple />
+                        <input class="input-group-text" type="file" name="file" />
                     </div>
                 </div>
                 <br />
@@ -61,8 +61,8 @@
 <div class="container">
     @if (ViewData["Deletado"] is not null)
     {
-        <ul>
-            @ViewData["Deletado"]
-        </ul>
+        <span>
+            <b>A imagem @ViewData["Deletado"] foi excluída!</b>
+        </span>
     }
 </div>

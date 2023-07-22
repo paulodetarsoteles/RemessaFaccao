@@ -36,4 +36,8 @@
     <ProjectReference Include="..\RemessaFaccao.DAL\RemessaFaccao.DAL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\desenho\" />
+  </ItemGroup>
+
 </Project>
