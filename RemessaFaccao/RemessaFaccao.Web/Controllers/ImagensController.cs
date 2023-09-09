@@ -81,7 +81,7 @@ namespace RemessaFaccao.Web.Controllers
 
                 if (files is null || files.Length == 0 || files.Count() == 0)
                 {
-                    return View(); 
+                    return View();
                 }
 
                 model.PathImages = _pathFiles.PathImagesUpload;
