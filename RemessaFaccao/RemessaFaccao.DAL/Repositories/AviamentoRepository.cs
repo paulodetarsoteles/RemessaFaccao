@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using RemessaFaccao.DAL.Models;
 using RemessaFaccao.DAL.Setting;
-using System.Reflection;
 
 namespace RemessaFaccao.DAL.Repositories.Interfaces
 {
@@ -24,7 +23,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             }
             catch (Exception e)
             {
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
                 throw new Exception("Erro ao acessar informações do banco de dados.");
             }
         }
@@ -37,7 +36,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             }
             catch (Exception e)
             {
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
                 throw new Exception("Erro ao acessar informações do banco de dados.");
             }
         }
@@ -50,7 +49,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             }
             catch (Exception e)
             {
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
                 throw new Exception("Erro ao acessar informações do banco de dados.");
             }
         }
@@ -69,7 +68,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             }
             catch (Exception e)
             {
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
                 throw new Exception("Erro ao acessar informações do banco de dados.");
             }
             return result;
@@ -92,7 +91,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             }
             catch (Exception e)
             {
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
                 throw new Exception("Erro ao acessar informações do banco de dados.");
             }
             return result;
@@ -113,7 +112,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             }
             catch (Exception e)
             {
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
                 throw new Exception("Erro ao excluir aviamento, verifique se este aviamento está vinculado a alguma remessa, por favor.");
             }
             return result;

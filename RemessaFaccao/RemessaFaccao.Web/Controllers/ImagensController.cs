@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using RemessaFaccao.DAL.Models.ViewModels;
 using RemessaFaccao.DAL.Setting;
-using System.Reflection;
 
 namespace RemessaFaccao.Web.Controllers
 {
@@ -64,7 +63,7 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", "Erro inesperado ao enviar imagens!");
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("ImagemController"), $"Erro ao acessar {MethodBase.GetCurrentMethod()}. {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("ImagemController"), $"Erro ao acessar {MethodBase.GetCurrentMethod()}. {e.StackTrace} - {DateTime.Now}");
                 return View(ViewData["Erro"] = "Um erro inesperado ocorreu ao enviar as imagens.");
             }
         }
@@ -96,7 +95,7 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", "Erro inesperado ao buscar imagens!");
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("ImagemController"), $"Erro ao acessar {MethodBase.GetCurrentMethod()}. {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("ImagemController"), $"Erro ao acessar {MethodBase.GetCurrentMethod()}. {e.StackTrace} - {DateTime.Now}");
                 return View(ViewData["Erro"] = "Um erro inesperado ocorreu ao enviar as imagens.");
             }
         }

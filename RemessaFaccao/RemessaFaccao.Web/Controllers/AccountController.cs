@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using RemessaFaccao.DAL.Models.ViewModels;
-using RemessaFaccao.DAL.Setting;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace RemessaFaccao.Web.Controllers
@@ -62,7 +61,7 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", "Falha ao realizar comunicação com o banco de dados!");
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountAccessDataBase"), $"Falha ao realizar comunicação com o banco de dados! {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountAccessDataBase"), $"Falha ao realizar comunicação com o banco de dados! {e.StackTrace} - {DateTime.Now}");
                 return View();
             }
         }
@@ -82,14 +81,14 @@ namespace RemessaFaccao.Web.Controllers
                 if (!result.Succeeded)
                     throw new Exception("Senha incorreta");
 
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountLogin"), $"Usuário {user.UserName} logado com sucesso. {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountLogin"), $"Usuário {user.UserName} logado com sucesso. {DateTime.Now}");
 
                 return RedirectToAction("Index", "Home");
             }
             catch (Exception e)
             {
                 ModelState.AddModelError("", "Erro ao efetuar login - " + e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountLogin"), $"Erro ao efetuar login {login.Username} - {e.StackTrace} {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountLogin"), $"Erro ao efetuar login {login.Username} - {e.StackTrace} {DateTime.Now}");
 
                 return View(login);
             }
@@ -129,14 +128,14 @@ namespace RemessaFaccao.Web.Controllers
                 if (!result.Succeeded)
                     throw new Exception("Erro ao registrar usuário.");
 
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountRegister"), $"Usuário {user.UserName} registrado com sucesso. {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountRegister"), $"Usuário {user.UserName} registrado com sucesso. {DateTime.Now}");
 
                 return RedirectToAction("Index", "Home");
             }
             catch (Exception e)
             {
                 this.ModelState.AddModelError("Registro", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountRegister"), $"Erro ao registrar usuário {userRegister.Username}. {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountRegister"), $"Erro ao registrar usuário {userRegister.Username}. {e.StackTrace} - {DateTime.Now}");
 
                 return View(userRegister);
             }
@@ -160,7 +159,7 @@ namespace RemessaFaccao.Web.Controllers
             }
             catch (Exception e)
             {
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountLogoff"), $"Erro ao efetuar logoff. {e.StackTrace} {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountLogoff"), $"Erro ao efetuar logoff. {e.StackTrace} {DateTime.Now}");
 
                 return RedirectToAction("Login", "Account");
             }
@@ -193,7 +192,7 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountIndex"), $"Erro ao acessar Index - {e.StackTrace} {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountIndex"), $"Erro ao acessar Index - {e.StackTrace} {DateTime.Now}");
                 return View();
             }
         }
@@ -216,7 +215,7 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountDetails"), $"Erro ao acessar Details - {e.StackTrace} {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountDetails"), $"Erro ao acessar Details - {e.StackTrace} {DateTime.Now}");
                 return RedirectToAction("Index", "Manutencao");
             }
         }
@@ -240,7 +239,7 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountEdit"), $"Erro ao acessar Edit - {e.StackTrace} {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountEdit"), $"Erro ao acessar Edit - {e.StackTrace} {DateTime.Now}");
                 return RedirectToAction("Index", "Manutencao");
             }
         }
@@ -276,14 +275,14 @@ namespace RemessaFaccao.Web.Controllers
                 if (_userManager.UpdateAsync(result) is null)
                     throw new Exception("Falha ao tentar atualizar usuário!");
 
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountEdit"), $"O usuário {user.Username} foi atualizado. {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountEdit"), $"O usuário {user.Username} foi atualizado. {DateTime.Now}");
 
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountEdit"), $"Erro ao atualizar usuário {user.Username}. {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AccountEdit"), $"Erro ao atualizar usuário {user.Username}. {e.StackTrace} - {DateTime.Now}");
                 return View(user);
             }
         }

@@ -5,7 +5,6 @@ using RemessaFaccao.DAL.Models.ViewModels;
 using RemessaFaccao.DAL.Setting;
 using System.Data;
 using System.Data.SqlClient;
-using System.Reflection;
 
 namespace RemessaFaccao.DAL.Repositories.Interfaces
 {
@@ -48,7 +47,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             }
             catch (Exception e)
             {
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
                 throw new Exception("Erro ao acessar as informações do banco de dados.");
             }
             finally
@@ -84,7 +83,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             }
             catch (Exception e)
             {
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
                 throw new Exception("Erro ao acessar as informações do banco de dados.");
             }
             finally
@@ -120,7 +119,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             }
             catch (Exception e)
             {
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
                 throw new Exception("Erro ao acessar as informações do banco de dados.");
             }
             finally
@@ -157,7 +156,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             }
             catch (Exception e)
             {
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
                 throw new Exception("Erro ao acessar as informações do banco de dados.");
             }
             finally
@@ -194,7 +193,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             }
             catch (Exception e)
             {
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
                 throw new Exception("Erro ao acessar as informações do banco de dados.");
             }
             finally
@@ -231,7 +230,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             }
             catch (Exception e)
             {
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
                 throw new Exception("Erro ao acessar as informações do banco de dados.");
             }
             finally
@@ -280,7 +279,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             }
             catch (Exception e)
             {
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
                 throw new Exception("Filtro incorreto ou erro ao acessar informações do banco de dados.");
             }
             finally
@@ -370,7 +369,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                     }
                     catch (Exception e)
                     {
-                        ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
+                        //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
                         throw new Exception("Erro ao acessar informações do banco de dados.");
                     }
                     finally
@@ -413,7 +412,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 }
                 catch (Exception e)
                 {
-                    ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
+                    //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
                     throw new Exception("Erro ao acessar informações do banco de dados.");
                 }
             }
@@ -442,7 +441,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             }
             catch (Exception e)
             {
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
                 throw new Exception("Erro ao acessar informações do banco de dados.");
             }
             finally
@@ -467,7 +466,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             }
             catch (Exception e)
             {
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
                 throw new Exception("Erro ao acessar informações do banco de dados.");
             }
             finally
@@ -492,7 +491,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             }
             catch (Exception e)
             {
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
                 throw new Exception("Erro ao acessar informações do banco de dados.");
             }
             finally
@@ -518,7 +517,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             }
             catch (Exception e)
             {
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
                 throw new Exception("Erro ao acessar informações do banco de dados.");
             }
             finally
@@ -543,7 +542,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             }
             catch (Exception e)
             {
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
                 throw new Exception("Erro ao acessar informações do banco de dados.");
             }
             finally
@@ -568,7 +567,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             }
             catch (Exception e)
             {
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
                 throw new Exception("Erro ao acessar informações do banco de dados.");
             }
             finally
@@ -637,7 +636,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             }
             catch (Exception e)
             {
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
                 throw new Exception("Erro ao acessar informações do banco de dados.");
             }
             finally
@@ -719,7 +718,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             }
             catch (Exception e)
             {
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
                 throw new Exception("Erro ao acessar informações do banco de dados.");
             }
             finally
@@ -743,7 +742,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             }
             catch (Exception e)
             {
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
                 throw new Exception("Erro ao acessar informações do banco de dados.");
             }
             finally
@@ -804,7 +803,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 }
                 catch (Exception e)
                 {
-                    ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
+                    //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
                     throw new Exception("Erro ao acessar informações do banco de dados.");
                 }
                 finally
@@ -840,7 +839,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             }
             catch (Exception e)
             {
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
                 throw new Exception("Erro ao acessar informações do banco de dados.");
             }
             finally
@@ -876,7 +875,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             }
             catch (Exception e)
             {
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
                 throw new Exception("Erro ao acessar informações do banco de dados.");
             }
             finally
@@ -911,7 +910,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             }
             catch (Exception e)
             {
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
                 throw new Exception("Erro ao acessar informações do banco de dados.");
             }
             finally
@@ -951,7 +950,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             }
             catch (Exception e)
             {
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RemessaRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
                 throw new Exception("Erro ao acessar informações do banco de dados.");
             }
             finally

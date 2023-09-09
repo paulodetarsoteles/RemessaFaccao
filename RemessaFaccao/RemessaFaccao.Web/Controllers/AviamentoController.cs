@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using RemessaFaccao.DAL.Models;
 using RemessaFaccao.DAL.Repositories.Interfaces;
-using RemessaFaccao.DAL.Setting;
 using X.PagedList;
 
 namespace RemessaFaccao.Web.Controllers
@@ -51,7 +50,7 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoIndex"), $"Erro ao acessar Aviamento Index. {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoIndex"), $"Erro ao acessar Aviamento Index. {e.StackTrace} - {DateTime.Now}");
                 return RedirectToAction("Index", "Manutencao");
             }
         }
@@ -67,7 +66,7 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoDetails"), $"Erro ao acessar Aviamento Details. {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoDetails"), $"Erro ao acessar Aviamento Details. {e.StackTrace} - {DateTime.Now}");
                 return RedirectToAction("Index", "Manutencao");
             }
         }
@@ -88,13 +87,13 @@ namespace RemessaFaccao.Web.Controllers
 
                 _aviamentoRepository.Insert(aviamento);
 
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoCreate"), $"Aviamento {aviamento.AviamentoId} adicionado com sucesso. {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoCreate"), $"Aviamento {aviamento.AviamentoId} adicionado com sucesso. {DateTime.Now}");
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoCreate"), $"Erro ao adicionar Aviamento {aviamento.AviamentoId}. {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoCreate"), $"Erro ao adicionar Aviamento {aviamento.AviamentoId}. {e.StackTrace} - {DateTime.Now}");
                 return View(aviamento);
             }
         }
@@ -110,7 +109,7 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoEdit"), $"Erro ao acessar Aviamento Edit. {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoEdit"), $"Erro ao acessar Aviamento Edit. {e.StackTrace} - {DateTime.Now}");
                 return RedirectToAction("Index", "Manutencao");
             }
         }
@@ -127,13 +126,13 @@ namespace RemessaFaccao.Web.Controllers
 
                 _aviamentoRepository.Update(id, aviamento);
 
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoEdit"), $"Aviamento {id} atualizado com sucesso. {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoEdit"), $"Aviamento {id} atualizado com sucesso. {DateTime.Now}");
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoEdit"), $"Erro ao atualizar Aviamento {id}. {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoEdit"), $"Erro ao atualizar Aviamento {id}. {e.StackTrace} - {DateTime.Now}");
                 return View(aviamento);
             }
         }
@@ -149,7 +148,7 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoDelete"), $"Erro ao acessar Aviamento Delete. {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoDelete"), $"Erro ao acessar Aviamento Delete. {e.StackTrace} - {DateTime.Now}");
                 return View();
             }
         }
@@ -163,13 +162,13 @@ namespace RemessaFaccao.Web.Controllers
             {
                 _aviamentoRepository.Delete(id);
 
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoDelete"), $"Erro ao excluir Aviamento {id}. {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoDelete"), $"Erro ao excluir Aviamento {id}. {DateTime.Now}");
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoDelete"), $"Erro ao excluir Aviamento {id}. {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("AviamentoDelete"), $"Erro ao excluir Aviamento {id}. {e.StackTrace} - {DateTime.Now}");
                 return View(_aviamentoRepository.GetById(id));
             }
         }

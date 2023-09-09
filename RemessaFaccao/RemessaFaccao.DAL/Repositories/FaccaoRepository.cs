@@ -3,7 +3,6 @@ using RemessaFaccao.DAL.Models;
 using RemessaFaccao.DAL.Setting;
 using System.Data;
 using System.Data.SqlClient;
-using System.Reflection;
 
 namespace RemessaFaccao.DAL.Repositories.Interfaces
 {
@@ -44,7 +43,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             }
             catch (Exception e)
             {
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
                 throw new Exception("Erro ao acessar informações do banco de dados.");
             }
             finally
@@ -85,7 +84,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             }
             catch (Exception e)
             {
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
                 throw new Exception("Erro ao acessar informações do banco de dados.");
             }
             finally
@@ -114,7 +113,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             }
             catch (Exception e)
             {
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
                 throw new Exception("Erro ao acessar informações do banco de dados.");
             }
             finally
@@ -151,7 +150,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
             }
             catch (Exception e)
             {
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
                 throw new Exception("Erro ao acessar informações do banco de dados.");
             }
             finally
@@ -195,7 +194,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 }
                 catch (Exception e)
                 {
-                    ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
+                    //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
                     throw new Exception("Erro ao acessar informaçções do banco de dados.");
                 }
                 finally
@@ -231,7 +230,7 @@ namespace RemessaFaccao.DAL.Repositories.Interfaces
                 }
                 catch (Exception e)
                 {
-                    ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
+                    //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("FaccaoRepository" + MethodBase.GetCurrentMethod().Name), $"Falha no repositório. {e.Message} - {e.StackTrace} - {DateTime.Now}");
                     throw new Exception("Erro ao excluir a facção, verifique se ela está vinculada a alguma remessa, por favor.");
                 }
                 finally

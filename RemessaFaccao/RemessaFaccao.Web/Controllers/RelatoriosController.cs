@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RemessaFaccao.DAL.Models;
 using RemessaFaccao.DAL.Repositories.Interfaces;
-using RemessaFaccao.DAL.Setting;
 
 namespace RemessaFaccao.Web.Controllers
 {
@@ -26,7 +25,7 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RelatorioEmFaseDeCorte"), $"Erro ao acessar RelatorioEmFaseDeCorte. {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RelatorioEmFaseDeCorte"), $"Erro ao acessar RelatorioEmFaseDeCorte. {e.StackTrace} - {DateTime.Now}");
                 return View();
             }
         }
@@ -40,7 +39,7 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RelatorioEnviarParaProducao"), $"Erro ao acessar RelatorioEnviarParaProducao. {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RelatorioEnviarParaProducao"), $"Erro ao acessar RelatorioEnviarParaProducao. {e.StackTrace} - {DateTime.Now}");
                 return View();
             }
         }
@@ -54,7 +53,7 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RelatorioEmProducao"), $"Erro ao acessar RelatorioEmProducao. {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RelatorioEmProducao"), $"Erro ao acessar RelatorioEmProducao. {e.StackTrace} - {DateTime.Now}");
                 return View();
             }
         }
@@ -68,7 +67,7 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RelatorioAtrasadas"), $"Erro ao acessar RelatorioAtrasadas. {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RelatorioAtrasadas"), $"Erro ao acessar RelatorioAtrasadas. {e.StackTrace} - {DateTime.Now}");
                 return View();
             }
         }
@@ -82,7 +81,7 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RelatorioReceberHoje"), $"Erro ao acessar RelatorioReceberHoje. {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RelatorioReceberHoje"), $"Erro ao acessar RelatorioReceberHoje. {e.StackTrace} - {DateTime.Now}");
                 return View();
             }
         }
@@ -101,7 +100,7 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RelatorioRecebidas"), $"Erro ao acessar RelatorioRecebidas. {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RelatorioRecebidas"), $"Erro ao acessar RelatorioRecebidas. {e.StackTrace} - {DateTime.Now}");
                 return View();
             }
         }
@@ -118,7 +117,7 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RelatorioRecebidas"), $"Erro ao acessar RelatorioRecebidas. {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RelatorioRecebidas"), $"Erro ao acessar RelatorioRecebidas. {e.StackTrace} - {DateTime.Now}");
                 return View(_remessaRepository.GetRecebidas(DateTime.Now.AddDays(-7), DateTime.Now, null));
             }
         }
@@ -134,7 +133,7 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RecebidaDetails"), $"Erro ao acessar dealhes da remessa {id}. {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RecebidaDetails"), $"Erro ao acessar dealhes da remessa {id}. {e.StackTrace} - {DateTime.Now}");
                 return RedirectToAction("Index", "Manutencao", e.Message);
             }
         }
@@ -148,7 +147,7 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RelatorioPersonalizado"), $"Erro ao acessar RelatorioPersonalizado. {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RelatorioPersonalizado"), $"Erro ao acessar RelatorioPersonalizado. {e.StackTrace} - {DateTime.Now}");
                 return RedirectToAction("Index", "Manutencao");
             }
         }
@@ -163,7 +162,7 @@ namespace RemessaFaccao.Web.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RelatorioPersonalizado"), $"Erro ao acessar RelatorioPersonalizado. {e.StackTrace} - {DateTime.Now}");
+                //ConfigHelper.WriteLog(ConfigHelper.PathOutLog("RelatorioPersonalizado"), $"Erro ao acessar RelatorioPersonalizado. {e.StackTrace} - {DateTime.Now}");
                 return RedirectToAction("Index", "Manutencao");
             }
         }
